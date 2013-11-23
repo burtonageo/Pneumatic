@@ -21,8 +21,10 @@ public:
   void RunMainLoop();
 private:
   GLFWwindow *window = nullptr;
-  int width = 600, height = 800;
+  int width = 800, height = 600;
 
+  void InitGLEW();
+  void InitGLFW();
   static void ErrorCallback(int, const char*);
   static void KeyCallback(GLFWwindow*,
                           int key,

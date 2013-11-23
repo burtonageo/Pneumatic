@@ -1,24 +1,41 @@
+#
+# CSC3223 Graphics for Games
+# Coursework 2
+# Name: George Burton
+# Student Number: 110204567
+# File: CMakeLists.txt
+#
+
 cmake_minimum_required (VERSION 2.8)
 
 set(PROJECT_NAME glCube)
+project(${PROJECT_NAME})
+
+find_package(GLEW REQUIRED)
+find_package(OpenGL REQUIRED)
+
+find_package(PkgConfig REQUIRED)
+pkg_search_module(GLFW REQUIRED glfw3)
+
 set(SRC_DIR src)
 set(INCLUDE_DIR include)
 set(SOURCES
 	${SRC_DIR}/Game.cpp
 	${SRC_DIR}/GLWindow.cpp)
 
-project(${PROJECT_NAME})
-add_executable(${PROJECT_NAME} ${SOURCES})
-add_definitions(-std=c++11)
-
-include (FindPkgConfig)
-pkg_search_module(GLFW REQUIRED glfw3)
-
-target_link_libraries(${PROJECT_NAME} ${GLFW_STATIC_LIBRARIES})
 
 include_directories(
 	${SRC_DIR}
 	${INCLUDE_DIR}
-	${GLFW_INCLUDE_DIRS})
+	${OPENGL_INCLUDE_DIRS}
+	${GLFW_INCLUDE_DIRS}
+	${GLEW_INCLUDE_DIRS})
 
+add_executable(${PROJECT_NAME} ${SOURCES})
+add_definitions(
+	-std=c++11)
 
+target_link_libraries(${PROJECT_NAME}
+	${OPENGL_LIBRARIES}
+	${GLFW_LIBRARIES}
+	${GLEW_LIBRARIES})

@@ -45,11 +45,6 @@ GLWindow::RunMainLoop()
     glfwGetFramebufferSize(window, &width, &height);
     ratio = width/static_cast<float>(height);
 
-    if (GLEW_ARB_vertex_program)
-    {
-      std::cout << "Hi" << std::endl;
-    }
-
     glfwSwapBuffers(window);
     glfwPollEvents();
   }
@@ -103,7 +98,7 @@ GLWindow::InitGLFW()
 void
 GLWindow::ErrorCallback(int err, const char *desc)
 {
-  std::cout << desc << ", " << std::endl;
+  std::cout << desc << std::endl;
 }
 
 void

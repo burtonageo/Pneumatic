@@ -3,7 +3,7 @@
  * Coursework 2
  * Name: George Burton
  * Student Number: 110204567
- * File: ResourceLoader.hpp.cmake
+ * File: ResourceLoader.hpp
  */
 
 #pragma once
@@ -14,8 +14,6 @@
 #include <string>
 
 #include <GLFW/glfw3.h>
-
-#define FRAGMENT_DIR "@SHADER_"
 
 class ResourceLoader final {
 public:

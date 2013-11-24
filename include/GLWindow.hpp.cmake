@@ -31,6 +31,10 @@ private:
                           int scanCode,
                           int action,
                           int mods);
+
+  const char* GetProgramName() {return "@PROJECT_NAME@";}
+  const int GetProgramVersionMajor() {return @PROJECT_VERSION_MAJOR@;}
+  const int GetProgramVersionMinor() {return @PROJECT_VERSION_MINOR@;}
 };
 
 #endif // GL_WINDOW_HPP

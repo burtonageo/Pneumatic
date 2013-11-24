@@ -81,7 +81,7 @@ GLWindow::InitGLFW()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window = glfwCreateWindow(width, height, "glCube", NULL, NULL);
+    window = glfwCreateWindow(width, height, GetProgramName(), NULL, NULL);
     if (!window) {
       delete this;
       throw std::runtime_error(badInitMsg);

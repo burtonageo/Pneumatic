@@ -9,15 +9,18 @@
 #include <exception>
 #include <iostream>
 
+// Ensure that glew is included before any instances of glfw
+#include <gl/glew.h>
+
 #include "GLWindow.hpp"
 
 int main(int argc, char **argv) {
   using namespace std;
 
   try {
-    GLWindow *window = new GLWindow();
+    GLWindow *window = GLWindow::GetInstance();
     window->RunMainLoop();
-    delete window;
+    window->DestroyInstance();
     return EXIT_SUCCESS;
   } catch (runtime_error e) {
     cout << e.what() << endl;

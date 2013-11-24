@@ -11,17 +11,32 @@
 #ifndef GL_CONTEXT_HPP
 #define GL_CONTEXT_HPP
 
-#include <GLFW/glfw3.h>
+#include <vector>
+
 #include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
+#include "ResourceLoader.hpp"
 
 class GLContext final {
 public:
-  GLContext(GLFWwindow*);
+  GLContext(GLFWwindow*, int, int);
   void RenderContext();
+  void ViewportDidResize(int w, int h);
+  void KeyWasPressed(int key,
+                     int scanCode,
+                     int action,
+                     int mods);
 private:
-  GLuint VertexArrayID;
-  GLfloat VertexBufferData*;
-}
+  void SetupContext();
+
+  GLFWwindow *_pWindow;
+  int _width, _height;
+
+  std::vector<GLuint> *programs;
+
+  GLuint _VertexArrayID;
+  GLuint _VertexBuffer;
+};
 
 #endif // GL_CONTEXT_HPP
- 

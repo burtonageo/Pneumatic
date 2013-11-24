@@ -13,37 +13,58 @@ set(PROJECT_VERSION_MAJOR 0)
 set(PROJECT_VERSION_MINOR 1)
 project(${PROJECT_NAME})
 
-find_package(GLEW REQUIRED)
 find_package(OpenGL REQUIRED)
+find_package(GLEW REQUIRED)
 
 find_package(PkgConfig REQUIRED)
 pkg_search_module(GLFW REQUIRED glfw3)
 
-set(SRC_DIR "${CMAKE_SOURCE_DIRECTORY}src")
-set(INCLUDE_DIR "${CMAKE_SOURCE_DIRECTORY}include")
-set(SHADER_DIR "${CMAKE_SOURCE_DIRECTORY}shader")
+set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")
+set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
+set(SHADER_DIR "${PROJECT_SOURCE_DIR}/shader")
+
+set(COMPILED_SHADER_DIR "${PROJECT_BINARY_DIR}/shader")
+set(FRAGMENT_DIR "${COMPILED_SHADER_DIR}/fragment")
+set(VERTEX_DIR "${COMPILED_SHADER_DIR}/vertex")
+
 set(SOURCES
 	"${SRC_DIR}/Game.cpp"
-	"${SRC_DIR}/GLWindow.cpp")
+	"${SRC_DIR}/GLWindow.cpp"
+	"${SRC_DIR}/GLContext.cpp"
+	"${SRC_DIR}/ResourceLoader.cpp")
 
-configure_file (
+configure_file(
 	"${INCLUDE_DIR}/GLWindow.hpp.cmake"
 	"${PROJECT_BINARY_DIR}/GLWindow.hpp")
+
+configure_file(
+	"${INCLUDE_DIR}/ResourceLoader.hpp.cmake"
+	"${PROJECT_BINARY_DIR}/ResourceLoader.hpp")
+
+file(COPY ${SHADER_DIR} DESTINATION ${CMAKE_BINARY_DIR})
 
 include_directories(
 	${SRC_DIR}
 	${INCLUDE_DIR}
+	${SHADER_DIR}
 	${PROJECT_BINARY_DIR}
 	${OPENGL_INCLUDE_DIRS}
 	${GLFW_INCLUDE_DIRS}
-	${GLEW_INCLUDE_DIRS})
+	${GLEW_INCLUDE_DIRS}
+	${GLU_INCLUDE_DIRS})
 
 add_executable(${PROJECT_NAME} ${SOURCES})
-set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE)
+
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+	#set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE)
+endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") 
+
+#set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE)
 add_definitions(
 	-std=c++11)
 
 target_link_libraries(${PROJECT_NAME}
 	${OPENGL_LIBRARIES}
 	${GLFW_LIBRARIES}
-	${GLEW_LIBRARIES})
+	${GLEW_LIBRARIES}
+	${GLU_LIBRARIES})

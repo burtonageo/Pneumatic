@@ -14,7 +14,27 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "GLContext.hpp"
 #include "GLWindow.hpp"
+
+GLWindow *GLWindow::_pWindowInstance = nullptr;
+
+GLWindow*
+GLWindow::GetInstance()
+{
+  if (!_pWindowInstance) {
+    _pWindowInstance = new GLWindow();
+  }
+  return _pWindowInstance;
+}
+
+void
+GLWindow::DestroyInstance()
+{
+  if (_pWindowInstance) {
+    delete _pWindowInstance;
+  }
+}
 
 GLWindow::GLWindow()
 {
@@ -22,7 +42,7 @@ GLWindow::GLWindow()
 
   try {
     InitGLFW();
-    InitGLEW();
+    _pContext = new GLContext(_pGLFWWindow, _StartWidth, _StartHeight);
   } catch (std::runtime_error &e) {
     throw e;
   }
@@ -30,8 +50,8 @@ GLWindow::GLWindow()
 
 GLWindow::~GLWindow()
 {
-  if (window != nullptr) {
-    glfwDestroyWindow(window);
+  if (_pGLFWWindow != NULL) {
+    glfwDestroyWindow(_pGLFWWindow);
   }
   glfwTerminate();
 }
@@ -39,29 +59,8 @@ GLWindow::~GLWindow()
 void
 GLWindow::RunMainLoop()
 {
-  while(!glfwWindowShouldClose(window)) {
-    float ratio = 0.0f;
-
-    glfwGetFramebufferSize(window, &width, &height);
-    ratio = width/static_cast<float>(height);
-
-    glfwSwapBuffers(window);
+  while(!glfwWindowShouldClose(_pGLFWWindow)) {
     glfwPollEvents();
-  }
-}
-
-void
-GLWindow::InitGLEW()
-{
-  try {
-    glewExperimental = GL_TRUE; 
-    GLenum err = glewInit();
-    if (err != GLEW_OK) {
-      std::cout << "Error: " << glewGetErrorString(err) << std::endl;
-      throw std::runtime_error("GLEW not initialsed");
-    }
-  } catch (std::runtime_error &e) {
-    throw e;
   }
 }
 
@@ -76,22 +75,50 @@ GLWindow::InitGLFW()
       throw std::runtime_error(badInitMsg);
     }
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window = glfwCreateWindow(width, height, GetProgramName(), NULL, NULL);
-    if (!window) {
+    _pGLFWWindow = glfwCreateWindow(_StartWidth,
+                                    _StartHeight,
+                                    GetProgramName(), 
+                                    NULL, 
+                                    NULL);
+    if (!_pGLFWWindow) {
       delete this;
       throw std::runtime_error(badInitMsg);
     }
 
-    glfwMakeContextCurrent(window);
-
-    glfwSetKeyCallback(window, KeyCallback);
+    glfwSetKeyCallback(_pGLFWWindow, KeyCallback);
+    glfwSetWindowCloseCallback(_pGLFWWindow, CloseCallback);
+    glfwSetFramebufferSizeCallback(_pGLFWWindow, ResizeCallback);
+    glfwSetWindowRefreshCallback(_pGLFWWindow, DrawCallback);
   } catch (std::runtime_error &e) {
     throw e;
+  }
+}
+
+void
+GLWindow::DrawCallback(GLFWwindow*)
+{
+  GetInstance()->GetContext()->RenderContext();
+}
+
+void
+GLWindow::ResizeCallback(GLFWwindow *window,
+                         int width,
+                         int height)
+{
+  glfwSetWindowSize(window, width, height);
+  GLWindow::GetInstance()->GetContext()->ViewportDidResize(width, height);
+}
+
+void
+GLWindow::CloseCallback(GLFWwindow *window)
+{
+  if (GLWindow::GetInstance()->WindowShouldClose()) {
+    glfwSetWindowShouldClose(window, GL_TRUE);
   }
 }
 
@@ -114,6 +141,7 @@ GLWindow::KeyCallback(GLFWwindow* window,
         glfwSetWindowShouldClose(window, GL_TRUE);
         break;
       default:
+        GetInstance()->GetContext()->KeyWasPressed(key, scanCode, action, mods);
         break;
     }
   } 

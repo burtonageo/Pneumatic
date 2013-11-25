@@ -17,9 +17,9 @@
 
 #include "GLContext.hpp"
 
-class GLWindow final {
+class Window final {
 public:
-  static GLWindow* GetInstance();
+  static Window* GetInstance();
   static void DestroyInstance();
   
   void RunMainLoop();
@@ -31,12 +31,12 @@ public:
   const int GetProgramVersionMinor() const {return @PROJECT_VERSION_MINOR@;}
 
 private:
-  GLWindow();
-  ~GLWindow();
+  Window();
+  ~Window();
 
-  GLFWwindow *_pGLFWWindow;
+  static Window *_pWindowInstance;
+  GLFWwindow *_pGLWindow;
   GLContext *_pContext;
-  static GLWindow *_pWindowInstance;
   bool _shouldClose = false;
   const int _StartWidth = 800, _StartHeight = 600;
 
@@ -44,7 +44,7 @@ private:
   static void DrawCallback(GLFWwindow*);
   static void ErrorCallback(int, const char *);
   static void CloseCallback(GLFWwindow*);
-  static void ResizeCallback(GLFWwindow*, int width, int height);
+  static void ViewportResizeCallback(GLFWwindow*, int width, int height);
   static void KeyCallback(GLFWwindow*,
                           int key,
                           int scanCode,

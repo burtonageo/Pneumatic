@@ -71,6 +71,7 @@ GLContext::RenderContext()
   glDrawArrays(GL_TRIANGLES, 0, 3);
 
   glDisableVertexAttribArray(0);
+  glFlush();
   glfwSwapBuffers(_pWindow);
   glfwSetTime(0.0);
 }
@@ -102,5 +103,7 @@ GLContext::SetupContext()
   glGenBuffers(1, &_VertexBuffer);
   glBindBuffer(GL_ARRAY_BUFFER, _VertexBuffer);
   glBufferData(GL_ARRAY_BUFFER, sizeof(_VertexBufferData), _VertexBufferData, GL_STATIC_DRAW);
+
+  glfwSetTime(0.0);
 }
 

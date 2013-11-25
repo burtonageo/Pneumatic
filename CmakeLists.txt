@@ -29,13 +29,13 @@ set(VERTEX_DIR "${COMPILED_SHADER_DIR}/vertex")
 
 set(SOURCES
 	"${SRC_DIR}/Game.cpp"
-	"${SRC_DIR}/GLWindow.cpp"
+	"${SRC_DIR}/Window.cpp"
 	"${SRC_DIR}/GLContext.cpp"
 	"${SRC_DIR}/ResourceLoader.cpp")
 
 configure_file(
-	"${INCLUDE_DIR}/GLWindow.hpp.cmake"
-	"${PROJECT_BINARY_DIR}/GLWindow.hpp")
+	"${INCLUDE_DIR}/Window.hpp.cmake"
+	"${PROJECT_BINARY_DIR}/Window.hpp")
 
 configure_file(
 	"${INCLUDE_DIR}/ResourceLoader.hpp.cmake"

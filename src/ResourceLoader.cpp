@@ -26,7 +26,6 @@ const GLuint ResourceLoader::LoadAndCompileShaders(std::string shaderName)
 
   const string vertShader = GetVertexDir() + shaderName + ".vert_glsl";
   const string fragShader = GetFragmentDir() + shaderName + ".frag_glsl";
-  
 
   string vertexShaderCode;
   ifstream vertexShaderStream(vertShader, ios::in);
@@ -42,15 +41,16 @@ const GLuint ResourceLoader::LoadAndCompileShaders(std::string shaderName)
   ifstream fragmentShaderStream(fragShader, ios::in);
   if (fragmentShaderStream.is_open()) {
       string Line = "";
-      while(getline(fragmentShaderStream, Line))
-          fragmentShaderCode += "\n" + Line;
+      while (getline(fragmentShaderStream, Line)) {
+        fragmentShaderCode += "\n" + Line;
+      }
       fragmentShaderStream.close();
   }
 
   GLint Result = GL_FALSE;
   int infoLogLength = 0;
 
-  char const *vertexSourcePointer = vertexShaderCode.c_str();
+  const char *vertexSourcePointer = vertexShaderCode.c_str();
   glShaderSource(vertexShaderID, 1, &vertexSourcePointer , NULL);
   glCompileShader(vertexShaderID);
 
@@ -59,7 +59,7 @@ const GLuint ResourceLoader::LoadAndCompileShaders(std::string shaderName)
   vector<char> vertexShaderErrorMessage(infoLogLength);
   glGetShaderInfoLog(vertexShaderID, infoLogLength, NULL, &vertexShaderErrorMessage[0]);
 
-  char const *fragmentSourcePointer = fragmentShaderCode.c_str();
+  const char *fragmentSourcePointer = fragmentShaderCode.c_str();
   glShaderSource(fragmentShaderID, 1, &fragmentSourcePointer , NULL);
   glCompileShader(fragmentShaderID);
 

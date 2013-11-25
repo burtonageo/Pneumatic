@@ -12,13 +12,13 @@
 // Ensure that glew is included before any instances of glfw
 #include <gl/glew.h>
 
-#include "GLWindow.hpp"
+#include "Window.hpp"
 
 int main(int argc, char **argv) {
   using namespace std;
 
   try {
-    GLWindow *window = GLWindow::GetInstance();
+    Window *window = Window::GetInstance();
     window->RunMainLoop();
     window->DestroyInstance();
     return EXIT_SUCCESS;

@@ -3,7 +3,7 @@
  * Coursework 2
  * Name: George Burton
  * Student Number: 110204567
- * File: GLContext.cpp
+ * File: Renderer.cpp
  */
 
 #include <iostream>
@@ -15,9 +15,9 @@
 
 #include "ResourceLoader.hpp"
 
-#include "GLContext.hpp"
+#include "Renderer.hpp"
 
-GLContext::GLContext(GLFWwindow *window, int width, int height) :
+Renderer::Renderer(GLFWwindow *window, int width, int height) :
   _width(width),
   _height(height)
 {
@@ -50,7 +50,7 @@ static const GLfloat _VertexBufferData[] = {
 };
 
 void
-GLContext::RenderContext()
+Renderer::RenderContext()
 {
   float ratio = _width/static_cast<float>(_height);
 
@@ -77,7 +77,7 @@ GLContext::RenderContext()
 }
 
 void
-GLContext::ViewportDidResize(int width, int height)
+Renderer::ViewportDidResize(int width, int height)
 {
   glViewport(0, 0, (GLsizei)width, (GLsizei)height);
   glMatrixMode(GL_PROJECTION);
@@ -86,7 +86,7 @@ GLContext::ViewportDidResize(int width, int height)
 }
 
 void
-GLContext::KeyWasPressed(int key,
+Renderer::KeyWasPressed(int key,
                          int scanCode,
                          int action,
                          int mods)
@@ -95,7 +95,7 @@ GLContext::KeyWasPressed(int key,
 }
 
 void
-GLContext::SetupContext()
+Renderer::SetupContext()
 {
   glGenVertexArrays(1, &_VertexArrayID);
   glBindVertexArray(_VertexArrayID);

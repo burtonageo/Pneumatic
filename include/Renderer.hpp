@@ -3,7 +3,7 @@
  * Coursework 2
  * Name: George Burton
  * Student Number: 110204567
- * File: GLContext.hpp
+ * File: Renderer.hpp
  */
 
 #pragma once
@@ -18,9 +18,9 @@
 
 #include "ResourceLoader.hpp"
 
-class GLContext final {
+class Renderer final {
 public:
-  GLContext(GLFWwindow*, int, int);
+  Renderer(GLFWwindow*, int, int);
   void RenderContext();
   void ViewportDidResize(int w, int h);
   void KeyWasPressed(int key,

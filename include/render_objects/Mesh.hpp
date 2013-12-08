@@ -12,19 +12,23 @@
 #define MESH_HPP
 
 #include <string>
+#include <vector>
 
+#include <>
 #include <GLFW/glfw3.h>
 
+class Shader;
 class Mesh final {
 public:
-  static Mesh *GenerateTriangle();
-  static Mesh *GenerateCube();
-  static Mesh *LoadFromFile(std::string file);
+  static auto GenerateTriangle(void) -> Mesh*;
+  static auto GenerateCube(void) -> Mesh*;
+  static auto LoadFromFile(std::string file) -> Mesh*;
 
-  void Draw();
-  void BufferData();
+  auto Draw(void) -> void;
+  auto BufferData(void) -> void;
 
 private:
+  std::vector<Shader*> shaders;
   GLfloat *vertices;
 };
 

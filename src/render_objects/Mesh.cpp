@@ -6,12 +6,28 @@
 * File: GLWindow.cpp
 */
 
+#include <GLFW/glfw3.h>
+
 #include "Mesh.hpp"
+
+Mesh::Mesh() :
+  vertices(nullptr)
+{
+
+}
 
 Mesh*
 Mesh::GenerateTriangle()
 {
-  
+  Mesh *mesh = new Mesh();
+
+  mesh->vertices = new GLfloat[] {
+   -1.0f, -1.0f, 0.0f,
+    1.0f, -1.0f, 0.0f,
+    0.0f,  1.0f, 0.0f
+  };
+
+  return mesh;
 }
 
 Mesh*

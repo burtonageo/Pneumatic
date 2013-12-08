@@ -9,20 +9,20 @@
 #include <iostream>
 
 #include <GL/glew.h>
-#define GLFW_INCLUDE_GLU
 #include <GLFW/glfw3.h>
-#undef GLFW_INCLUDE_GLU
 
 #include "ResourceLoader.hpp"
+#include "Window.hpp"
 
 #include "Renderer.hpp"
 
-Renderer::Renderer(GLFWwindow *window, int width, int height) :
+Renderer::Renderer(Window *window, int width, int height) :
   _width(width),
-  _height(height)
+  _height(height),
+  _pWindow(window)
 {
-  _pWindow = window;
-  glfwMakeContextCurrent(_pWindow);
+  glfwSetWindowUserPointer(_pWindow->_pGLWindow, this);
+  glfwMakeContextCurrent(_pWindow->_pGLWindow);
   glfwSwapInterval(1);
   programs = new std::vector<GLuint>();
   GLuint programID = ResourceLoader::LoadAndCompileShaders("tri");
@@ -38,23 +38,25 @@ Renderer::Renderer(GLFWwindow *window, int width, int height) :
   } catch (std::runtime_error &e) {
     throw e;
   }
+  glfwSetKeyCallback(_pWindow->_pGLWindow, StaticRendererKeypressCallback);
+  //glfwSetWindowCloseCallback(_pWindow->_pGLWindow, CloseCallback);
+  glfwSetFramebufferSizeCallback(_pWindow->_pGLWindow, StaticRendererResizeCallback);
+  glfwSetWindowRefreshCallback(_pWindow->_pGLWindow, StaticRendererRefreshCallback);
 
   glEnable(GL_MULTISAMPLE);
   SetupContext();
 }
 
-static const GLfloat _VertexBufferData[] = {
-   -1.0f, -1.0f, 0.0f,
-    1.0f, -1.0f, 0.0f,
-    0.0f,  1.0f, 0.0f,
-};
+auto
+Renderer::UpdateScene(void) -> void
+{
+  
+}
 
-void
-Renderer::RenderContext()
+auto
+Renderer::RenderScene(void) -> void
 {
   float ratio = _width/static_cast<float>(_height);
-
-  double delta = glfwGetTime();
 
   glLoadIdentity();
   glClear(GL_COLOR_BUFFER_BIT);
@@ -72,12 +74,12 @@ Renderer::RenderContext()
 
   glDisableVertexAttribArray(0);
   glFlush();
-  glfwSwapBuffers(_pWindow);
+  glfwSwapBuffers(_pWindow->_pGLWindow);
   glfwSetTime(0.0);
 }
 
-void
-Renderer::ViewportDidResize(int width, int height)
+auto
+Renderer::ViewportDidResize(int width, int height) -> void
 {
   glViewport(0, 0, (GLsizei)width, (GLsizei)height);
   glMatrixMode(GL_PROJECTION);
@@ -85,17 +87,23 @@ Renderer::ViewportDidResize(int width, int height)
   glMatrixMode(GL_MODELVIEW);
 }
 
-void
+auto
 Renderer::KeyWasPressed(int key,
-                         int scanCode,
-                         int action,
-                         int mods)
+                        int scanCode,
+                        int action,
+                        int mods) -> void
 {
   std::cout << "Pressed!\n";
 }
 
-void
-Renderer::SetupContext()
+auto
+Renderer::QuitWasRequested(void) -> bool
+{
+  return false;
+}
+
+auto
+Renderer::SetupContext(void) -> void
 {
   glGenVertexArrays(1, &_VertexArrayID);
   glBindVertexArray(_VertexArrayID);
@@ -106,4 +114,5 @@ Renderer::SetupContext()
 
   glfwSetTime(0.0);
 }
+
 

@@ -18,8 +18,9 @@ find_package(GLEW REQUIRED)
 
 find_package(PkgConfig REQUIRED)
 pkg_search_module(GLFW REQUIRED glfw3)
-
+pkg_search_module(GLM REQUIRED glm)
 set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")
+set(RO_DIR "${SRC_DIR}/render_objects")
 set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
 set(SHADER_DIR "${PROJECT_SOURCE_DIR}/shader")
 
@@ -29,17 +30,14 @@ set(VERTEX_DIR "${COMPILED_SHADER_DIR}/vertex")
 
 set(SOURCES
 	"${SRC_DIR}/Game.cpp"
+	"${SRC_DIR}/Renderer.cpp"
 	"${SRC_DIR}/Window.cpp"
-	"${SRC_DIR}/GLContext.cpp"
-	"${SRC_DIR}/ResourceLoader.cpp")
+	"${RO_DIR}/Mesh.cpp"
+	"${RO_DIR}/Shader.cpp")
 
 configure_file(
-	"${INCLUDE_DIR}/Window.hpp.cmake"
-	"${PROJECT_BINARY_DIR}/Window.hpp")
-
-configure_file(
-	"${INCLUDE_DIR}/ResourceLoader.hpp.cmake"
-	"${PROJECT_BINARY_DIR}/ResourceLoader.hpp")
+	"${INCLUDE_DIR}/Config.hpp.cmake"
+	"${PROJECT_BINARY_DIR}/Config.hpp")
 
 file(COPY ${SHADER_DIR} DESTINATION ${CMAKE_BINARY_DIR})
 
@@ -51,7 +49,8 @@ include_directories(
 	${OPENGL_INCLUDE_DIRS}
 	${GLFW_INCLUDE_DIRS}
 	${GLEW_INCLUDE_DIRS}
-	${GLU_INCLUDE_DIRS})
+	${GLU_INCLUDE_DIRS}
+	${GLM_INCLUDE_DIRS})
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 

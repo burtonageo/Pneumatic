@@ -12,15 +12,21 @@
 // Ensure that glew is included before any instances of glfw
 #include <gl/glew.h>
 
+#include "Renderer.hpp"
 #include "Window.hpp"
 
 int main(int argc, char **argv) {
   using namespace std;
 
   try {
-    Window *window = Window::GetInstance();
-    window->RunMainLoop();
-    window->DestroyInstance();
+    Window *window = new Window("GLCube");
+    Renderer *rend = new Renderer(window, 800, 600);
+    while (window->IsRunning()) {
+      double delta = glfwGetTime();
+      rend->UpdateScene(delta);
+      rend->RenderScene();
+      glfwPollEvents();
+    }
     return EXIT_SUCCESS;
   } catch (runtime_error e) {
     cout << e.what() << endl;

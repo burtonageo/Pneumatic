@@ -21,9 +21,6 @@ public:
   static const char* LoadImage(std::string);
 private:
   ResourceLoader();
-
-  static const std::string GetFragmentDir() {return "@FRAGMENT_DIR@/";}
-  static const std::string GetVertexDir() {return "@VERTEX_DIR@/";}
 };
 
 #endif // RESOURCE_LOADER_HPP

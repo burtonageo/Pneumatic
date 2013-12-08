@@ -14,6 +14,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include "Config.hpp"
+
 #include "ResourceLoader.hpp"
 
 // taken from http://www.opengl-tutorial.org/beginners-tutorials/tutorial-2-the-first-triangle/
@@ -24,8 +26,8 @@ const GLuint ResourceLoader::LoadAndCompileShaders(std::string shaderName)
   GLuint vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
   GLuint fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
-  const string vertShader = GetVertexDir() + shaderName + ".vert_glsl";
-  const string fragShader = GetFragmentDir() + shaderName + ".frag_glsl";
+  const string vertShader = Config::GetVertexDir() + shaderName + ".vert_glsl";
+  const string fragShader = Config::GetFragmentDir() + shaderName + ".frag_glsl";
 
   string vertexShaderCode;
   ifstream vertexShaderStream(vertShader, ios::in);

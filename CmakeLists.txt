@@ -8,6 +8,12 @@
 
 cmake_minimum_required (VERSION 2.8)
 
+#include CMakeExtra for glm
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/extra)
+include(CMakeExtraBootstrap)
+include(AddSubmodule)
+
 set(PROJECT_NAME glCube)
 set(PROJECT_VERSION_MAJOR 0)
 set(PROJECT_VERSION_MINOR 1)
@@ -18,7 +24,11 @@ find_package(GLEW REQUIRED)
 
 find_package(PkgConfig REQUIRED)
 pkg_search_module(GLFW REQUIRED glfw3)
-pkg_search_module(GLM REQUIRED glm)
+
+#set(EXT_LIB_DIR "${PROJECT_SOURCE_DIR}/libs")
+set(EXT_GLM_DIR "${PROJECT_BINARY_DIR}/glm")
+add_submodule(GLM "https://github.com/g-truc/glm.git" ${PROJECT_BINARY_DIR})
+
 set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")
 set(RO_DIR "${SRC_DIR}/render_objects")
 set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")

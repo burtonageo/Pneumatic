@@ -11,6 +11,7 @@
 
 // Ensure that glew is included before any instances of glfw
 #include <gl/glew.h>
+#include <glm/ext.hpp>
 
 #include "Renderer.hpp"
 #include "Window.hpp"

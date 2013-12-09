@@ -15,12 +15,10 @@
 
 #include <GLFW/glfw3.h>
 
-class ResourceLoader final {
-public:
-  static const GLuint LoadAndCompileShaders(std::string);
-  static const char* LoadImage(std::string);
-private:
-  ResourceLoader();
+namespace ResourceLoader {
+  const GLuint LoadAndCompileShaders(std::string shaderName);
+  auto LoadTextFile(std::string const &) -> const std::string;
+  const char* LoadImage(std::string);
 };
 
 #endif // RESOURCE_LOADER_HPP

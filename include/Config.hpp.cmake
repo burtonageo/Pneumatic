@@ -16,6 +16,9 @@
 namespace Config {
   inline std::string GetFragmentDir() {return "@FRAGMENT_DIR@/";}
   inline std::string GetVertexDir() {return "@VERTEX_DIR@/";}
+  inline std::string GetGeometryDir() {return "@GEOMETRY_DIR@/";}
+  inline std::string GetTessEvalDir() {return "@TESS_EVAL_DIR@/";}
+  inline std::string GetTessCtrlDir() {return "@TESS_CONTROL_DIR@/";}
   inline std::string GetProgramName() {return "@PROJECT_NAME@";}
   
   inline int GetProgramVersionMajor() {return @PROJECT_VERSION_MAJOR@;}

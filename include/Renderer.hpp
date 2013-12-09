@@ -17,12 +17,13 @@
 #include <GLFW/glfw3.h>
 
 class Window;
+class RenderObject;
 class Renderer final {
 public:
-  Renderer(Window*, int, int);
+  Renderer(Window* win);
 
   auto UpdateScene(double ms) -> void;
-  auto RenderScene() -> void;
+  auto RenderScene(void) -> void;
   auto ViewportDidResize(int w, int h) -> void;
   auto KeyWasPressed(int key,
                      int scanCode,
@@ -30,14 +31,13 @@ public:
                      int mods) -> void;
   auto QuitWasRequested(void) -> bool;
 private:
-  void SetupContext(void);
+  auto SetupContext(void) -> void;
+  auto Begin(void) -> void;
 
   int _width, _height;
-  GLuint _VertexArrayID;
-  GLuint _VertexBuffer;
-
   Window *_pWindow;
-  std::vector<GLuint> *programs;
+  static bool _glewInitialized;
+  std::vector<RenderObject*> _objects;
 
   inline static auto StaticRendererResizeCallback(GLFWwindow* win,
                                                         int w,
@@ -63,10 +63,10 @@ private:
                                                            r->KeyWasPressed(key, scanCode, action, mods);
                                                          }
 
-  inline static auto StaticRendererQuitRequestedCallback(GLFWwindow *win) -> bool {
+  inline static auto StaticRendererQuitRequestedCallback(GLFWwindow *win) -> void {
                                                           Renderer *r = static_cast<Renderer*>(
                                                             glfwGetWindowUserPointer(win));
-                                                          return r->QuitWasRequested();
+                                                          r->QuitWasRequested();
                                                         }
 };
 

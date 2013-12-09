@@ -19,8 +19,10 @@
 #include "ResourceLoader.hpp"
 
 // taken from http://www.opengl-tutorial.org/beginners-tutorials/tutorial-2-the-first-triangle/
+
 const GLuint ResourceLoader::LoadAndCompileShaders(std::string shaderName)
 {
+  
   using namespace std;
 
   GLuint vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
@@ -29,15 +31,17 @@ const GLuint ResourceLoader::LoadAndCompileShaders(std::string shaderName)
   const string vertShader = Config::GetVertexDir() + shaderName + ".vert_glsl";
   const string fragShader = Config::GetFragmentDir() + shaderName + ".frag_glsl";
 
+  
   string vertexShaderCode;
   ifstream vertexShaderStream(vertShader, ios::in);
   if (vertexShaderStream.is_open()) {
       string Line = "";
       while (getline(vertexShaderStream, Line)) {
-          vertexShaderCode += "\n" + Line;
+        vertexShaderCode += "\n" + Line;
       }
       vertexShaderStream.close();
   }
+
   
   string fragmentShaderCode;
   ifstream fragmentShaderStream(fragShader, ios::in);
@@ -60,6 +64,7 @@ const GLuint ResourceLoader::LoadAndCompileShaders(std::string shaderName)
   glGetShaderiv(vertexShaderID, GL_INFO_LOG_LENGTH, &infoLogLength);
   vector<char> vertexShaderErrorMessage(infoLogLength);
   glGetShaderInfoLog(vertexShaderID, infoLogLength, NULL, &vertexShaderErrorMessage[0]);
+  std::cout << std::string(vertexShaderErrorMessage.begin(), vertexShaderErrorMessage.end());
 
   const char *fragmentSourcePointer = fragmentShaderCode.c_str();
   glShaderSource(fragmentShaderID, 1, &fragmentSourcePointer , NULL);
@@ -86,12 +91,22 @@ const GLuint ResourceLoader::LoadAndCompileShaders(std::string shaderName)
   return programID;
 }
 
-const char* ResourceLoader::LoadImage(std::string path)
+auto
+ResourceLoader::LoadTextFile(std::string const &path) -> const std::string
 {
-  
+  std::string fileContents;
+  std::ifstream fileStream(path, std::ios::in);
+  if (fileStream.is_open()) {
+    std::string line = "";
+    while (getline(fileStream, line)) {
+        fileContents += "\n" + line;
+    }
+    fileStream.close();
+  }
+  return fileContents;
 }
 
-ResourceLoader::ResourceLoader()
+const char* ResourceLoader::LoadImage(std::string path)
 {
   
 }

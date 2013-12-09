@@ -12,45 +12,64 @@
 #include <GLFW/glfw3.h>
 
 #include "ResourceLoader.hpp"
+#include "RenderObject.hpp"
+#include "TriObject.hpp"
 #include "Window.hpp"
 
 #include "Renderer.hpp"
 
-Renderer::Renderer(Window *window, int width, int height) :
-  _width(width),
-  _height(height),
-  _pWindow(window)
+bool Renderer::_glewInitialized = false;
+
+Renderer::Renderer(Window *window) :
+  _pWindow(window),
+  _width(0),
+  _height(0),
+  _objects(std::vector<RenderObject*>())
 {
   glfwSetWindowUserPointer(_pWindow->_pGLWindow, this);
-  glfwMakeContextCurrent(_pWindow->_pGLWindow);
   glfwSwapInterval(1);
-  programs = new std::vector<GLuint>();
-  GLuint programID = ResourceLoader::LoadAndCompileShaders("tri");
-  programs->push_back(programID);
+  glfwMakeContextCurrent(_pWindow->_pGLWindow);
 
-  try {
-    glewExperimental = GL_TRUE; 
+  if (!_glewInitialized) {
+    glewExperimental = GL_TRUE;
     GLenum err = glewInit();
     if (err != GLEW_OK) {
-      std::cout << "Error: " << glewGetErrorString(err) << std::endl;
-      throw std::runtime_error("GLEW not initialsed");
+      throw new std::runtime_error("GLEW not initialized");
     }
-  } catch (std::runtime_error &e) {
-    throw e;
+    _glewInitialized = true;
   }
+
+  if (glewIsSupported("GL_VERSION_3_3"))
+      std::cout << "Ready for OpenGL 3.3\n";
+  else {
+      std::cout << "OpenGL 3.3 not supported\n";
+  }
+
   glfwSetKeyCallback(_pWindow->_pGLWindow, StaticRendererKeypressCallback);
-  //glfwSetWindowCloseCallback(_pWindow->_pGLWindow, CloseCallback);
+  glfwSetWindowCloseCallback(_pWindow->_pGLWindow, StaticRendererQuitRequestedCallback);
   glfwSetFramebufferSizeCallback(_pWindow->_pGLWindow, StaticRendererResizeCallback);
   glfwSetWindowRefreshCallback(_pWindow->_pGLWindow, StaticRendererRefreshCallback);
 
   glEnable(GL_MULTISAMPLE);
   SetupContext();
+  _pWindow->_pRenderer = this;
+  _width = _pWindow->_width;
+  _height = _pWindow->_height;
+
+  RenderObject *tri = new TriObject();
+  _objects.push_back(tri);
 }
 
 auto
-Renderer::UpdateScene(void) -> void
+Renderer::Begin(void) -> void
 {
-  
+
+}
+
+auto
+Renderer::UpdateScene(double ms) -> void
+{
+ 
 }
 
 auto
@@ -59,23 +78,14 @@ Renderer::RenderScene(void) -> void
   float ratio = _width/static_cast<float>(_height);
 
   glLoadIdentity();
-  glClear(GL_COLOR_BUFFER_BIT);
-  glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glClearColor(0.3f, 0.3f, 0.3f, 0.0f);
 
-  for (auto it = programs->begin(); it != programs->end(); ++it) {
-    glUseProgram(*it);
-  }
+  std::for_each(_objects.begin(),
+                _objects.end(),
+                [](RenderObject *r) {r->Draw();});
 
-  glEnableVertexAttribArray(0);
-  glBindBuffer(GL_ARRAY_BUFFER, _VertexBuffer);
-
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-  glDrawArrays(GL_TRIANGLES, 0, 3);
-
-  glDisableVertexAttribArray(0);
-  glFlush();
   glfwSwapBuffers(_pWindow->_pGLWindow);
-  glfwSetTime(0.0);
 }
 
 auto
@@ -105,13 +115,6 @@ Renderer::QuitWasRequested(void) -> bool
 auto
 Renderer::SetupContext(void) -> void
 {
-  glGenVertexArrays(1, &_VertexArrayID);
-  glBindVertexArray(_VertexArrayID);
-
-  glGenBuffers(1, &_VertexBuffer);
-  glBindBuffer(GL_ARRAY_BUFFER, _VertexBuffer);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(_VertexBufferData), _VertexBufferData, GL_STATIC_DRAW);
-
   glfwSetTime(0.0);
 }
 

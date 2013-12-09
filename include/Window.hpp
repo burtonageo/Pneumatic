@@ -29,9 +29,10 @@ public:
   auto UpdateWindow(void) -> void;
   auto IsRunning(void) -> bool;
 private:
-  bool running;
+  bool _running;
   GLFWwindow *_pGLWindow;
   int _width, _height;
+  Renderer *_pRenderer;
   friend class Renderer;
 
   auto InitGLFW(std::string title) -> void;

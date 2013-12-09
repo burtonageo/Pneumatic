@@ -14,12 +14,13 @@
 #include <string>
 #include <vector>
 
-#include <glm/glm>
 #include <GLFW/glfw3.h>
 
 class Shader;
 class Mesh final {
 public:
+  Mesh(int numVerts = 0, glm::vec3 *vertices = nullptr);
+  ~Mesh();
   static auto GenerateTriangle(void) -> Mesh*;
   static auto GenerateCube(void) -> Mesh*;
   static auto LoadFromFile(std::string file) -> Mesh*;
@@ -28,8 +29,12 @@ public:
   auto BufferData(void) -> void;
 
 private:
-  std::vector<Shader*> shaders;
-  GLfloat *vertices;
+  int numVertices;
+  glm::vec3 *vertices;
+  glm::vec4 *colors;
+  glm::vec2 *texCoords;
+  GLuint vao;
+  GLuint type;
 };
 
 #endif // MESH_HPP

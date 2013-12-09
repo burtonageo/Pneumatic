@@ -10,9 +10,6 @@ cmake_minimum_required (VERSION 2.8)
 
 #include CMakeExtra for glm
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/extra)
-include(CMakeExtraBootstrap)
-include(AddSubmodule)
 
 set(PROJECT_NAME glCube)
 set(PROJECT_VERSION_MAJOR 0)
@@ -21,29 +18,32 @@ project(${PROJECT_NAME})
 
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
-
+find_package(GLM REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_search_module(GLFW REQUIRED glfw3)
-
-#set(EXT_LIB_DIR "${PROJECT_SOURCE_DIR}/libs")
-set(EXT_GLM_DIR "${PROJECT_BINARY_DIR}/glm")
-add_submodule(GLM "https://github.com/g-truc/glm.git" ${PROJECT_BINARY_DIR})
 
 set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")
 set(RO_DIR "${SRC_DIR}/render_objects")
 set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
+set(RO_INCLUDE_DIR "${INCLUDE_DIR}/render_objects")
 set(SHADER_DIR "${PROJECT_SOURCE_DIR}/shader")
 
 set(COMPILED_SHADER_DIR "${PROJECT_BINARY_DIR}/shader")
 set(FRAGMENT_DIR "${COMPILED_SHADER_DIR}/fragment")
 set(VERTEX_DIR "${COMPILED_SHADER_DIR}/vertex")
+set(GEOMETRY_DIR "${COMPILED_SHADER_DIR}/geometry")
+set(TESS_CONTROL_DIR "${COMPILED_SHADER_DIR}/tess_control")
+set(TESS_EVAL_DIR "${COMPILED_SHADER_DIR}/tess_eval")
 
 set(SOURCES
-	"${SRC_DIR}/Game.cpp"
+	"${SRC_DIR}/Main.cpp"
 	"${SRC_DIR}/Renderer.cpp"
+	"${SRC_DIR}/ResourceLoader.cpp"
 	"${SRC_DIR}/Window.cpp"
 	"${RO_DIR}/Mesh.cpp"
-	"${RO_DIR}/Shader.cpp")
+	"${RO_DIR}/Shader.cpp"
+	"${RO_DIR}/RenderObject.cpp"
+	"${RO_DIR}/TriObject.cpp")
 
 configure_file(
 	"${INCLUDE_DIR}/Config.hpp.cmake"
@@ -54,6 +54,7 @@ file(COPY ${SHADER_DIR} DESTINATION ${CMAKE_BINARY_DIR})
 include_directories(
 	${SRC_DIR}
 	${INCLUDE_DIR}
+	${RO_INCLUDE_DIR}
 	${SHADER_DIR}
 	${PROJECT_BINARY_DIR}
 	${OPENGL_INCLUDE_DIRS}

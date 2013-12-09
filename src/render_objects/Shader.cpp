@@ -36,7 +36,6 @@ Shader::Shader(std::string const &vertFile, std::string const &fragFile,
                std::string const &geomFile, std::string const &tcsFile,
                std::string const &tesFile)
 {
-  /*
   GLuint vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
   GLuint fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
@@ -117,8 +116,8 @@ Shader::Shader(std::string const &vertFile, std::string const &fragFile,
   MAYBE_DELETE_SHADER(geometryShaderID);
   MAYBE_DELETE_SHADER(tessControlShaderID);
   MAYBE_DELETE_SHADER(tessellationShaderID);
-  */
-  programID = ResourceLoader::LoadAndCompileShaders("tri");
+  
+  //programID = ResourceLoader::LoadAndCompileShaders("tri");
 }
 
 Shader::~Shader()

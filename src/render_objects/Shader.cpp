@@ -24,7 +24,7 @@
   file != "" ? \
     dir + file + ext : \
     ""}
-#define MAYBE_ATTATCH_SHADER(shaderID) { \
+#define MAYBE_ATTATCH_SHADER(programID, shaderID) { \
   if (shaderID != 0) { \
     glAttachShader(programID, shaderID); \
   }}
@@ -99,9 +99,9 @@ Shader::Shader(std::string const &vertFile, std::string const &fragFile,
   programID = glCreateProgram();
   glAttachShader(programID, vertexShaderID);
   glAttachShader(programID, fragmentShaderID);
-  MAYBE_ATTATCH_SHADER(geometryShaderID);
-  MAYBE_ATTATCH_SHADER(tessControlShaderID);
-  MAYBE_ATTATCH_SHADER(tessellationShaderID);
+  MAYBE_ATTATCH_SHADER(programID, geometryShaderID);
+  MAYBE_ATTATCH_SHADER(programID, tessControlShaderID);
+  MAYBE_ATTATCH_SHADER(programID, tessellationShaderID);
   
   glLinkProgram(programID);
 
@@ -116,8 +116,6 @@ Shader::Shader(std::string const &vertFile, std::string const &fragFile,
   MAYBE_DELETE_SHADER(geometryShaderID);
   MAYBE_DELETE_SHADER(tessControlShaderID);
   MAYBE_DELETE_SHADER(tessellationShaderID);
-  
-  //programID = ResourceLoader::LoadAndCompileShaders("tri");
 }
 
 Shader::~Shader()
@@ -128,7 +126,12 @@ Shader::~Shader()
 auto
 Shader::SetDefaultAttributes() -> void
 {
-  
+  const GLuint VERTEX_BUFFER = 0;
+  const GLuint COLOR_BUFFER = 1;
+  const GLuint TEXTURE_BUFFER = 2;
+  glBindAttribLocation(programID , VERTEX_BUFFER , "position");
+  glBindAttribLocation(programID , COLOR_BUFFER , "color");
+  glBindAttribLocation(programID , COLOR_BUFFER , "texCoord");
 }
 
 auto

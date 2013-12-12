@@ -15,10 +15,11 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 
 class Window;
 class RenderObject;
-class Renderer final {
+class Renderer {
 public:
   Renderer(Window* win);
 
@@ -30,13 +31,20 @@ public:
                      int action,
                      int mods) -> void;
   auto QuitWasRequested(void) -> bool;
+protected:
+  auto Begin(void) -> void;
+  auto UpdateShaderMatrices(GLuint) -> void;
 private:
   auto SetupContext(void) -> void;
-  auto Begin(void) -> void;
 
   int _width, _height;
   Window *_pWindow;
   static bool _glewInitialized;
+  glm::mat4 _viewMatrix;
+  glm::mat4 _projectionMatrix;
+  glm::mat4 _textureMatrix;
+  glm::mat4 _modelMatrix;
+  glm::vec3 _cameraPos;
   std::vector<RenderObject*> _objects;
 
   inline static auto StaticRendererResizeCallback(GLFWwindow* win,

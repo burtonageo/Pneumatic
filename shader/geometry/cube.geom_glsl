@@ -1,0 +1,22 @@
+#version 330 core
+
+layout (points) in;
+layout (triangles, max_vertices = 3) out;
+
+in Vertex {
+  in vec4 color;
+  in vec2 texCoord;
+} IN[];
+
+out Vertex {
+  out vec4 color;
+  out vec2 texCoord;
+} OUT;
+
+void main () {
+  for(int i = 0; i < gl_in.length(); ++i) {
+    gl_Position = gl_in[ i ].gl_Position;
+    EmitVertex ();
+  }
+  EndPrimitive (); 
+}

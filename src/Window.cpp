@@ -18,21 +18,18 @@
 #include "Renderer.hpp"
 #include "Window.hpp"
 
-Window::Window(std::string title, int width, int height) :
+Window::Window(std::string title, int width, int height) try :
   _running(false),
   _pGLWindow(nullptr),
   _width(width),
   _height(height),
   _pRenderer(nullptr)
-  
 {
-  try {
-    _width = width;
-    _height = height;
-    InitGLFW(title);
-  } catch (std::runtime_error &e) {
-    throw e;
-  }
+  _width = width;
+  _height = height;
+  InitGLFW(title);
+} catch (std::runtime_error &e) {
+  throw e;
 }
 
 Window::~Window()
@@ -60,16 +57,15 @@ Window::InitGLFW(std::string title) -> void
     if (!succ) {
       throw std::runtime_error(badInitMsg);
     }
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     _pGLWindow = glfwCreateWindow(_width,
                                   _height,
                                   title.c_str(), 
                                   NULL, 
                                   NULL);
-
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     if (!_pGLWindow) {
       //delete this;

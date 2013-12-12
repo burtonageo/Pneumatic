@@ -9,7 +9,7 @@ in Vertex {
 
 out vec4 fragColor;
 
-void main()
+void main(void)
 {
   fragColor = IN.color * texture(texSampler, IN.texCoord);
 }

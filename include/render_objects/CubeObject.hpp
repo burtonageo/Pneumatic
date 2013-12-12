@@ -3,21 +3,21 @@
  * Coursework 2
  * Name: George Burton
  * Student Number: 110204567
- * File: TriObject.hpp
+ * File: CubeObject.hpp
  */
 
 #pragma once
 
-#ifndef TRI_OBJECT_HPP
-#define TRI_OBJECT_HPP
+#ifndef CUBE_OBJECT_HPP
+#define CUBE_OBJECT_HPP
 
 #include "RenderObject.hpp"
 
-class TriObject : public RenderObject {
+class CubeObject : public RenderObject {
 public:
-  TriObject(void);
-  ~TriObject();
+  CubeObject();
+  ~CubeObject();
   auto Update(double delta) -> void;
 };
 
-#endif // TRI_OBJECT_HPP
+#endif // CUBE_OBJECT_HPP

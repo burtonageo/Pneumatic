@@ -19,8 +19,10 @@ namespace Config {
   inline std::string GetGeometryDir() {return "@GEOMETRY_DIR@/";}
   inline std::string GetTessEvalDir() {return "@TESS_EVAL_DIR@/";}
   inline std::string GetTessCtrlDir() {return "@TESS_CONTROL_DIR@/";}
+  inline std::string GetMeshResDir() {return "@RES_MESH_DIR@/";}
+  inline std::string GetImgResDir() {return "@RES_IMG_DIR@/";}
   inline std::string GetProgramName() {return "@PROJECT_NAME@";}
-  
+
   inline int GetProgramVersionMajor() {return @PROJECT_VERSION_MAJOR@;}
   inline int GetProgramVersionMinor() {return @PROJECT_VERSION_MINOR@;}
 }

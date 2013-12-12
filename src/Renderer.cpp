@@ -11,9 +11,13 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "ResourceLoader.hpp"
 #include "RenderObject.hpp"
 #include "TriObject.hpp"
+#include "CubeObject.hpp"
+#include "Shader.hpp"
 #include "Window.hpp"
 
 #include "Renderer.hpp"
@@ -24,7 +28,12 @@ Renderer::Renderer(Window *window) :
   _pWindow(window),
   _width(0),
   _height(0),
-  _objects(std::vector<RenderObject*>())
+  _viewMatrix(glm::mat4(1.0f)),
+  _projectionMatrix(glm::mat4(1.0f)),
+  _textureMatrix(glm::mat4(1.0f)),
+  _modelMatrix(glm::mat4(1.0f)),
+  _objects(std::vector<RenderObject*>()),
+  _cameraPos(glm::vec3(4.0f, 0.0f, 4.0f))
 {
   glfwSetWindowUserPointer(_pWindow->_pGLWindow, this);
   glfwSwapInterval(1);
@@ -37,12 +46,7 @@ Renderer::Renderer(Window *window) :
       throw new std::runtime_error("GLEW not initialized");
     }
     _glewInitialized = true;
-  }
-
-  if (glewIsSupported("GL_VERSION_3_3"))
-      std::cout << "Ready for OpenGL 3.3\n";
-  else {
-      std::cout << "OpenGL 3.3 not supported\n";
+    glGetError();
   }
 
   glfwSetKeyCallback(_pWindow->_pGLWindow, StaticRendererKeypressCallback);
@@ -51,13 +55,25 @@ Renderer::Renderer(Window *window) :
   glfwSetWindowRefreshCallback(_pWindow->_pGLWindow, StaticRendererRefreshCallback);
 
   glEnable(GL_MULTISAMPLE);
+  glEnable(GL_DEPTH_TEST);
+  glEnable(GL_BLEND);
+  glDepthFunc(GL_LESS);
+
   SetupContext();
   _pWindow->_pRenderer = this;
   _width = _pWindow->_width;
   _height = _pWindow->_height;
 
-  RenderObject *tri = new TriObject();
+  RenderObject *tri = new CubeObject();
   _objects.push_back(tri);
+}
+
+auto
+Renderer::UpdateShaderMatrices(GLuint program) -> void
+{
+  glm::mat4 mvp = _modelMatrix * _projectionMatrix * _viewMatrix;
+  GLuint mvpUniform = glGetUniformLocation(program, "MVP");
+  glUniformMatrix4fv(mvpUniform, 1, GL_FALSE, &mvp[0][0]);
 }
 
 auto
@@ -69,21 +85,36 @@ Renderer::Begin(void) -> void
 auto
 Renderer::UpdateScene(double ms) -> void
 {
- 
+  float fov = 45.0f;
+  float ratio = _width/static_cast<float>(_height);
+  float nearClip = 0.01f;
+  float farClip = 1000.0f;
+  _projectionMatrix = glm::perspective(fov, ratio, nearClip, farClip);
+  _viewMatrix = glm::lookAt(
+    _cameraPos,
+    glm::vec3(0.0f, 0.0f, 0.0f) - _cameraPos, // camera looks at
+    glm::vec3(0.0f, 1.0f, 0.0f)  // up vector
+  );
+  std::for_each(_objects.begin(),
+                _objects.end(),
+                [&](RenderObject *r) {
+                  r->Update(ms);
+                  _modelMatrix = r->GetModelMatrix();
+                  UpdateShaderMatrices(r->GetShader()->GetShaderProgram());
+                });
 }
 
 auto
 Renderer::RenderScene(void) -> void
 {
-  float ratio = _width/static_cast<float>(_height);
-
-  glLoadIdentity();
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glClearColor(0.3f, 0.3f, 0.3f, 0.0f);
+  glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 
   std::for_each(_objects.begin(),
                 _objects.end(),
-                [](RenderObject *r) {r->Draw();});
+                [&](RenderObject *r) {
+                  r->UseShader();
+                  r->Draw();});
 
   glfwSwapBuffers(_pWindow->_pGLWindow);
 }
@@ -91,9 +122,8 @@ Renderer::RenderScene(void) -> void
 auto
 Renderer::ViewportDidResize(int width, int height) -> void
 {
-  glViewport(0, 0, (GLsizei)width, (GLsizei)height);
   glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
+  glViewport(0, 0, (GLsizei)width, (GLsizei)height);
   glMatrixMode(GL_MODELVIEW);
 }
 
@@ -103,7 +133,34 @@ Renderer::KeyWasPressed(int key,
                         int action,
                         int mods) -> void
 {
-  std::cout << "Pressed!\n";
+  float moveFactorB;
+  float moveFactor = glfwGetTime() - moveFactorB;
+  switch(key) {
+    case GLFW_KEY_W:
+      if (_cameraPos.z > 2.0f) {
+        _cameraPos.z -= 0.03f * moveFactor;
+      }
+      break;
+    case GLFW_KEY_S:
+      if (_cameraPos.z < 20.0f) {
+        _cameraPos.z += 0.03f * moveFactor;
+      }
+      break;
+    case GLFW_KEY_Q:
+      if (_cameraPos.y < 2.0f) {
+        _cameraPos.y += 0.03f * moveFactor;
+      }
+      break;
+    case GLFW_KEY_E:
+      if (_cameraPos.y > -2.0f) {
+        _cameraPos.y -= 0.03f * moveFactor;
+      }
+      break;
+    default:
+      //std::cout << key << std::endl;
+      break;
+  }
+  moveFactorB = glfwGetTime();
 }
 
 auto

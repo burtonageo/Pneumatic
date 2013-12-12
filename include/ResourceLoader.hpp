@@ -14,11 +14,9 @@
 #include <string>
 
 #include <GLFW/glfw3.h>
-
+class Mesh;
 namespace ResourceLoader {
-  const GLuint LoadAndCompileShaders(std::string shaderName);
   auto LoadTextFile(std::string const &) -> const std::string;
-  const char* LoadImage(std::string);
 };
 
 #endif // RESOURCE_LOADER_HPP

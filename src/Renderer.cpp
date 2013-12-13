@@ -6,11 +6,12 @@
  * File: Renderer.cpp
  */
 
-#include <iostream>
+#include "iostream"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "ResourceLoader.hpp"
@@ -109,7 +110,6 @@ Renderer::RenderScene(void) -> void
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
-
   std::for_each(_objects.begin(),
                 _objects.end(),
                 [&](RenderObject *r) {
@@ -133,34 +133,40 @@ Renderer::KeyWasPressed(int key,
                         int action,
                         int mods) -> void
 {
-  float moveFactorB;
-  float moveFactor = glfwGetTime() - moveFactorB;
+  float moveFactor = 0.7;
   switch(key) {
     case GLFW_KEY_W:
       if (_cameraPos.z > 2.0f) {
-        _cameraPos.z -= 0.03f * moveFactor;
+        _cameraPos.z -= 0.7f * moveFactor;
       }
       break;
     case GLFW_KEY_S:
       if (_cameraPos.z < 20.0f) {
-        _cameraPos.z += 0.03f * moveFactor;
+        _cameraPos.z += 0.7f * moveFactor;
       }
       break;
     case GLFW_KEY_Q:
       if (_cameraPos.y < 2.0f) {
-        _cameraPos.y += 0.03f * moveFactor;
+        _cameraPos.y += 0.7f * moveFactor;
       }
       break;
     case GLFW_KEY_E:
       if (_cameraPos.y > -2.0f) {
-        _cameraPos.y -= 0.03f * moveFactor;
+        _cameraPos.y -= 0.7f * moveFactor;
+      }
+      break;
+    case GLFW_KEY_X:
+      if (action == GLFW_RELEASE) {
+        std::for_each(_objects.begin(),
+                      _objects.end(),
+                      [&](RenderObject *r) {
+                        r->ChangeShaders();});
       }
       break;
     default:
       //std::cout << key << std::endl;
       break;
   }
-  moveFactorB = glfwGetTime();
 }
 
 auto

@@ -11,13 +11,39 @@
 #ifndef CUBE_OBJECT_HPP
 #define CUBE_OBJECT_HPP
 
+#include "Shader.hpp"
 #include "RenderObject.hpp"
+
+namespace ___hidden___ {
+  class CubeShaderUpdate1 : public ShaderUpdateMixin {
+  // TODO: friendship not working
+  public:
+    friend class CubeObject;
+    CubeShaderUpdate1(Shader *s) : ___hidden___::ShaderUpdateMixin(s) {}
+    auto Update(double ms) -> void;
+  };
+
+  class CubeShaderUpdate2 : public ShaderUpdateMixin {
+  // TODO: friendship not working
+  public:
+    friend class CubeObject;
+    CubeShaderUpdate2(Shader *s) : ___hidden___::ShaderUpdateMixin(s) {}
+    auto Update(double ms) -> void;
+  };
+
+  class CubeShaderUpdate3 : public ShaderUpdateMixin {
+  // TODO: friendship not working
+  public:
+    friend class CubeObject;
+    CubeShaderUpdate3(Shader *s) : ___hidden___::ShaderUpdateMixin(s) {}
+    auto Update(double ms) -> void;
+  };
+}
 
 class CubeObject : public RenderObject {
 public:
   CubeObject();
   ~CubeObject();
-  auto Update(double delta) -> void;
 };
 
 #endif // CUBE_OBJECT_HPP

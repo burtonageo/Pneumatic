@@ -18,7 +18,8 @@
 #include "Shader.hpp"
 #include "Texture.hpp"
 
-Texture::Texture(std::string fileName)
+Texture::Texture(std::string fileName) :
+  _object(0)
 {
   std::string filePath = Config::GetImgResDir() + fileName;
   glGenTextures(1, &_object);

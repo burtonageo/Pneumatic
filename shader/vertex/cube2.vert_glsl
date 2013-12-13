@@ -10,9 +10,8 @@ out Vertex	{
 } OUT;
 
 uniform mat4 MVP;
-uniform float rotAngle;
+uniform float time;
 
-// taken from http://www.neilmendoza.com/glsl-rotation-about-an-arbitrary-axis/
 mat4 rotationMatrix(vec3 axis, float angle)
 {
   axis = normalize(axis);
@@ -28,10 +27,11 @@ mat4 rotationMatrix(vec3 axis, float angle)
 
 void main()
 {
-  
-  float locRotAngle = max(sin(rotAngle), rotAngle) + rotAngle + sin(rotAngle);
-  gl_Position  = MVP * rotationMatrix(vec3(0, 1, 0), locRotAngle) *
-  vec4(vertexPosition_modelspace, 1.0);
+  float scale = abs(sin(time)) + 0.2;
+  vec4 worldPos = vec4(vertexPosition_modelspace.x * scale,
+                       vertexPosition_modelspace.y * scale,
+                       vertexPosition_modelspace.z * scale, 1.0);
+  gl_Position  = MVP * worldPos;
   OUT.color    = color;
   OUT.texCoord = texCoord;
 }

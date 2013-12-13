@@ -10,10 +10,10 @@
 #include "TriObject.hpp"
 
 TriObject::TriObject(void) :
-  RenderObject(Mesh::GenerateTriangle(),
-               new Shader("tri", "tri"))
+  RenderObject(Mesh::GenerateTriangle())
 {
-  SetTexture("noise.png");
+  shaders->push_back(new Shader("tri", "tri"));
+  AddTexture("noise.png");
 }
 
 auto

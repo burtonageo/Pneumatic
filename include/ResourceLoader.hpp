@@ -14,7 +14,7 @@
 #include <string>
 
 #include <GLFW/glfw3.h>
-class Mesh;
+
 namespace ResourceLoader {
   auto LoadTextFile(std::string const &) -> const std::string;
 };

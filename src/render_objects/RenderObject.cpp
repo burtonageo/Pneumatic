@@ -10,12 +10,12 @@
 #include "Texture.hpp"
 #include "RenderObject.hpp"
 
-RenderObject::RenderObject(Mesh *m,
-                           Shader *s,
-                           Texture *tex) :
+RenderObject::RenderObject(Mesh *m) :
+  currentShaderIndex(0),
   mesh(m),
-  shader(s),
-  texture(tex),
+  shaders(new std::vector<Shader*>()),
+  textures(new std::vector<Texture*>()),
+  shaderUpdaters(new std::vector<___hidden___::ShaderUpdateMixin*>()),
   modelMatrix(glm::mat4(1.0))
 {
 
@@ -24,32 +24,40 @@ RenderObject::RenderObject(Mesh *m,
 RenderObject::~RenderObject()
 {
   delete mesh;
-  delete shader;
-  if (texture != nullptr) {
-    delete texture;
+  delete shaders;
+  if (textures != nullptr) {
+    delete textures;
   }
 }
 
 auto
-RenderObject::SetTexture(std::string texFile) -> void
+RenderObject::Update(double delta) -> void
+{ 
+  shaderUpdaters->at(currentShaderIndex)->Update(delta);
+}
+
+auto
+RenderObject::AddTexture(std::string texFile) -> void
 {
-  texture = new Texture(texFile);
+  textures->push_back(new Texture(texFile));
 }
 
 auto
 RenderObject::UseShader() -> void
 {
-  glUseProgram(shader->programID);
+  glUseProgram(shaders->at(currentShaderIndex)->GetShaderProgram());
 }
 
 auto
 RenderObject::Draw() -> void
 {
-  if (texture != nullptr) {
-    texture->Bind(shader);
+  auto *currShader = shaders->at(currentShaderIndex);
+  auto *currTexture = textures->at(currentShaderIndex); 
+  if (currTexture != nullptr) {
+    currTexture->Bind(currShader);
   }
   mesh->Draw();
-  if (texture != nullptr) {
-    texture->Unbind();
+  if (currTexture != nullptr) {
+    currTexture->Unbind();
   }
 }

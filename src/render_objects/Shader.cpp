@@ -76,7 +76,7 @@ Shader::Shader(std::string const &vertFile, std::string const &fragFile,
                 fragmentShaderErrorMessage);
 
   if (geomShaderCode != "") {
-    const char *geomSourcePointer = fragShaderCode.c_str();
+    const char *geomSourcePointer = geomShaderCode.c_str();
     std::vector<char> geometryShaderErrorMessage;
     CompileShader(geometryShaderID, geomSourcePointer, result, infoLogLength,
                   geometryShaderErrorMessage);

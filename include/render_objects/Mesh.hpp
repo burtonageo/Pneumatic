@@ -17,7 +17,6 @@
 #include <glm/glm.hpp>
 #include <GLFW/glfw3.h>
 
-class Shader;
 class RenderObject;
 class Mesh final {
 public:

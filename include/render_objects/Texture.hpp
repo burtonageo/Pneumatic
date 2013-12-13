@@ -23,6 +23,7 @@ public:
   auto Unbind() -> void;
   inline auto GetObject() -> GLuint const {return _object;};
 private:
+  GLuint _id;
   GLuint _object;
 };
 

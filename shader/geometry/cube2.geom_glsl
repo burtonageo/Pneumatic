@@ -6,11 +6,13 @@ layout (triangle_strip, max_vertices = 3) out;
 in Vertex {
   vec4 color;
   vec2 texCoord;
+  vec3 normal;
 } IN[];
 
 out Vertex {
   vec4 color;
   vec2 texCoord;
+  vec3 normal;
 } OUT;
 
 void main () {
@@ -18,6 +20,7 @@ void main () {
     gl_Position = gl_in[ i ].gl_Position;
     OUT.color = IN[i].color;
     OUT.texCoord = IN[i].texCoord;
+    OUT.normal = IN[i].normal;
     EmitVertex ();
   }
   EndPrimitive (); 

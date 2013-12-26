@@ -23,7 +23,9 @@
 Mesh::Mesh(int numVerts, glm::vec3 *vertices) :
   numVertices(numVerts),
   vertices(vertices),
+  normals(nullptr),
   colors(nullptr),
+  texCoords(nullptr),
   type(GL_TRIANGLES),
   vao(0)
 {
@@ -69,6 +71,7 @@ auto
 Mesh::GenerateCube() -> Mesh*
 {
   Mesh *mesh = LoadFromFile("cube");
+  mesh->GenerateNormals();
   mesh->BufferData();
   return mesh;
 }
@@ -90,7 +93,8 @@ Mesh::LoadFromFile(std::string fileName) -> Mesh*
   fs >> hasTex;
   fs >> hasColour;
 
-  mesh->vertices = new glm::vec3[mesh->numVertices]; 
+  mesh->vertices = new glm::vec3[mesh->numVertices];
+  mesh->normals = new glm::vec3[mesh->numVertices];
   mesh->colors = new glm::vec4[mesh->numVertices];
   mesh->texCoords = new glm::vec2[mesh->numVertices];
   
@@ -116,11 +120,26 @@ Mesh::LoadFromFile(std::string fileName) -> Mesh*
       fs >> mesh->texCoords[i].x;
       fs >> mesh->texCoords[i].y;
     }
-  } else {
-    mesh->texCoords = nullptr;
   }
 
   return mesh;
+}
+
+auto
+Mesh::GenerateNormals() -> void
+{
+  using namespace glm;
+  normals = new vec3[numVertices];
+  for (int i = 0; i < numVertices; i+=3) {
+    vec3 &a = vertices[i];
+    vec3 &b = vertices[i+1];
+    vec3 &c = vertices[i+2];
+    vec3 normal = glm::cross(b - a, c - a);
+    glm::normalize(normal);
+    normals[i] = normal;
+    normals[i+1] = normal;
+    normals[i+2] = normal;
+  }
 }
 
 auto
@@ -138,7 +157,7 @@ Mesh::BufferData() -> void
   GLuint positionVBO;
   GLuint colorVBO;
   GLuint textureVBO;
-  GLuint indexBufferID;
+  GLuint normalsVBO;
 
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
@@ -173,6 +192,17 @@ Mesh::BufferData() -> void
                  &texCoords[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(index);
     glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+  }
+  index++;
+  if (normals) {
+    glGenBuffers(1, &normalsVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, normalsVBO);
+    glBufferData(GL_ARRAY_BUFFER , numVertices * sizeof(glm::vec3),
+                 &normals[0], GL_STATIC_DRAW );
+    glEnableVertexAttribArray(index);
+    glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
   }

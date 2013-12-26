@@ -2,8 +2,6 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
-#include <iostream>
-
 #include "Config.hpp"
 #include "Mesh.hpp"
 #include "Shader.hpp"
@@ -40,6 +38,12 @@ auto
 RenderObject::AddTexture(std::string texFile) -> void
 {
   textures->push_back(new Texture(texFile));
+}
+
+auto
+RenderObject::SetShaderLight(glm::vec3, float, glm::vec3) -> void
+{
+
 }
 
 auto

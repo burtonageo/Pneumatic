@@ -7,6 +7,7 @@
  */
 
 #include <cstdlib>
+#include <string>
 #include <iostream>
 
 #include <GL/glew.h>

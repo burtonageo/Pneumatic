@@ -21,6 +21,11 @@ namespace ___hidden___{
   class ShaderUpdateMixin;
 }
 
+struct Light {
+  glm::vec3 position;
+  float radius;
+  glm::vec3 color;
+};
 class Mesh;
 class Texture;
 class Shader;
@@ -40,6 +45,7 @@ public:
   inline auto GetModelMatrix(void) -> glm::mat4 const {return modelMatrix;}
   inline auto SetModelMatrix(glm::mat4 mat) -> void {modelMatrix = mat;}
   auto Update(double delta) -> void;
+  auto SetShaderLight(glm::vec3, float, glm::vec3) -> void;
   virtual auto Draw(void) -> void;
   inline auto ChangeShaders(void) -> void {currentShaderIndex++;
                                            if (currentShaderIndex == shaders->size()) {

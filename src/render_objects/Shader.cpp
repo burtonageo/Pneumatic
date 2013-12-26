@@ -129,9 +129,11 @@ Shader::SetDefaultAttributes() -> void
   const GLuint VERTEX_BUFFER = 0;
   const GLuint COLOR_BUFFER = 1;
   const GLuint TEXTURE_BUFFER = 2;
+  const GLuint NORMALS_BUFFER = 3;
   glBindAttribLocation(programID , VERTEX_BUFFER , "position");
   glBindAttribLocation(programID , COLOR_BUFFER , "color");
   glBindAttribLocation(programID , COLOR_BUFFER , "texCoord");
+  glBindAttribLocation(programID , VERTEX_BUFFER , "normal");
 }
 
 auto

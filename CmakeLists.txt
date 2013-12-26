@@ -11,10 +11,9 @@ cmake_minimum_required (VERSION 2.8)
 #include extra cmake rules for glm
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-set(PROJECT_NAME glCube)
 set(PROJECT_VERSION_MAJOR 0)
 set(PROJECT_VERSION_MINOR 1)
-project(${PROJECT_NAME})
+project(glCube)
 
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
@@ -62,9 +61,6 @@ configure_file(
 	"${INCLUDE_DIR}/Config.hpp.cmake"
 	"${PROJECT_BINARY_DIR}/Config.hpp")
 
-file(COPY ${SHADER_DIR} DESTINATION ${CMAKE_BINARY_DIR})
-file(COPY ${RES_DIR}    DESTINATION ${CMAKE_BINARY_DIR})
-
 include_directories(
 	${SOIL_INCLUDE}
 	${SOIL_DIR}
@@ -86,6 +82,11 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	#set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE)
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") 
+
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${COMPILED_SHADER_DIR})
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${COMPILED_RES_DIR})
+execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory ${SHADER_DIR} ${COMPILED_SHADER_DIR})
+execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory ${RES_DIR} ${COMPILED_RES_DIR})
 
 add_definitions(
 	-std=c++11)

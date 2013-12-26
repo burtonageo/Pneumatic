@@ -31,14 +31,15 @@ public:
 
 private:
   static auto LoadFromFile(std::string file) -> Mesh*;
+  auto GenerateNormals(void) -> void;
   friend class RenderObject;
   int numVertices;
   glm::vec3 *vertices;
+  glm::vec3 *normals;
   glm::vec4 *colors;
   glm::vec2 *texCoords;
   GLuint vao;
   GLuint type;
-  GLuint texture;
 };
 
 #endif // MESH_HPP

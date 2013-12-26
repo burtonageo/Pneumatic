@@ -1,17 +1,17 @@
 #version 330 core
 
-uniform mat4 texRotMatrix;
+uniform float texRotation;
 uniform sampler2D texSampler;
 
 in Vertex {
   vec4 color;
   vec2 texCoord;
+  vec3 normal;
 } IN;
 
 out vec4 fragColor;
 
 void main(void)
 {
-  //vec2 rotTexCoord = (texRotMatrix * vec4(IN.texCoord, 0, 1)).xy;
   fragColor = IN.color * texture(texSampler, IN.texCoord);
 }

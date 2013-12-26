@@ -2,8 +2,6 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
-#include <iostream>
-
 #include "Texture.hpp"
 #include "Mesh.hpp"
 #include "Shader.hpp"

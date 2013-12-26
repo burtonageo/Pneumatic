@@ -39,11 +39,9 @@ set(COMPILED_RES_DIR "${PROJECT_BINARY_DIR}/res")
 set(RES_MESH_DIR "${COMPILED_RES_DIR}/mesh")
 set(RES_IMG_DIR "${COMPILED_RES_DIR}/img")
 
-set(SOIL_LIB "${SOIL_LIB}")
-set(SOIL_DIR "${PROJECT_SOURCE_DIR}/SOIL")
-set(SOIL_SUBDIR "SOIL")
+set(SOIL "SOIL")
+set(SOIL_DIR "${PROJECT_SOURCE_DIR}/${SOIL}")
 set(SOIL_INCLUDE "${SOIL_DIR}/include")
-set(SOIL_LINK "${PROJECT_BUILD_DIR}/SOIL/libSOIL.a")
 
 set(SOURCES
 	"${SRC_DIR}/Main.cpp"
@@ -75,7 +73,7 @@ include_directories(
 	${GLU_INCLUDE_DIRS}
 	${GLM_INCLUDE_DIRS})
 
-add_subdirectory(${SOIL_SUBDIR})
+add_subdirectory(${SOIL})
 link_directories(${SOIL_DIR})
 add_executable(${PROJECT_NAME} ${SOURCES})
 
@@ -83,17 +81,20 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	#set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE)
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") 
 
-execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${COMPILED_SHADER_DIR})
-execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${COMPILED_RES_DIR})
-execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory ${SHADER_DIR} ${COMPILED_SHADER_DIR})
-execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory ${RES_DIR} ${COMPILED_RES_DIR})
-
-add_definitions(
-	-std=c++11)
+add_custom_command(
+	TARGET ${PROJECT_NAME}
+	PRE_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		${SHADER_DIR} ${COMPILED_SHADER_DIR}
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		${RES_DIR} ${COMPILED_RES_DIR})
 
 target_link_libraries(${PROJECT_NAME}
 	${OPENGL_LIBRARIES}
 	${GLFW_LIBRARIES}
 	${GLEW_LIBRARIES}
 	${GLU_LIBRARIES}
-	${SOIL_SUBDIR})
+	${SOIL})
+
+add_definitions(
+	-std=c++11)

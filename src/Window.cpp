@@ -15,18 +15,17 @@
 #include <GLFW/glfw3.h>
 
 #include "Config.hpp"
+
 #include "Renderer.hpp"
 #include "Window.hpp"
 
 Window::Window(std::string title, int width, int height) try :
   _running(false),
-  _pGLWindow(nullptr),
+  _GlWindow(nullptr),
   _width(width),
   _height(height),
-  _pRenderer(nullptr)
+  _renderer(nullptr)
 {
-  _width = width;
-  _height = height;
   InitGLFW(title);
 } catch (std::runtime_error &e) {
   throw e;
@@ -34,8 +33,8 @@ Window::Window(std::string title, int width, int height) try :
 
 Window::~Window()
 {
-  if (_pGLWindow != NULL) {
-    glfwDestroyWindow(_pGLWindow);
+  if (_GlWindow != NULL) {
+    glfwDestroyWindow(_GlWindow);
   }
 }
 
@@ -43,8 +42,8 @@ auto
 Window::UpdateWindow() -> void
 {
   double delta = glfwGetTime();
-  _pRenderer->UpdateScene(delta);
-  _pRenderer->RenderScene();
+  _renderer->UpdateScene(delta);
+  _renderer->RenderScene();
 }
 
 auto
@@ -61,14 +60,14 @@ Window::InitGLFW(std::string title) -> void
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    _pGLWindow = glfwCreateWindow(_width,
+    _GlWindow = glfwCreateWindow(_width,
                                   _height,
                                   title.c_str(), 
                                   NULL, 
                                   NULL);
 
-    if (!_pGLWindow) {
-      //delete this;
+    if (!_GlWindow) {
+      delete this;
       throw std::runtime_error(badInitMsg);
     }
   } catch (std::runtime_error &e) {
@@ -79,5 +78,5 @@ Window::InitGLFW(std::string title) -> void
 auto
 Window::IsRunning(void) -> bool
 {
-  return !glfwWindowShouldClose(_pGLWindow);
+  return !glfwWindowShouldClose(_GlWindow);
 }

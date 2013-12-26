@@ -26,13 +26,14 @@ struct Light {
   float radius;
   glm::vec3 color;
 };
+
 class Mesh;
 class Texture;
 class Shader;
 class RenderObject {
 public:
 protected:
-  int currentShaderIndex;
+  unsigned long currentShaderIndex;
 public:
   RenderObject(Mesh *m = nullptr);
   ~RenderObject(void);

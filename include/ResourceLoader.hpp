@@ -13,8 +13,6 @@
 
 #include <string>
 
-#include <GLFW/glfw3.h>
-
 namespace ResourceLoader {
   auto LoadTextFile(std::string const &) -> const std::string;
 };

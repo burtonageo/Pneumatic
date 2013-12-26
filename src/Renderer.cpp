@@ -26,19 +26,19 @@
 bool Renderer::_glewInitialized = false;
 
 Renderer::Renderer(Window *window) :
-  _pWindow(window),
   _width(0),
   _height(0),
+  _pWindow(window),
   _viewMatrix(glm::mat4(1.0f)),
   _projectionMatrix(glm::mat4(1.0f)),
   _textureMatrix(glm::mat4(1.0f)),
   _modelMatrix(glm::mat4(1.0f)),
-  _objects(std::vector<RenderObject*>()),
-  _cameraPos(glm::vec3(4.0f, 0.0f, 4.0f))
+  _cameraPos(glm::vec3(4.0f, 0.0f, 4.0f)),
+  _objects(std::vector<RenderObject*>())
 {
-  glfwSetWindowUserPointer(_pWindow->_pGLWindow, this);
+  glfwSetWindowUserPointer(_pWindow->_GlWindow, this);
   glfwSwapInterval(1);
-  glfwMakeContextCurrent(_pWindow->_pGLWindow);
+  glfwMakeContextCurrent(_pWindow->_GlWindow);
 
   if (!_glewInitialized) {
     glewExperimental = GL_TRUE;
@@ -50,10 +50,10 @@ Renderer::Renderer(Window *window) :
     glGetError();
   }
 
-  glfwSetKeyCallback(_pWindow->_pGLWindow, StaticRendererKeypressCallback);
-  glfwSetWindowCloseCallback(_pWindow->_pGLWindow, StaticRendererQuitRequestedCallback);
-  glfwSetFramebufferSizeCallback(_pWindow->_pGLWindow, StaticRendererResizeCallback);
-  glfwSetWindowRefreshCallback(_pWindow->_pGLWindow, StaticRendererRefreshCallback);
+  glfwSetKeyCallback(_pWindow->_GlWindow, StaticRendererKeypressCallback);
+  glfwSetWindowCloseCallback(_pWindow->_GlWindow, StaticRendererQuitRequestedCallback);
+  glfwSetFramebufferSizeCallback(_pWindow->_GlWindow, StaticRendererResizeCallback);
+  glfwSetWindowRefreshCallback(_pWindow->_GlWindow, StaticRendererRefreshCallback);
 
   glEnable(GL_MULTISAMPLE);
   glEnable(GL_CULL_FACE);
@@ -63,7 +63,7 @@ Renderer::Renderer(Window *window) :
   glDepthFunc(GL_LESS);
 
   SetupContext();
-  _pWindow->_pRenderer = this;
+  _pWindow->_renderer = this;
   _width = _pWindow->_width;
   _height = _pWindow->_height;
 
@@ -77,12 +77,6 @@ Renderer::UpdateShaderMatrices(GLuint program) -> void
   glm::mat4 mvp = _modelMatrix * _projectionMatrix * _viewMatrix;
   GLuint mvpUniform = glGetUniformLocation(program, "MVP");
   glUniformMatrix4fv(mvpUniform, 1, GL_FALSE, &mvp[0][0]);
-}
-
-auto
-Renderer::Begin(void) -> void
-{
-
 }
 
 auto
@@ -118,7 +112,7 @@ Renderer::RenderScene(void) -> void
                   r->UseShader();
                   r->Draw();});
 
-  glfwSwapBuffers(_pWindow->_pGLWindow);
+  glfwSwapBuffers(_pWindow->_GlWindow);
 }
 
 auto

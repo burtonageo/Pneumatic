@@ -32,7 +32,6 @@ public:
                      int mods) -> void;
   auto QuitWasRequested(void) -> bool;
 protected:
-  auto Begin(void) -> void;
   auto UpdateShaderMatrices(GLuint) -> void;
 private:
   auto SetupContext(void) -> void;

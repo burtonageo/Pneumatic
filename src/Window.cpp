@@ -49,7 +49,7 @@ Window::UpdateWindow() -> void
 auto
 Window::InitGLFW(std::string title) -> void
 {
-  const std::string badInitMsg = 
+  const std::string badInitMsg =
     "GLFW window cannot be created";
   try {
     bool succ = glfwInit();
@@ -61,10 +61,10 @@ Window::InitGLFW(std::string title) -> void
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     _GlWindow = glfwCreateWindow(_width,
-                                  _height,
-                                  title.c_str(), 
-                                  NULL, 
-                                  NULL);
+                                 _height,
+                                 title.c_str(),
+                                 NULL,
+                                 NULL);
 
     if (!_GlWindow) {
       delete this;

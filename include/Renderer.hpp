@@ -37,7 +37,7 @@ private:
   auto SetupContext(void) -> void;
 
   int _width, _height;
-  Window *_pWindow;
+  Window *_window;
   static bool _glewInitialized;
   glm::mat4 _viewMatrix;
   glm::mat4 _projectionMatrix;

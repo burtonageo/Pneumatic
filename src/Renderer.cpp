@@ -28,7 +28,7 @@ bool Renderer::_glewInitialized = false;
 Renderer::Renderer(Window *window) :
   _width(0),
   _height(0),
-  _pWindow(window),
+  _window(window),
   _viewMatrix(glm::mat4(1.0f)),
   _projectionMatrix(glm::mat4(1.0f)),
   _textureMatrix(glm::mat4(1.0f)),
@@ -36,9 +36,9 @@ Renderer::Renderer(Window *window) :
   _cameraPos(glm::vec3(4.0f, 0.0f, 4.0f)),
   _objects(std::vector<RenderObject*>())
 {
-  glfwSetWindowUserPointer(_pWindow->_GlWindow, this);
+  glfwSetWindowUserPointer(_window->_GlWindow, this);
   glfwSwapInterval(1);
-  glfwMakeContextCurrent(_pWindow->_GlWindow);
+  glfwMakeContextCurrent(_window->_GlWindow);
 
   if (!_glewInitialized) {
     glewExperimental = GL_TRUE;
@@ -50,10 +50,10 @@ Renderer::Renderer(Window *window) :
     glGetError();
   }
 
-  glfwSetKeyCallback(_pWindow->_GlWindow, StaticRendererKeypressCallback);
-  glfwSetWindowCloseCallback(_pWindow->_GlWindow, StaticRendererQuitRequestedCallback);
-  glfwSetFramebufferSizeCallback(_pWindow->_GlWindow, StaticRendererResizeCallback);
-  glfwSetWindowRefreshCallback(_pWindow->_GlWindow, StaticRendererRefreshCallback);
+  glfwSetKeyCallback(_window->_GlWindow, StaticRendererKeypressCallback);
+  glfwSetWindowCloseCallback(_window->_GlWindow, StaticRendererQuitRequestedCallback);
+  glfwSetFramebufferSizeCallback(_window->_GlWindow, StaticRendererResizeCallback);
+  glfwSetWindowRefreshCallback(_window->_GlWindow, StaticRendererRefreshCallback);
 
   glEnable(GL_MULTISAMPLE);
   glEnable(GL_CULL_FACE);
@@ -63,9 +63,9 @@ Renderer::Renderer(Window *window) :
   glDepthFunc(GL_LESS);
 
   SetupContext();
-  _pWindow->_renderer = this;
-  _width = _pWindow->_width;
-  _height = _pWindow->_height;
+  _window->_renderer = this;
+  _width = _window->_width;
+  _height = _window->_height;
 
   RenderObject *tri = new CubeObject();
   _objects.push_back(tri);
@@ -112,7 +112,7 @@ Renderer::RenderScene(void) -> void
                   r->UseShader();
                   r->Draw();});
 
-  glfwSwapBuffers(_pWindow->_GlWindow);
+  glfwSwapBuffers(_window->_GlWindow);
 }
 
 auto

@@ -8,8 +8,8 @@
 
 #pragma once
 
-#ifndef RENDEROBJECT_HPP
-#define RENDEROBJECT_HPP
+#ifndef PNEUMATIC_RENDEROBJECT_HPP
+#define PNEUMATIC_RENDEROBJECT_HPP
 
 #include <iostream>
 #include <vector>
@@ -17,57 +17,64 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
-namespace ___hidden___{
-  class ShaderUpdateMixin;
-}
+namespace Pneumatic {
+  namespace ___hidden___{
+    class ShaderUpdateMixin;
+  }
 
-struct Light {
-  glm::vec3 position;
-  float radius;
-  glm::vec3 color;
-};
+  class Light;
+  class Mesh;
+  class Texture;
+  class Shader;
 
-class Mesh;
-class Texture;
-class Shader;
-class RenderObject {
-public:
-protected:
-  unsigned long currentShaderIndex;
-public:
-  RenderObject(Mesh *m = nullptr);
-  ~RenderObject(void);
-  auto UseShader(void) -> void;
-  auto AddTexture(std::string texFile) -> void;
-  inline auto GetMesh(void) -> Mesh* const {return mesh;}
-  inline auto SetMesh(Mesh *m) -> void {mesh = m;}
-  inline auto GetShader(void) -> Shader* {return shaders->at(currentShaderIndex);}
-  inline auto AddShader(Shader *s) -> void {shaders->push_back(s);}
-  inline auto GetModelMatrix(void) -> glm::mat4 const {return modelMatrix;}
-  inline auto SetModelMatrix(glm::mat4 mat) -> void {modelMatrix = mat;}
-  auto Update(double delta) -> void;
-  auto SetShaderLight(glm::vec3, float, glm::vec3) -> void;
-  virtual auto Draw(void) -> void;
-  inline auto ChangeShaders(void) -> void {currentShaderIndex++;
-                                           if (currentShaderIndex == shaders->size()) {
-                                             currentShaderIndex = 0;
-                                           }}
-protected:
-  Mesh *mesh;
-  std::vector<Shader*> *shaders;
-  std::vector<Texture*> *textures;
-  std::vector<___hidden___::ShaderUpdateMixin*> *shaderUpdaters;
-  glm::mat4 modelMatrix;
-};
-
-// Used to update shaders
-namespace ___hidden___ {
-  class ShaderUpdateMixin {
+  class RenderObject {
   public:
-    ShaderUpdateMixin(Shader *s) : shader(s) {}
-    virtual auto Update(double delta) -> void = 0;
-    Shader *shader;
+    RenderObject(Mesh *m = nullptr);
+    ~RenderObject(void);
+
+    auto UseShader(void)                        -> void;
+    auto AddTexture(std::string const &)        -> void;
+
+    auto Update(double delta)                   -> void;
+    auto SetShaderLight(Light*)                 -> void;
+    virtual auto Draw(void)                     -> void;
+
+    inline auto GetMesh(void) const             -> Mesh* {return fMesh;}
+    inline auto SetMesh(Pneumatic::Mesh *m)     -> void  {fMesh = m;}
+
+    inline auto GetShader(void) const           -> Shader* {return shaders->at(fCurrentShaderIndex);}
+    inline auto AddShader(Pneumatic::Shader *s) -> void    {shaders->push_back(s);}
+
+    inline auto GetModelMatrix(void) const      -> glm::mat4 {return fModelMatrix;}
+    inline auto SetModelMatrix(glm::mat4 mat)   -> void      {fModelMatrix = mat;}
+
+    inline auto ChangeShaders(void)             -> void
+    {
+      fCurrentShaderIndex = fCurrentShaderIndex < (shaders->size() - 1)
+        ? fCurrentShaderIndex + 1
+        : 0;
+    }
+
+  protected:
+    Mesh *fMesh;
+    glm::mat4 fModelMatrix;
+
+    std::vector<Shader*> *shaders;
+    std::vector<Texture*> *textures;
+    std::vector<___hidden___::ShaderUpdateMixin*> *shaderUpdaters;
+  private:
+    unsigned long fCurrentShaderIndex;
   };
+
+  // Used to update shaders
+  namespace ___hidden___ {
+    class ShaderUpdateMixin {
+    public:
+      ShaderUpdateMixin(Shader *s) : shader(s) {}
+      virtual auto Update(double delta) -> void = 0;
+      Shader *shader;
+    };
+  }
 }
 
-#endif // RENDEROBJECT_HPP
+#endif // PNEUMATIC_RENDEROBJECT_HPP

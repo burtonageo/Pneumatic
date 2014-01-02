@@ -7,15 +7,16 @@
 #include "Shader.hpp"
 #include "TriObject.hpp"
 
-TriObject::TriObject(void) :
-  RenderObject(Mesh::GenerateTriangle())
+Pneumatic::TriObject::TriObject(void)
+  :
+  RenderObject(Pneumatic::Mesh::GenerateTriangle())
 {
-  shaders->push_back(new Shader("tri", "tri"));
+  shaders->push_back(new Pneumatic::Shader("tri", "tri"));
   AddTexture("noise.png");
 }
 
 auto
-TriObject::Update(double delta) -> void
+Pneumatic::TriObject::Update(double delta) -> void
 {
 
 }

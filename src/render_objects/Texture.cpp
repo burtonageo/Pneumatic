@@ -19,12 +19,13 @@
 #include "Shader.hpp"
 #include "Texture.hpp"
 
-Texture::Texture(std::string fileName) :
-  _object(0)
+Pneumatic::Texture::Texture(std::string fileName)
+  :
+  fObject(0)
 {
   std::string filePath = Config::GetImgResDir() + fileName;
-  glGenTextures(1, &_object);
-  glBindTexture(GL_TEXTURE_2D, _object);
+  glGenTextures(1, &fObject);
+  glBindTexture(GL_TEXTURE_2D, fObject);
 
   int width;
   int height;
@@ -33,7 +34,7 @@ Texture::Texture(std::string fileName) :
   unsigned char *texData = SOIL_load_image(filePath.c_str(),
                                            &width, &height, &channels, 0);
   if (texData == NULL) {
-    glDeleteTextures(1, &_object);
+    glDeleteTextures(1, &fObject);
     glBindTexture(GL_TEXTURE_2D, 0);
     return;
   }
@@ -47,25 +48,25 @@ Texture::Texture(std::string fileName) :
                width, height, 0, channels == 4 ? GL_RGBA  : GL_RGB,
                GL_UNSIGNED_BYTE, texData);
   glBindTexture(GL_TEXTURE_2D, 0);
-  free(texData);
+  SOIL_free_image_data(texData);
 }
 
-Texture::~Texture()
+Pneumatic::Texture::~Texture()
 {
-  glDeleteTextures(1, &_object);
+  glDeleteTextures(1, &fObject);
 }
 
 auto
-Texture::Bind(Shader *shader) -> void
+Pneumatic::Texture::Bind(Shader *shader) -> void
 {
   glActiveTexture(GL_TEXTURE0);
-  glBindTexture(GL_TEXTURE_2D, _object);
+  glBindTexture(GL_TEXTURE_2D, fObject);
   GLuint sampler = glGetUniformLocation(shader->GetShaderProgram(), "texSampler");
   glUniform1i(sampler, 0);
 }
 
 auto
-Texture::Unbind(void) -> void
+Pneumatic::Texture::Unbind(void) -> void
 {
   glBindTexture(GL_TEXTURE_2D, 0);
 }

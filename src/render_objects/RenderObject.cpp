@@ -3,25 +3,27 @@
 #include <glm/glm.hpp>
 
 #include "Config.hpp"
+#include "Light.hpp"
 #include "Mesh.hpp"
 #include "Shader.hpp"
 #include "Texture.hpp"
 #include "RenderObject.hpp"
 
-RenderObject::RenderObject(Mesh *m) :
-  currentShaderIndex(0),
-  mesh(m),
+Pneumatic::RenderObject::RenderObject(Pneumatic::Mesh *m)
+  :
+  fMesh(m),
+  fModelMatrix(glm::mat4(1.0)),
   shaders(new std::vector<Shader*>()),
   textures(new std::vector<Texture*>()),
   shaderUpdaters(new std::vector<___hidden___::ShaderUpdateMixin*>()),
-  modelMatrix(glm::mat4(1.0))
+  fCurrentShaderIndex(0)
 {
 
 }
 
-RenderObject::~RenderObject()
+Pneumatic::RenderObject::~RenderObject()
 {
-  delete mesh;
+  delete fMesh;
   delete shaders;
   if (textures != nullptr) {
     delete textures;
@@ -29,38 +31,38 @@ RenderObject::~RenderObject()
 }
 
 auto
-RenderObject::Update(double delta) -> void
+Pneumatic::RenderObject::Update(double delta) -> void
 { 
-  shaderUpdaters->at(currentShaderIndex)->Update(delta);
+  shaderUpdaters->at(fCurrentShaderIndex)->Update(delta);
 }
 
 auto
-RenderObject::AddTexture(std::string texFile) -> void
+Pneumatic::RenderObject::AddTexture(std::string const &texFile) -> void
 {
   textures->push_back(new Texture(texFile));
 }
 
 auto
-RenderObject::SetShaderLight(glm::vec3, float, glm::vec3) -> void
+Pneumatic::RenderObject::SetShaderLight(Light *light) -> void
 {
 
 }
 
 auto
-RenderObject::UseShader() -> void
+Pneumatic::RenderObject::UseShader() -> void
 {
-  glUseProgram(shaders->at(currentShaderIndex)->GetShaderProgram());
+  glUseProgram(shaders->at(fCurrentShaderIndex)->GetShaderProgram());
 }
 
 auto
-RenderObject::Draw() -> void
+Pneumatic::RenderObject::Draw() -> void
 {
-  auto *currShader = shaders->at(currentShaderIndex);
-  auto *currTexture = textures->at(currentShaderIndex); 
+  auto *currShader = shaders->at(fCurrentShaderIndex);
+  auto *currTexture = textures->at(fCurrentShaderIndex); 
   if (currTexture != nullptr) {
     currTexture->Bind(currShader);
   }
-  mesh->Draw();
+  fMesh->Draw();
   if (currTexture != nullptr) {
     currTexture->Unbind();
   }

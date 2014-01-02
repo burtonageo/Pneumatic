@@ -19,35 +19,50 @@
 #include "Renderer.hpp"
 #include "Window.hpp"
 
-Window::Window(std::string title, int width, int height) try :
-  _running(false),
-  _GlWindow(nullptr),
-  _width(width),
-  _height(height),
-  _renderer(nullptr)
+Pneumatic::Window::Window(std::string const &title,
+                          int width,
+                          int height)
+  try :
+  fWidth(width),
+  fHeight(height),
+  fGlWindow(nullptr),
+  fRenderer(nullptr)
 {
-  InitGLFW(title);
+  _InitGLFW(title);
+  fRenderer = new Pneumatic::Renderer(this);
 } catch (std::runtime_error &e) {
   throw e;
 }
 
-Window::~Window()
+Pneumatic::Window::~Window()
 {
-  if (_GlWindow != NULL) {
-    glfwDestroyWindow(_GlWindow);
+  if (fGlWindow != nullptr) {
+    glfwDestroyWindow(fGlWindow);
   }
 }
 
 auto
-Window::UpdateWindow() -> void
+Pneumatic::Window::UpdateWindow() -> void
 {
   double delta = glfwGetTime();
-  _renderer->UpdateScene(delta);
-  _renderer->RenderScene();
+  fRenderer->UpdateScene(delta);
+  fRenderer->RenderScene();
 }
 
 auto
-Window::InitGLFW(std::string title) -> void
+Pneumatic::Window::PollEvents() -> void
+{
+  glfwPollEvents();
+}
+
+auto
+Pneumatic::Window::IsRunning(void) const  -> bool
+{
+  return !glfwWindowShouldClose(fGlWindow);
+}
+
+auto
+Pneumatic::Window::_InitGLFW(std::string const &title) -> void
 {
   const std::string badInitMsg =
     "GLFW window cannot be created";
@@ -60,23 +75,17 @@ Window::InitGLFW(std::string title) -> void
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    _GlWindow = glfwCreateWindow(_width,
-                                 _height,
+    fGlWindow = glfwCreateWindow(fWidth,
+                                 fHeight,
                                  title.c_str(),
                                  NULL,
                                  NULL);
 
-    if (!_GlWindow) {
+    if (!fGlWindow) {
       delete this;
       throw std::runtime_error(badInitMsg);
     }
   } catch (std::runtime_error &e) {
     throw e;
   }
-}
-
-auto
-Window::IsRunning(void) -> bool
-{
-  return !glfwWindowShouldClose(_GlWindow);
 }

@@ -13,18 +13,20 @@
 
 #include <string>
 
-namespace Config {
-  inline std::string GetFragmentDir() {return "@FRAGMENT_DIR@/";}
-  inline std::string GetVertexDir() {return "@VERTEX_DIR@/";}
-  inline std::string GetGeometryDir() {return "@GEOMETRY_DIR@/";}
-  inline std::string GetTessEvalDir() {return "@TESS_EVAL_DIR@/";}
-  inline std::string GetTessCtrlDir() {return "@TESS_CONTROL_DIR@/";}
-  inline std::string GetMeshResDir() {return "@RES_MESH_DIR@/";}
-  inline std::string GetImgResDir() {return "@RES_IMG_DIR@/";}
-  inline std::string GetProgramName() {return "@PROJECT_NAME@";}
-
-  inline int GetProgramVersionMajor() {return @PROJECT_VERSION_MAJOR@;}
-  inline int GetProgramVersionMinor() {return @PROJECT_VERSION_MINOR@;}
+namespace Pneumatic {
+  namespace Config {
+    inline auto GetFragmentDir() -> std::string {return "@FRAGMENT_DIR@/";}
+    inline auto GetVertexDir()   -> std::string {return "@VERTEX_DIR@/";}
+    inline auto GetGeometryDir() -> std::string {return "@GEOMETRY_DIR@/";}
+    inline auto GetTessEvalDir() -> std::string {return "@TESS_EVAL_DIR@/";}
+    inline auto GetTessCtrlDir() -> std::string {return "@TESS_CONTROL_DIR@/";}
+    inline auto GetMeshResDir()  -> std::string {return "@RES_MESH_DIR@/";}
+    inline auto GetImgResDir()   -> std::string {return "@RES_IMG_DIR@/";}
+    inline auto GetProgramName() -> std::string {return "@PROJECT_NAME@";}
+  
+    inline auto GetProgramVersionMajor() -> int {return @PROJECT_VERSION_MAJOR@;}
+    inline auto GetProgramVersionMinor() -> int {return @PROJECT_VERSION_MINOR@;}
+  }
 }
 
 #endif // CONFIG_HPP

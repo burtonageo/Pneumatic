@@ -53,6 +53,7 @@ set(SOURCES
 	"${RO_DIR}/Mesh.cpp"
 	"${RO_DIR}/Shader.cpp"
 	"${RO_DIR}/Texture.cpp"
+	"${RO_DIR}/Light.cpp"
 	"${RO_DIR}/RenderObject.cpp"
 	"${RO_DIR}/TriObject.cpp"
 	"${RO_DIR}/CubeObject.cpp")
@@ -67,7 +68,6 @@ include_directories(
 	${SRC_DIR}
 	${INCLUDE_DIR}
 	${RO_INCLUDE_DIR}
-	${SHADER_DIR}
 	${PROJECT_BINARY_DIR}
 	${OPENGL_INCLUDE_DIRS}
 	${GLFW_INCLUDE_DIRS}
@@ -79,9 +79,7 @@ add_subdirectory(${SOIL})
 link_directories(${SOIL_DIR})
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-	#set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE)
-endif() 
+#set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE)
 
 add_custom_command(
 	TARGET ${PROJECT_NAME}
@@ -99,4 +97,10 @@ target_link_libraries(${PROJECT_NAME}
 	${SOIL})
 
 add_definitions(
-	-std=c++11)
+	-std=c++11
+	-O2
+	-Wall
+	-Wextra
+	-Werror
+	-Wno-unused-parameter)
+#-Wno-unused-variable)

@@ -8,8 +8,8 @@
 
 #pragma once
 
-#ifndef GL_WINDOW_HPP
-#define GL_WINDOW_HPP
+#ifndef PNEUMATIC_WINDOW_HPP
+#define PNEUMATIC_WINDOW_HPP
 
 #include <exception>
 #include <string>
@@ -18,24 +18,28 @@
 
 #include "Config.hpp"
 
-class Renderer;
-class Window final {
-public:
-  Window(std::string title = Config::GetProgramName(),
-         int width = 800,
-         int height = 600);
+namespace Pneumatic {
+  class Renderer;
 
-  ~Window(void);
-  auto UpdateWindow(void) -> void;
-  auto IsRunning(void) -> bool;
-private:
-  bool _running;
-  GLFWwindow *_GlWindow;
-  int _width, _height;
-  Renderer *_renderer;
-  friend class Renderer;
+  class Window final {
+  public:
+    Window(std::string const &title = Config::GetProgramName(),
+           int width = 800,
+           int height = 600);
 
-  auto InitGLFW(std::string title) -> void;
-};
+    ~Window(void);
+    auto UpdateWindow(void) -> void;
+    auto PollEvents(void) -> void;
+    auto IsRunning(void) const -> bool;
+  private:
+    auto _InitGLFW(std::string const &title) -> void;
 
-#endif // GL_WINDOW_HPP
+    int fWidth, fHeight;
+    GLFWwindow *fGlWindow;
+    Renderer *fRenderer;
+
+    friend class Renderer;
+  };
+}
+
+#endif // PNEUMATIC_WINDOW_HPP

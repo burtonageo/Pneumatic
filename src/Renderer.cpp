@@ -6,8 +6,6 @@
  * File: Renderer.cpp
  */
 
-#include "iostream"
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -23,37 +21,38 @@
 
 #include "Renderer.hpp"
 
-bool Renderer::_glewInitialized = false;
+bool Pneumatic::Renderer::sGlewInitialized = false;
 
-Renderer::Renderer(Window *window) :
-  _width(0),
-  _height(0),
-  _window(window),
-  _viewMatrix(glm::mat4(1.0f)),
-  _projectionMatrix(glm::mat4(1.0f)),
-  _textureMatrix(glm::mat4(1.0f)),
-  _modelMatrix(glm::mat4(1.0f)),
-  _cameraPos(glm::vec3(4.0f, 0.0f, 4.0f)),
-  _objects(std::vector<RenderObject*>())
+Pneumatic::Renderer::Renderer(Window *window)
+  :
+  fWidth(0),
+  fHeight(0),
+  fWindow(window),
+  fViewMatrix(glm::mat4(1.0f)),
+  fProjectionMatrix(glm::mat4(1.0f)),
+  fTextureMatrix(glm::mat4(1.0f)),
+  fModelMatrix(glm::mat4(1.0f)),
+  fCameraPos(glm::vec3(4.0f, 0.0f, 4.0f)),
+  fObjects(std::vector<Pneumatic::RenderObject*>())
 {
-  glfwSetWindowUserPointer(_window->_GlWindow, this);
+  glfwSetWindowUserPointer(fWindow->fGlWindow, this);
   glfwSwapInterval(1);
-  glfwMakeContextCurrent(_window->_GlWindow);
+  glfwMakeContextCurrent(fWindow->fGlWindow);
 
-  if (!_glewInitialized) {
+  if (!sGlewInitialized) {
     glewExperimental = GL_TRUE;
     GLenum err = glewInit();
     if (err != GLEW_OK) {
       throw new std::runtime_error("GLEW not initialized");
     }
-    _glewInitialized = true;
+    sGlewInitialized = true;
     glGetError();
   }
 
-  glfwSetKeyCallback(_window->_GlWindow, StaticRendererKeypressCallback);
-  glfwSetWindowCloseCallback(_window->_GlWindow, StaticRendererQuitRequestedCallback);
-  glfwSetFramebufferSizeCallback(_window->_GlWindow, StaticRendererResizeCallback);
-  glfwSetWindowRefreshCallback(_window->_GlWindow, StaticRendererRefreshCallback);
+  glfwSetKeyCallback(fWindow->fGlWindow, StaticRendererKeypressCallback);
+  glfwSetWindowCloseCallback(fWindow->fGlWindow, StaticRendererQuitRequestedCallback);
+  glfwSetFramebufferSizeCallback(fWindow->fGlWindow, StaticRendererResizeCallback);
+  glfwSetWindowRefreshCallback(fWindow->fGlWindow, StaticRendererRefreshCallback);
 
   glEnable(GL_MULTISAMPLE);
   glEnable(GL_CULL_FACE);
@@ -62,61 +61,61 @@ Renderer::Renderer(Window *window) :
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
 
-  SetupContext();
-  _window->_renderer = this;
-  _width = _window->_width;
-  _height = _window->_height;
+  _SetupContext();
+  fWindow->fRenderer = this;
+  fWidth = fWindow->fWidth;
+  fHeight = fWindow->fHeight;
 
-  RenderObject *tri = new CubeObject();
-  _objects.push_back(tri);
+  Pneumatic::RenderObject *cube = new CubeObject();
+  fObjects.push_back(cube);
 }
 
 auto
-Renderer::UpdateShaderMatrices(GLuint program) -> void
+Pneumatic::Renderer::UpdateShaderMatrices(GLuint program) -> void
 {
-  glm::mat4 mvp = _modelMatrix * _projectionMatrix * _viewMatrix;
+  glm::mat4 mvp = fModelMatrix * fProjectionMatrix * fViewMatrix;
   GLuint mvpUniform = glGetUniformLocation(program, "MVP");
   glUniformMatrix4fv(mvpUniform, 1, GL_FALSE, &mvp[0][0]);
 }
 
 auto
-Renderer::UpdateScene(double ms) -> void
+Pneumatic::Renderer::UpdateScene(double ms) -> void
 {
   float fov = 45.0f;
-  float ratio = _width/static_cast<float>(_height);
+  float ratio = fWidth/static_cast<float>(fHeight);
   float nearClip = 0.01f;
   float farClip = 1000.0f;
-  _projectionMatrix = glm::perspective(fov, ratio, nearClip, farClip);
-  _viewMatrix = glm::lookAt(
-    _cameraPos,
-    glm::vec3(0.0f, 0.0f, 0.0f) - _cameraPos, // camera looks at
+  fProjectionMatrix = glm::perspective(fov, ratio, nearClip, farClip);
+  fViewMatrix = glm::lookAt(
+    fCameraPos,
+    glm::vec3(0.0f, 0.0f, 0.0f) - fCameraPos, // camera looks at
     glm::vec3(0.0f, 1.0f, 0.0f)  // up vector
   );
-  std::for_each(_objects.begin(),
-                _objects.end(),
-                [&](RenderObject *r) {
+  std::for_each(fObjects.begin(),
+                fObjects.end(),
+                [&](Pneumatic::RenderObject *r) {
                   r->Update(ms);
-                  _modelMatrix = r->GetModelMatrix();
+                  fModelMatrix = r->GetModelMatrix();
                   UpdateShaderMatrices(r->GetShader()->GetShaderProgram());
                 });
 }
 
 auto
-Renderer::RenderScene(void) -> void
+Pneumatic::Renderer::RenderScene(void) -> void
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
-  std::for_each(_objects.begin(),
-                _objects.end(),
-                [&](RenderObject *r) {
+  std::for_each(fObjects.begin(),
+                fObjects.end(),
+                [&](Pneumatic::RenderObject *r) {
                   r->UseShader();
                   r->Draw();});
 
-  glfwSwapBuffers(_window->_GlWindow);
+  glfwSwapBuffers(fWindow->fGlWindow);
 }
 
 auto
-Renderer::ViewportDidResize(int width, int height) -> void
+Pneumatic::Renderer::ViewportDidResize(int width, int height) -> void
 {
   glMatrixMode(GL_PROJECTION);
   glViewport(0, 0, (GLsizei)width, (GLsizei)height);
@@ -124,7 +123,7 @@ Renderer::ViewportDidResize(int width, int height) -> void
 }
 
 auto
-Renderer::KeyWasPressed(int key,
+Pneumatic::Renderer::KeyWasPressed(int key,
                         int scanCode,
                         int action,
                         int mods) -> void
@@ -132,47 +131,47 @@ Renderer::KeyWasPressed(int key,
   float moveFactor = 0.7;
   switch(key) {
     case GLFW_KEY_W:
-      if (_cameraPos.z > 2.0f) {
-        _cameraPos.z -= 0.7f * moveFactor;
+      if (fCameraPos.z > 2.0f) {
+        fCameraPos.z -= 0.7f * moveFactor;
       }
       break;
     case GLFW_KEY_S:
-      if (_cameraPos.z < 20.0f) {
-        _cameraPos.z += 0.7f * moveFactor;
+      if (fCameraPos.z < 20.0f) {
+        fCameraPos.z += 0.7f * moveFactor;
       }
       break;
     case GLFW_KEY_Q:
-      if (_cameraPos.y < 2.0f) {
-        _cameraPos.y += 0.7f * moveFactor;
+      if (fCameraPos.y < 2.0f) {
+        fCameraPos.y += 0.7f * moveFactor;
       }
       break;
     case GLFW_KEY_E:
-      if (_cameraPos.y > -2.0f) {
-        _cameraPos.y -= 0.7f * moveFactor;
+      if (fCameraPos.y > -2.0f) {
+        fCameraPos.y -= 0.7f * moveFactor;
       }
       break;
     case GLFW_KEY_X:
       if (action == GLFW_RELEASE) {
-        std::for_each(_objects.begin(),
-                      _objects.end(),
-                      [&](RenderObject *r) {
+        std::for_each(fObjects.begin(),
+                      fObjects.end(),
+                      [&](Pneumatic::RenderObject *r) {
                         r->ChangeShaders();});
       }
       break;
     default:
-      //std::cout << key << std::endl;
+
       break;
   }
 }
 
 auto
-Renderer::QuitWasRequested(void) -> bool
+Pneumatic::Renderer::QuitWasRequested(void) -> bool
 {
   return false;
 }
 
 auto
-Renderer::SetupContext(void) -> void
+Pneumatic::Renderer::_SetupContext(void) -> void
 {
   glfwSetTime(0.0);
 }

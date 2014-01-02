@@ -19,11 +19,10 @@
 
 int main(int argc, char **argv) {
   try {
-    Window *win = new Window();
-    Renderer *r = new Renderer(win);
+    Pneumatic::Window *win = new Pneumatic::Window();
     while (win->IsRunning()) {
       win->UpdateWindow();
-      glfwPollEvents();
+      win->PollEvents();
     }
     return EXIT_SUCCESS;
   } catch (std::exception &e) {

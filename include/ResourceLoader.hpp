@@ -8,13 +8,15 @@
 
 #pragma once
 
-#ifndef RESOURCE_LOADER_HPP
-#define RESOURCE_LOADER_HPP
+#ifndef PNEUMATIC_RESOURCE_LOADER_HPP
+#define PNEUMATIC_RESOURCE_LOADER_HPP
 
 #include <string>
+#include <utility>
 
-namespace ResourceLoader {
-  auto LoadTextFile(std::string const &) -> const std::string;
-};
-
-#endif // RESOURCE_LOADER_HPP
+namespace Pneumatic {
+  namespace ResourceLoader {
+    auto LoadTextFile(std::string const &) -> const std::string;
+  };
+}
+#endif // PNEUMATIC_RESOURCE_LOADER_HPP

@@ -8,25 +8,26 @@
 
 #pragma once
 
-#ifndef TEXTURE_HPP
-#define TEXTURE_HPP
+#ifndef PNEUMATIC_TEXTURE_HPP
+#define PNEUMATIC_TEXTURE_HPP
 
 #include <string>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-class Shader;
-class Texture final {
-public:
-  Texture(std::string file);
-  ~Texture();
-  auto Bind(Shader*) -> void;
-  auto Unbind() -> void;
-  inline auto GetObject() -> GLuint const {return _object;};
-private:
-  GLuint _id;
-  GLuint _object;
-};
+namespace Pneumatic {
+  class Shader;
 
-#endif // TEXTURE_HPP
+  class Texture final {
+  public:
+    Texture(std::string file);
+    ~Texture();
+    auto Bind(Shader*) -> void;
+    auto Unbind() -> void;
+    inline auto GetObject() const -> GLuint {return fObject;};
+  private:
+    GLuint fObject;
+  };
+}
+#endif // PNEUMATIC_TEXTURE_HPP

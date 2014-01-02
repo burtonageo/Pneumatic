@@ -16,7 +16,7 @@
 #include "RenderObject.hpp"
 #include "CubeObject.hpp"
 
-CubeObject::CubeObject() :
+Pneumatic::CubeObject::CubeObject() :
   RenderObject(Mesh::GenerateCube())
 {
   Shader *s1 = new Shader("cube1", "cube1", "cube1");
@@ -31,13 +31,13 @@ CubeObject::CubeObject() :
   AddTexture("noise.png");
 }
 
-CubeObject::~CubeObject()
+Pneumatic::CubeObject::~CubeObject()
 {
 
 }
 
 auto
-___hidden___::CubeShaderUpdate1::Update(double delta) -> void {
+Pneumatic::___hidden___::CubeShaderUpdate1::Update(double delta) -> void {
   GLuint program = shader->GetShaderProgram();
   GLint rotRef = glGetUniformLocation(program, "rotAngle");
   glUniform1f(rotRef, static_cast<float>(delta));
@@ -47,16 +47,16 @@ ___hidden___::CubeShaderUpdate1::Update(double delta) -> void {
 
 
 auto
-___hidden___::CubeShaderUpdate2::Update(double delta) -> void {
+Pneumatic::___hidden___::CubeShaderUpdate2::Update(double delta) -> void {
   GLuint program = shader->GetShaderProgram();
-  GLint timeRef = glGetUniformLocation(shader->GetShaderProgram(), "time");
+  GLint timeRef = glGetUniformLocation(program, "time");
   glUniform1f(timeRef, delta);
-  GLint alphaRef = glGetUniformLocation(shader->GetShaderProgram(), "alphaValue");
+  GLint alphaRef = glGetUniformLocation(program, "alphaValue");
   glUniform1f(alphaRef, delta);
 }
 
 auto
-___hidden___::CubeShaderUpdate3::Update(double delta) -> void {
+Pneumatic::___hidden___::CubeShaderUpdate3::Update(double delta) -> void {
   GLint rotRef = glGetUniformLocation(shader->GetShaderProgram(), "rotAngle");
   glUniform1f(rotRef, delta);
   GLint timeRef = glGetUniformLocation(shader->GetShaderProgram(), "time");

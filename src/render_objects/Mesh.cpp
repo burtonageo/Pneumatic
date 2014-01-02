@@ -20,105 +20,112 @@
 #include "Shader.hpp"
 #include "Mesh.hpp"
 
-Mesh::Mesh(int numVerts, glm::vec3 *vertices) :
-  numVertices(numVerts),
-  vertices(vertices),
-  normals(nullptr),
-  colors(nullptr),
-  texCoords(nullptr),
-  type(GL_TRIANGLES),
-  vao(0)
+Pneumatic::Mesh::Mesh(int numVerts, glm::vec3 *vertices) :
+  fNumVertices(numVerts),
+  fVertices(vertices),
+  fNormals(nullptr),
+  fColors(nullptr),
+  fTexCoords(nullptr),
+  fVao(0),
+  fType(GL_TRIANGLES)
 {
 
 }
 
-Mesh::~Mesh()
+Pneumatic::Mesh::~Mesh()
 {
-  delete[] vertices;
-  delete[] colors;
-  delete[] texCoords;
+  delete[] fVertices;
+  delete[] fColors;
+  delete[] fTexCoords;
 }
 
 auto
-Mesh::GenerateTriangle() -> Mesh*
+Pneumatic::Mesh::GenerateTriangle() -> Mesh*
 {
   Mesh *mesh = new Mesh(3);
 
   using namespace glm;
-  mesh->vertices = new vec3[mesh->numVertices] {
+  mesh->fVertices = new vec3[mesh->fNumVertices] {
     vec3(-1.0f, -1.0f, 0.0f),
     vec3( 1.0f, -1.0f, 0.0f),
     vec3( 0.0f,  1.0f, 0.0f)
   };
 
-  mesh->colors = new vec4[mesh->numVertices] {
+  mesh->fColors = new vec4[mesh->fNumVertices] {
     vec4(1.0f, 0.0f, 0.0f, 1.0f),
     vec4(0.0f, 1.0f, 0.0f, 1.0f),
     vec4(0.0f, 0.0f, 1.0f, 1.0f),  
   };
 
-  mesh->texCoords = new vec2[mesh->numVertices] {
+  mesh->fTexCoords = new vec2[mesh->fNumVertices] {
     vec2(1.0f, 1.0f),
     vec2(0.0f, 1.0f),
     vec2(1.0f, 0.0f)
   };
-  mesh->BufferData();
+  mesh->_BufferData();
 
   return mesh;
 }
 
 auto
-Mesh::GenerateCube() -> Mesh*
+Pneumatic::Mesh::GenerateCube() -> Mesh*
 {
-  Mesh *mesh = LoadFromFile("cube");
-  mesh->GenerateNormals();
-  mesh->BufferData();
+  Mesh *mesh = _LoadFromFile("cube");
+  mesh->_GenerateNormals();
+  mesh->_BufferData();
   return mesh;
 }
 
 auto
-Mesh::LoadFromFile(std::string fileName) -> Mesh*
+Pneumatic::Mesh::NewFromObjFile(std::string const &fname) -> Mesh*
+{
+  Mesh *mesh = _LoadFromFile(fname);
+  return mesh;
+}
+
+auto
+Pneumatic::Mesh::_LoadFromFile(std::string const &fileName) -> Mesh*
 {
   std::string filePath = Config::GetMeshResDir() + fileName + ".mesh";
   std::ifstream fs(filePath);
   if (!fs) {
-    return NULL;
+    return nullptr;
   }
 
   Mesh *mesh = new Mesh();
-  mesh->type = GL_TRIANGLES;
-  fs >> mesh->numVertices;
+  mesh->fType = GL_TRIANGLES;
+  fs >> mesh->fNumVertices;
 
   int hasTex = 0; int hasColour = 0;
   fs >> hasTex;
   fs >> hasColour;
 
-  mesh->vertices = new glm::vec3[mesh->numVertices];
-  mesh->normals = new glm::vec3[mesh->numVertices];
-  mesh->colors = new glm::vec4[mesh->numVertices];
-  mesh->texCoords = new glm::vec2[mesh->numVertices];
+  mesh->fVertices = new glm::vec3[mesh->fNumVertices];
+  mesh->fNormals = new glm::vec3[mesh->fNumVertices];
+  mesh->fColors = new glm::vec4[mesh->fNumVertices];
+  mesh->fTexCoords = new glm::vec2[mesh->fNumVertices];
   
-  for (int i = 0; i < mesh->numVertices; i++) {
-    fs >> mesh->vertices[i].x;
-    fs >> mesh->vertices[i].y;
-    fs >> mesh->vertices[i].z;
+  for (int i = 0; i < mesh->fNumVertices; i++) {
+    fs >> mesh->fVertices[i].x;
+    fs >> mesh->fVertices[i].y;
+    fs >> mesh->fVertices[i].z;
   }
 
   if (hasColour) {
-    for (int i = 0; i < mesh->numVertices; i++) {
-      fs >> mesh->colors[i].r;
-      fs >> mesh->colors[i].g;
-      fs >> mesh->colors[i].b;
-      fs >> mesh->colors[i].a;
+    for (int i = 0; i < mesh->fNumVertices; i++) {
+      fs >> mesh->fColors[i].r;
+      fs >> mesh->fColors[i].g;
+      fs >> mesh->fColors[i].b;
+      fs >> mesh->fColors[i].a;
     }
   } else {
-      mesh->colors = nullptr;
+      mesh->fColors = nullptr;
   }
 
   if (hasTex) {
-    for (int i = 0; i < mesh->numVertices; i++) {
-      fs >> mesh->texCoords[i].x;
-      fs >> mesh->texCoords[i].y;
+    for (int i = 0; i < mesh->fNumVertices; i++) {
+      fs >> mesh->fTexCoords[i].x;
+      fs >> mesh->fTexCoords[i].y;
     }
   }
 
@@ -126,81 +133,81 @@ Mesh::LoadFromFile(std::string fileName) -> Mesh*
 }
 
 auto
-Mesh::GenerateNormals() -> void
+Pneumatic::Mesh::_GenerateNormals() -> void
 {
   using namespace glm;
-  normals = new vec3[numVertices];
-  for (int i = 0; i < numVertices; i+=3) {
-    vec3 &a = vertices[i];
-    vec3 &b = vertices[i+1];
-    vec3 &c = vertices[i+2];
+  fNormals = new vec3[fNumVertices];
+  for (int i = 0; i < fNumVertices; i+=3) {
+    vec3 &a = fVertices[i];
+    vec3 &b = fVertices[i+1];
+    vec3 &c = fVertices[i+2];
     vec3 normal = glm::cross(b - a, c - a);
     glm::normalize(normal);
-    normals[i] = normal;
-    normals[i+1] = normal;
-    normals[i+2] = normal;
+    fNormals[i] = normal;
+    fNormals[i+1] = normal;
+    fNormals[i+2] = normal;
   }
 }
 
 auto
-Mesh::Draw() -> void
+Pneumatic::Mesh::Draw() -> void
 {
-  glBindVertexArray(vao);
-  glDrawElements(type , numVertices , GL_UNSIGNED_INT , 0);
-  glDrawArrays(type, 0, numVertices * sizeof(glm::vec3));
+  glBindVertexArray(fVao);
+  glDrawElements(fType , fNumVertices , GL_UNSIGNED_INT , 0);
+  glDrawArrays(fType, 0, fNumVertices * sizeof(glm::vec3));
   glBindVertexArray(0);
 }
 
 auto
-Mesh::BufferData() -> void
+Pneumatic::Mesh::_BufferData() -> void
 {
   GLuint positionVBO;
   GLuint colorVBO;
   GLuint textureVBO;
   GLuint normalsVBO;
 
-  glGenVertexArrays(1, &vao);
-  glBindVertexArray(vao);
+  glGenVertexArrays(1, &fVao);
+  glBindVertexArray(fVao);
 
   glGenBuffers(1, &positionVBO);
   glBindBuffer(GL_ARRAY_BUFFER, positionVBO);
 
   int index = 0;
 
-  glBufferData(GL_ARRAY_BUFFER, numVertices * sizeof(glm::vec3),
-               &vertices[0], GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, fNumVertices * sizeof(glm::vec3),
+               &fVertices[0], GL_STATIC_DRAW);
   glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, 0, 0);
   glEnableVertexAttribArray(index);
 
   index++;
-  if (colors) {
+  if (fColors) {
     glGenBuffers(1, &colorVBO);
     glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
 
-    glBufferData(GL_ARRAY_BUFFER, numVertices * sizeof(glm::vec4),
-                 &colors[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, fNumVertices * sizeof(glm::vec4),
+                 &fColors[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(index);
     glVertexAttribPointer(index, 4, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
   }
   index++;
-  if (texCoords) {
+  if (fTexCoords) {
     glGenBuffers(1, &textureVBO);
     glBindBuffer(GL_ARRAY_BUFFER, textureVBO);
-    glBufferData(GL_ARRAY_BUFFER, numVertices * sizeof(glm::vec2),
-                 &texCoords[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, fNumVertices * sizeof(glm::vec2),
+                 &fTexCoords[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(index);
     glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
   }
   index++;
-  if (normals) {
+  if (fNormals) {
     glGenBuffers(1, &normalsVBO);
     glBindBuffer(GL_ARRAY_BUFFER, normalsVBO);
-    glBufferData(GL_ARRAY_BUFFER , numVertices * sizeof(glm::vec3),
-                 &normals[0], GL_STATIC_DRAW );
+    glBufferData(GL_ARRAY_BUFFER , fNumVertices * sizeof(glm::vec3),
+                 &fNormals[0], GL_STATIC_DRAW );
     glEnableVertexAttribArray(index);
     glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, 0, 0);
 

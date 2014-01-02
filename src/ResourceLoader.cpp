@@ -10,22 +10,25 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <GLFW/glfw3.h>
+
 #include "Config.hpp"
+#include "Mesh.hpp"
 
 #include "ResourceLoader.hpp"
 
 auto
-ResourceLoader::LoadTextFile(std::string const &path) -> const std::string
+Pneumatic::ResourceLoader::LoadTextFile(std::string const &path) -> const std::string
 {
   std::string fileContents;
   std::ifstream fileStream(path, std::ios::in);
   if (fileStream.is_open()) {
     std::string line = "";
     while (getline(fileStream, line)) {
-        fileContents += "\n" + line;
+        fileContents += '\n' + line;
     }
     fileStream.close();
   }

@@ -9,11 +9,6 @@
 #include <exception>
 #include <iostream>
 
-#include <gl/glew.h>
-#define GLFW_INCLUDE_GL3
-#define GLFW_NO_GLU
-#include <GLFW/glfw3.h>
-
 #include "Renderer.hpp"
 #include "Window.hpp"
 

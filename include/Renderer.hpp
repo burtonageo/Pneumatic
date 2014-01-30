@@ -13,8 +13,11 @@
 
 #include <list>
 
+#define GLFW_INCLUDE_GL3
+#define GLFW_NO_GLU
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
 #include <glm/glm.hpp>
 
 namespace Pneumatic {

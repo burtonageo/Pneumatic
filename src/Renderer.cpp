@@ -8,10 +8,6 @@
 
 #include "Renderer.hpp"
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
-#include <glm/glm.hpp>
 #define GLM_FORCE_RADIANS
 #include <glm/gtc/matrix_transform.hpp>
 

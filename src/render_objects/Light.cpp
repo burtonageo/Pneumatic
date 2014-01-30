@@ -8,7 +8,9 @@
 
 #include "Light.hpp"
 
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
 #include <glm/glm.hpp>
 
 Pneumatic::Light::Light(glm::vec4 col,

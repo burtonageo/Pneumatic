@@ -11,7 +11,7 @@
 #ifndef PNEUMATIC_LIGHT_HPP
 #define PNEUMATIC_LIGHT_HPP
 
-#include <glm/fwd.hpp>
+#include <glm/glm.hpp>
 
 namespace Pneumatic {
 

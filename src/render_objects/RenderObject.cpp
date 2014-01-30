@@ -13,9 +13,9 @@ Pneumatic::RenderObject::RenderObject(Pneumatic::Mesh *m)
   :
   fMesh(m),
   fModelMatrix(glm::mat4(1.0)),
-  shaders(new std::vector<Shader*>()),
-  textures(new std::vector<Texture*>()),
-  shaderUpdaters(new std::vector<___hidden___::ShaderUpdateMixin*>()),
+  fShaders(new std::vector<Shader*>()),
+  fTextures(new std::vector<Texture*>()),
+  fShaderUpdaters(new std::vector<___hidden___::ShaderUpdateMixin*>()),
   fCurrentShaderIndex(0)
 {
 
@@ -24,22 +24,22 @@ Pneumatic::RenderObject::RenderObject(Pneumatic::Mesh *m)
 Pneumatic::RenderObject::~RenderObject()
 {
   delete fMesh;
-  delete shaders;
-  if (textures != nullptr) {
-    delete textures;
+  delete fShaders;
+  if (fTextures != nullptr) {
+    delete fTextures;
   }
 }
 
 auto
 Pneumatic::RenderObject::Update(double delta) -> void
 { 
-  shaderUpdaters->at(fCurrentShaderIndex)->Update(delta);
+  fShaderUpdaters->at(fCurrentShaderIndex)->Update(delta);
 }
 
 auto
 Pneumatic::RenderObject::AddTexture(std::string const &texFile) -> void
 {
-  textures->push_back(new Texture(texFile));
+  fTextures->push_back(new Texture(texFile));
 }
 
 auto
@@ -51,14 +51,14 @@ Pneumatic::RenderObject::SetShaderLight(Light *light) -> void
 auto
 Pneumatic::RenderObject::UseShader() -> void
 {
-  glUseProgram(shaders->at(fCurrentShaderIndex)->GetShaderProgram());
+  glUseProgram(fShaders->at(fCurrentShaderIndex)->GetShaderProgram());
 }
 
 auto
 Pneumatic::RenderObject::Draw() -> void
 {
-  auto *currShader = shaders->at(fCurrentShaderIndex);
-  auto *currTexture = textures->at(fCurrentShaderIndex); 
+  auto *currShader = fShaders->at(fCurrentShaderIndex);
+  auto *currTexture = fTextures->at(fCurrentShaderIndex); 
   if (currTexture != nullptr) {
     currTexture->Bind(currShader);
   }

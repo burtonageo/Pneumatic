@@ -15,37 +15,40 @@
 #include "RenderObject.hpp"
 
 namespace Pneumatic {
-  namespace ___hidden___ {
-    class CubeShaderUpdate1 : public ShaderUpdateMixin {
-    // TODO: friendship not working
-    public:
-      friend class CubeObject;
-      CubeShaderUpdate1(Shader *s) : ShaderUpdateMixin(s) {}
-      auto Update(double ms) -> void;
-    };
-  
-    class CubeShaderUpdate2 : public ShaderUpdateMixin {
-    // TODO: friendship not working
-    public:
-      friend class CubeObject;
-      CubeShaderUpdate2(Shader *s) : Pneumatic::___hidden___::ShaderUpdateMixin(s) {}
-      auto Update(double ms) -> void;
-    };
-  
-    class CubeShaderUpdate3 : public ShaderUpdateMixin {
-    // TODO: friendship not working
-    public:
-      friend class CubeObject;
-      CubeShaderUpdate3(Pneumatic::Shader *s) : ShaderUpdateMixin(s) {}
-      auto Update(double ms) -> void;
-    };
-  }
-  
-  class CubeObject : public Pneumatic::RenderObject {
-  public:
-    CubeObject();
-    ~CubeObject();
-  };
-}
+namespace ___hidden___ {
+
+class CubeShaderUpdate1 : public ShaderUpdateMixin {
+// TODO: friendship not working
+public:
+    friend class CubeObject;
+    CubeShaderUpdate1(Shader *s) : ShaderUpdateMixin(s) {}
+    auto Update(double ms) -> void;
+};
+
+class CubeShaderUpdate2 : public ShaderUpdateMixin {
+// TODO: friendship not working
+public:
+    friend class CubeObject;
+    CubeShaderUpdate2(Shader *s) : Pneumatic::___hidden___::ShaderUpdateMixin(s) {}
+    auto Update(double ms) -> void;
+};
+
+class CubeShaderUpdate3 : public ShaderUpdateMixin {
+// TODO: friendship not working
+public:
+  friend class CubeObject;
+  CubeShaderUpdate3(Pneumatic::Shader *s) : ShaderUpdateMixin(s) {}
+  auto Update(double ms) -> void;
+};
+
+} // namespace ___hidden___
+
+class CubeObject : public Pneumatic::RenderObject {
+public:
+  CubeObject();
+  ~CubeObject();
+};
+
+} // namespace Pneumatic
 
 #endif // PNEUMATIC_CUBE_OBJECT_HPP

@@ -17,17 +17,17 @@
 #include <GLFW/glfw3.h>
 
 namespace Pneumatic {
-  class Shader;
+class Shader;
 
-  class Texture final {
-  public:
-    Texture(std::string file);
-    ~Texture();
-    auto Bind(Shader*) -> void;
-    auto Unbind() -> void;
-    inline auto GetObject() const -> GLuint {return fObject;};
-  private:
-    GLuint fObject;
-  };
-}
+class Texture final {
+public:
+  Texture(std::string file);
+  ~Texture();
+  auto Bind(Shader*)            -> void;
+  auto Unbind()                 -> void;
+  inline auto GetObject() const -> GLuint {return fObject;};
+private:
+  GLuint fObject;
+};
+} // namespace Pneumatic
 #endif // PNEUMATIC_TEXTURE_HPP

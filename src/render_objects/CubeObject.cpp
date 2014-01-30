@@ -9,6 +9,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#define GLM_FORCE_RADIANS
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Mesh.hpp"
@@ -21,12 +22,12 @@ Pneumatic::CubeObject::CubeObject() :
 {
   Shader *s1 = new Shader("cube1", "cube1", "cube1");
   Shader *s2 = new Shader("cube2", "cube2", "cube2");
-  shaders->push_back(s1);
-  shaders->push_back(s2);
+  fShaders->push_back(s1);
+  fShaders->push_back(s2);
   auto sUpdt1 = new ___hidden___::CubeShaderUpdate1(s1);
   auto sUpdt2 = new ___hidden___::CubeShaderUpdate2(s2);
-  shaderUpdaters->push_back(sUpdt1);
-  shaderUpdaters->push_back(sUpdt2);
+  fShaderUpdaters->push_back(sUpdt1);
+  fShaderUpdaters->push_back(sUpdt2);
   AddTexture("smiley.png");
   AddTexture("noise.png");
 }
@@ -37,7 +38,8 @@ Pneumatic::CubeObject::~CubeObject()
 }
 
 auto
-Pneumatic::___hidden___::CubeShaderUpdate1::Update(double delta) -> void {
+Pneumatic::___hidden___::CubeShaderUpdate1::Update(double delta) -> void
+{
   GLuint program = shader->GetShaderProgram();
   GLint rotRef = glGetUniformLocation(program, "rotAngle");
   glUniform1f(rotRef, static_cast<float>(delta));
@@ -47,7 +49,8 @@ Pneumatic::___hidden___::CubeShaderUpdate1::Update(double delta) -> void {
 
 
 auto
-Pneumatic::___hidden___::CubeShaderUpdate2::Update(double delta) -> void {
+Pneumatic::___hidden___::CubeShaderUpdate2::Update(double delta) -> void
+{
   GLuint program = shader->GetShaderProgram();
   GLint timeRef = glGetUniformLocation(program, "time");
   glUniform1f(timeRef, delta);
@@ -56,7 +59,8 @@ Pneumatic::___hidden___::CubeShaderUpdate2::Update(double delta) -> void {
 }
 
 auto
-Pneumatic::___hidden___::CubeShaderUpdate3::Update(double delta) -> void {
+Pneumatic::___hidden___::CubeShaderUpdate3::Update(double delta) -> void
+{
   GLint rotRef = glGetUniformLocation(shader->GetShaderProgram(), "rotAngle");
   glUniform1f(rotRef, delta);
   GLint timeRef = glGetUniformLocation(shader->GetShaderProgram(), "time");

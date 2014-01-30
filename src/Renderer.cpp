@@ -10,6 +10,7 @@
 #include <GLFW/glfw3.h>
 
 #include <glm/glm.hpp>
+#define GLM_FORCE_RADIANS
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "ResourceLoader.hpp"
@@ -28,12 +29,15 @@ Pneumatic::Renderer::Renderer(Window *window)
   fWidth(0),
   fHeight(0),
   fWindow(window),
+  fFov(45.0f),
+  fNearClip(0.1f),
+  fFarClip(100.0f),
   fViewMatrix(glm::mat4(1.0f)),
   fProjectionMatrix(glm::mat4(1.0f)),
   fTextureMatrix(glm::mat4(1.0f)),
   fModelMatrix(glm::mat4(1.0f)),
   fCameraPos(glm::vec3(4.0f, 0.0f, 4.0f)),
-  fObjects(std::vector<Pneumatic::RenderObject*>())
+  fObjects(std::list<Pneumatic::RenderObject*>())
 {
   glfwSetWindowUserPointer(fWindow->fGlWindow, this);
   glfwSwapInterval(1);
@@ -71,7 +75,7 @@ Pneumatic::Renderer::Renderer(Window *window)
 }
 
 auto
-Pneumatic::Renderer::UpdateShaderMatrices(GLuint program) -> void
+Pneumatic::Renderer::_UpdateShaderMatrices(GLuint program) -> void
 {
   glm::mat4 mvp = fModelMatrix * fProjectionMatrix * fViewMatrix;
   GLuint mvpUniform = glGetUniformLocation(program, "MVP");
@@ -81,22 +85,19 @@ Pneumatic::Renderer::UpdateShaderMatrices(GLuint program) -> void
 auto
 Pneumatic::Renderer::UpdateScene(double ms) -> void
 {
-  float fov = 45.0f;
   float ratio = fWidth/static_cast<float>(fHeight);
-  float nearClip = 0.01f;
-  float farClip = 1000.0f;
-  fProjectionMatrix = glm::perspective(fov, ratio, nearClip, farClip);
+  fProjectionMatrix = glm::perspective(fFov, ratio, fNearClip, fFarClip);
   fViewMatrix = glm::lookAt(
     fCameraPos,
     glm::vec3(0.0f, 0.0f, 0.0f) - fCameraPos, // camera looks at
-    glm::vec3(0.0f, 1.0f, 0.0f)  // up vector
+    glm::vec3(0.0f, 1.0f, 0.0f)               // up vector
   );
   std::for_each(fObjects.begin(),
                 fObjects.end(),
                 [&](Pneumatic::RenderObject *r) {
                   r->Update(ms);
                   fModelMatrix = r->GetModelMatrix();
-                  UpdateShaderMatrices(r->GetShader()->GetShaderProgram());
+                  _UpdateShaderMatrices(r->GetShader()->GetShaderProgram());
                 });
 }
 
@@ -117,8 +118,10 @@ Pneumatic::Renderer::RenderScene(void) -> void
 auto
 Pneumatic::Renderer::ViewportDidResize(int width, int height) -> void
 {
+  fWidth = width;
+  fHeight = height;
   glMatrixMode(GL_PROJECTION);
-  glViewport(0, 0, (GLsizei)width, (GLsizei)height);
+  glViewport(0, 0, (GLsizei)fWidth, (GLsizei)fHeight);
   glMatrixMode(GL_MODELVIEW);
 }
 

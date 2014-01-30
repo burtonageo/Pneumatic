@@ -15,8 +15,10 @@
 #include <utility>
 
 namespace Pneumatic {
-  namespace ResourceLoader {
-    auto LoadTextFile(std::string const &) -> const std::string;
-  };
-}
+namespace ResourceLoader {
+
+auto LoadTextFile(std::string const &) -> const std::string;
+
+} // namespace ResourceLoader
+} // namespace Pneumatic
 #endif // PNEUMATIC_RESOURCE_LOADER_HPP

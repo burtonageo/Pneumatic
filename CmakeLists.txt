@@ -16,7 +16,6 @@ project(glCube)
 
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
-find_package(GLM REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_search_module(GLFW REQUIRED glfw3)
 
@@ -24,6 +23,7 @@ set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")
 set(RO_DIR "${SRC_DIR}/render_objects")
 set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
 set(RO_INCLUDE_DIR "${INCLUDE_DIR}/render_objects")
+set(THIRDPARTY_DIR "${PROJECT_SOURCE_DIR}/thirdparty")
 
 set(SHADER_DIR "${PROJECT_SOURCE_DIR}/shader")
 set(COMPILED_SHADER_DIR "${PROJECT_BINARY_DIR}/shader")
@@ -40,11 +40,6 @@ set(COMPILED_RES_DIR "${PROJECT_BINARY_DIR}/res")
 set(RES_MESH_DIR "${COMPILED_RES_DIR}/mesh")
 set(RES_IMG_DIR "${COMPILED_RES_DIR}/img")
 
-set(SOIL "SOIL")
-set(SOIL_DIR "${PROJECT_SOURCE_DIR}/${SOIL}")
-set(SOIL_HEADERS "${SOIL_DIR}/include")
-set(SOIL_API "${SOIL_DIR}/api")
-
 set(SOURCES
 	"${SRC_DIR}/Main.cpp"
 	"${SRC_DIR}/Renderer.cpp"
@@ -53,7 +48,7 @@ set(SOURCES
 	"${RO_DIR}/Mesh.cpp"
 	"${RO_DIR}/Shader.cpp"
 	"${RO_DIR}/Texture.cpp"
-	"${RO_DIR}/Light.cpp"
+	"${RO_DIR}/Light.cpp"	
 	"${RO_DIR}/RenderObject.cpp"
 	"${RO_DIR}/TriObject.cpp"
 	"${RO_DIR}/CubeObject.cpp")
@@ -62,24 +57,24 @@ configure_file(
 	"${INCLUDE_DIR}/Config.hpp.cmake"
 	"${PROJECT_BINARY_DIR}/Config.hpp")
 
+add_subdirectory(${THIRDPARTY_DIR})
+link_directories(${SOIL})
+
 include_directories(
-	${SOIL_API}
-	${SOIL_HEADERS}
+	${PROJECT_BINARY_DIR}
 	${SRC_DIR}
 	${INCLUDE_DIR}
 	${RO_INCLUDE_DIR}
-	${PROJECT_BINARY_DIR}
+	${GLM_INCLUDE_DIRS}
+	${SOIL_INCLUDE_DIRS}
 	${OPENGL_INCLUDE_DIRS}
 	${GLFW_INCLUDE_DIRS}
 	${GLEW_INCLUDE_DIRS}
-	${GLU_INCLUDE_DIRS}
-	${GLM_INCLUDE_DIRS})
+	${GLU_INCLUDE_DIRS})
 
-add_subdirectory(${SOIL})
-link_directories(${SOIL_DIR})
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-#set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE)
+set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE)
 
 add_custom_command(
 	TARGET ${PROJECT_NAME}
@@ -91,10 +86,10 @@ add_custom_command(
 
 target_link_libraries(${PROJECT_NAME}
 	${OPENGL_LIBRARIES}
-	${GLFW_LIBRARIES}
+	${GLFW_STATIC_LIBRARIES}
 	${GLEW_LIBRARIES}
 	${GLU_LIBRARIES}
-	${SOIL})
+	${SOIL_LIBRARIES})
 
 add_definitions(
 	-std=c++11
@@ -103,4 +98,3 @@ add_definitions(
 	-Wextra
 	-Werror
 	-Wno-unused-parameter)
-#-Wno-unused-variable)

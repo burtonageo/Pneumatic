@@ -19,27 +19,28 @@
 #include "Config.hpp"
 
 namespace Pneumatic {
-  class Renderer;
+class Renderer;
 
-  class Window final {
-  public:
-    Window(std::string const &title = Config::GetProgramName(),
-           int width = 800,
-           int height = 600);
+class Window final {
+public:
+  Window(std::string const &title = Config::GetProgramName(),
+         int width = 800,
+         int height = 600);
 
-    ~Window(void);
-    auto UpdateWindow(void) -> void;
-    auto PollEvents(void) -> void;
-    auto IsRunning(void) const -> bool;
-  private:
-    auto _InitGLFW(std::string const &title) -> void;
+  ~Window(void);
+  auto UpdateWindow(void)                  -> void;
+  auto PollEvents(void)                    -> void;
+  auto IsRunning(void) const               -> bool;
+private:
+  auto _InitGLFW(std::string const &)      -> void;
 
-    int fWidth, fHeight;
-    GLFWwindow *fGlWindow;
-    Renderer *fRenderer;
+  friend class Renderer;
 
-    friend class Renderer;
-  };
-}
+  int         fWidth;
+  int         fHeight;
+  GLFWwindow *fGlWindow;
+  Renderer   *fRenderer;
+};
+} // namespace Pneumatic
 
 #endif // PNEUMATIC_WINDOW_HPP

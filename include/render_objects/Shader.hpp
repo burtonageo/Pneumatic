@@ -14,38 +14,42 @@
 #include <string>
 #include <vector>
 #include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
+#include <glm/fwd.hpp>
 
 namespace Pneumatic {
-  namespace ___hidden___ {
-    class ShaderUpdateMixin;
-  }
+namespace ___hidden___ {
 
-  class Shader {
-  public:
-    Shader(std::string const &vertFile, std::string const &fragFile,
-           std::string const &geomFile = "",
-           std::string const &tcsFile = "",
-           std::string const &tesFile = "");
-    Shader(Shader const &);
-    ~Shader();
+class ShaderUpdateMixin;
 
-    inline auto GetShaderProgram(void) const -> GLuint {return fProgramID;}
-    auto Update(double ms)                   -> void;
-  private:
-    class Mesh;
-    class RenderObject;
+} // namespace ___hidden___
 
-    friend class Mesh;
-    friend class RenderObject;
-    friend class ___hidden___::ShaderUpdateMixin;
+class Shader {
+public:
+  Shader(std::string const &vertFile, std::string const &fragFile,
+         std::string const &geomFile = "",
+         std::string const &tcsFile = "",
+         std::string const &tesFile = "");
+  Shader(Shader const &);
+  ~Shader();
 
-    static auto _CompileShader(GLuint shaderID, const char *sourcePtr,
-                              GLint result, int infoLogLength,
-                              std::vector<char> errorVec)             -> void;
-    auto _SetDefaultAttributes()                                      -> void;
+  auto Update(double ms)                   -> void;
+  inline auto GetShaderProgram(void) const -> GLuint {return fProgramID;}
+private:
+  static auto _CompileShader(GLuint shaderID, const char *sourcePtr,
+                             GLint result, int infoLogLength,
+                             std::vector<char> errorVec)            -> void;
+  auto _SetDefaultAttributes()                                      -> void;
 
-    GLuint fProgramID;
-  };
-}
+  GLuint fProgramID;
+
+  class Mesh;
+  class RenderObject;
+
+  friend class Mesh;
+  friend class RenderObject;
+  friend class ___hidden___::ShaderUpdateMixin;
+};
+
+} // namespace Pneumatic
+
 #endif // PNEUMATIC_SHADER_HPP

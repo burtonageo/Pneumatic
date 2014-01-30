@@ -14,41 +14,44 @@
 #include <string>
 #include <vector>
 
-#include <glm/glm.hpp>
 #include <GLFW/glfw3.h>
+#define GLM_FORCE_RADIANS
+#include <glm/fwd.hpp>
 
 namespace Pneumatic {
-  class Mesh final {
-  public:
-    Mesh(int numVerts = 0,
-         glm::vec3 *vertices = nullptr);
-    ~Mesh();
 
-    static auto GenerateTriangle(void)                   -> Mesh*;
-    static auto GenerateCube(void)                       -> Mesh*;
-    static auto NewFromObjFile(std::string const &fname) -> Mesh*;
+class Mesh final {
+public:
+  Mesh(int numVerts = 0,
+       glm::vec3 *vertices = nullptr);
+  ~Mesh();
 
-    auto Draw(void)                                      -> void;
+  static auto GenerateTriangle(void)                   -> Mesh*;
+  static auto GenerateCube(void)                       -> Mesh*;
+  static auto NewFromObjFile(std::string const &fname) -> Mesh*;
 
-  private:
-    static auto _LoadFromFile(std::string const &file)   -> Mesh*;
+  auto Draw(void)                                      -> void;
 
-    auto _GenerateNormals(void)                          -> void;
-    auto _BufferData(void)                               -> void;
+private:
+  static auto _LoadFromFile(std::string const &file)   -> Mesh*;
 
-    class RenderObject;
-    friend class RenderObject;
+  auto _GenerateNormals(void)                          -> void;
+  auto _BufferData(void)                               -> void;
 
-    int fNumVertices;
+  class RenderObject;
+  friend class RenderObject;
 
-    glm::vec3 *fVertices;
-    glm::vec3 *fNormals;
-    glm::vec4 *fColors;
-    glm::vec2 *fTexCoords;
+  int fNumVertices;
 
-    GLuint fVao;
-    GLuint fType;
-  };
-}
+  glm::vec3 *fVertices;
+  glm::vec3 *fNormals;
+  glm::vec4 *fColors;
+  glm::vec2 *fTexCoords;
+
+  GLuint fVao;
+  GLuint fType;
+};
+
+} // namespace Pneumatic
 
 #endif // PNEUMATIC_MESH_HPP

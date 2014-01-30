@@ -30,7 +30,7 @@ Pneumatic::Texture::Texture(std::string fileName)
   int width;
   int height;
   int channels;
-  
+
   unsigned char *texData = SOIL_load_image(filePath.c_str(),
                                            &width, &height, &channels, 0);
   if (texData == NULL) {

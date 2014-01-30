@@ -20,7 +20,8 @@
 #include "Shader.hpp"
 #include "Mesh.hpp"
 
-Pneumatic::Mesh::Mesh(int numVerts, glm::vec3 *vertices) :
+Pneumatic::Mesh::Mesh(int numVerts, glm::vec3 *vertices)
+  :
   fNumVertices(numVerts),
   fVertices(vertices),
   fNormals(nullptr),
@@ -96,9 +97,10 @@ Pneumatic::Mesh::_LoadFromFile(std::string const &fileName) -> Mesh*
   mesh->fType = GL_TRIANGLES;
   fs >> mesh->fNumVertices;
 
-  int hasTex = 0; int hasColour = 0;
-  fs >> hasTex;
+  int hasTex = 0;
+  int hasColour = 0;
   fs >> hasColour;
+  fs >> hasTex;
 
   mesh->fVertices = new glm::vec3[mesh->fNumVertices];
   mesh->fNormals = new glm::vec3[mesh->fNumVertices];
@@ -153,7 +155,7 @@ auto
 Pneumatic::Mesh::Draw() -> void
 {
   glBindVertexArray(fVao);
-  glDrawElements(fType , fNumVertices , GL_UNSIGNED_INT , 0);
+  glDrawElements(fType, fNumVertices, GL_UNSIGNED_INT, 0);
   glDrawArrays(fType, 0, fNumVertices * sizeof(glm::vec3));
   glBindVertexArray(0);
 }
@@ -206,7 +208,7 @@ Pneumatic::Mesh::_BufferData() -> void
   if (fNormals) {
     glGenBuffers(1, &normalsVBO);
     glBindBuffer(GL_ARRAY_BUFFER, normalsVBO);
-    glBufferData(GL_ARRAY_BUFFER , fNumVertices * sizeof(glm::vec3),
+    glBufferData(GL_ARRAY_BUFFER, fNumVertices * sizeof(glm::vec3),
                  &fNormals[0], GL_STATIC_DRAW );
     glEnableVertexAttribArray(index);
     glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, 0, 0);

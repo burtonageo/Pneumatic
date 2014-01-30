@@ -11,7 +11,7 @@ Pneumatic::TriObject::TriObject(void)
   :
   RenderObject(Pneumatic::Mesh::GenerateTriangle())
 {
-  shaders->push_back(new Pneumatic::Shader("tri", "tri"));
+  fShaders->push_back(new Pneumatic::Shader("tri", "tri"));
   AddTexture("noise.png");
 }
 

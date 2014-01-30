@@ -6,6 +6,8 @@
  * File: Window.cpp
  */
 
+#include "Window.hpp"
+
 #include <cstdio>
 #include <cstdlib>
 #include <exception>
@@ -17,7 +19,6 @@
 #include "Config.hpp"
 
 #include "Renderer.hpp"
-#include "Window.hpp"
 
 Pneumatic::Window::Window(std::string const &title,
                           int width,

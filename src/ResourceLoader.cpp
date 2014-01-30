@@ -6,6 +6,8 @@
  * File: ResourceLoader.cpp
  */
 
+#include "ResourceLoader.hpp"
+
 #include <algorithm>
 #include <fstream>
 #include <iostream>
@@ -17,8 +19,6 @@
 
 #include "Config.hpp"
 #include "Mesh.hpp"
-
-#include "ResourceLoader.hpp"
 
 auto
 Pneumatic::ResourceLoader::LoadTextFile(std::string const &path) -> const std::string

@@ -1,3 +1,11 @@
+/**
+ * CSC3223 Graphics for Games
+ * Coursework 2
+ * Name: George Burton
+ * Student Number: 110204567
+ * File: Light.hpp
+ */
+
 #pragma once
 
 #ifndef PNEUMATIC_LIGHT_HPP

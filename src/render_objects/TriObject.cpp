@@ -1,3 +1,13 @@
+/**
+ * CSC3223 Graphics for Games
+ * Coursework 2
+ * Name: George Burton
+ * Student Number: 110204567
+ * File: TriObject.cpp
+ */
+
+#include "TriObject.hpp"
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -5,7 +15,6 @@
 #include "Texture.hpp"
 #include "Mesh.hpp"
 #include "Shader.hpp"
-#include "TriObject.hpp"
 
 Pneumatic::TriObject::TriObject(void)
   :

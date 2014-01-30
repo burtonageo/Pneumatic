@@ -6,6 +6,8 @@
  * File: Renderer.cpp
  */
 
+#include "Renderer.hpp"
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -19,8 +21,6 @@
 #include "CubeObject.hpp"
 #include "Shader.hpp"
 #include "Window.hpp"
-
-#include "Renderer.hpp"
 
 bool Pneumatic::Renderer::sGlewInitialized = false;
 

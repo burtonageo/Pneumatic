@@ -3,8 +3,10 @@
  * Coursework 2
  * Name: George Burton
  * Student Number: 110204567
- * File: GLWindow.cpp
+ * File: Mesh.cpp
  */
+
+#include "Mesh.hpp"
 
 #include <algorithm>
 #include <iostream>
@@ -18,7 +20,6 @@
 
 #include "ResourceLoader.hpp"
 #include "Shader.hpp"
-#include "Mesh.hpp"
 
 Pneumatic::Mesh::Mesh(int numVerts, glm::vec3 *vertices)
   :

@@ -3,7 +3,7 @@
  * Coursework 2
  * Name: George Burton
  * Student Number: 110204567
- * File: Shader.hdpp
+ * File: Shader.hpp
  */
 
 #pragma once

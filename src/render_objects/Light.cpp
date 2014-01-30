@@ -1,7 +1,15 @@
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
+/**
+ * CSC3223 Graphics for Games
+ * Coursework 2
+ * Name: George Burton
+ * Student Number: 110204567
+ * File: Light.cpp
+ */
 
 #include "Light.hpp"
+
+#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 
 Pneumatic::Light::Light(glm::vec4 col,
                         glm::vec4 pos,

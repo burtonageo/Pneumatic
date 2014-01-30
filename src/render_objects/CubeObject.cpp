@@ -6,16 +6,18 @@
  * File: ResourceLoader.hpp
  */
 
+#include "CubeObject.hpp"
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+
 #define GLM_FORCE_RADIANS
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Mesh.hpp"
 #include "Shader.hpp"
 #include "RenderObject.hpp"
-#include "CubeObject.hpp"
 
 Pneumatic::CubeObject::CubeObject() :
   RenderObject(Mesh::GenerateCube())

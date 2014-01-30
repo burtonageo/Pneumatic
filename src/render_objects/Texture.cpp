@@ -6,6 +6,8 @@
  * File: Texture.cpp
  */
 
+#include "Texture.hpp"
+
 #include <cstdlib>
 #include <string>
 #include <iostream>
@@ -17,7 +19,6 @@
 
 #include "Config.hpp"
 #include "Shader.hpp"
-#include "Texture.hpp"
 
 Pneumatic::Texture::Texture(std::string fileName)
   :

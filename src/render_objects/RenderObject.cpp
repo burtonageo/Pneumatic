@@ -1,3 +1,13 @@
+/**
+ * CSC3223 Graphics for Games
+ * Coursework 2
+ * Name: George Burton
+ * Student Number: 110204567
+ * File: RenderObject.cpp
+ */
+
+#include "RenderObject.hpp"
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -7,7 +17,6 @@
 #include "Mesh.hpp"
 #include "Shader.hpp"
 #include "Texture.hpp"
-#include "RenderObject.hpp"
 
 Pneumatic::RenderObject::RenderObject(Pneumatic::Mesh *m)
   :

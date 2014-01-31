@@ -32,6 +32,7 @@ Pneumatic::Renderer::Renderer(Window *window)
   fProjectionMatrix(glm::mat4(1.0f)),
   fTextureMatrix(glm::mat4(1.0f)),
   fModelMatrix(glm::mat4(1.0f)),
+  fBackgroundColor(glm::vec4(0.3f, 0.3f, 0.3f, 1.0f)),
   fCameraPos(glm::vec3(4.0f, 0.0f, 4.0f)),
   fObjects(std::list<Pneumatic::RenderObject*>())
 {
@@ -93,7 +94,10 @@ auto
 Pneumatic::Renderer::RenderScene(void) -> void
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+  glClearColor(fBackgroundColor.r,
+               fBackgroundColor.g,
+               fBackgroundColor.b,
+               fBackgroundColor.a);
   std::for_each(fObjects.begin(),
                 fObjects.end(),
                 [&](Pneumatic::RenderObject *r) {

@@ -28,27 +28,30 @@ class Renderer {
 public:
   Renderer(Window*);
 
-  auto UpdateScene(double ms)          -> void;
-  auto RenderScene(void)               -> void;
-  auto ViewportDidResize(int w, int h) -> void;
+  auto UpdateScene(double ms)                     -> void;
+  auto RenderScene(void)                          -> void;
+  auto ViewportDidResize(int w, int h)            -> void;
   auto KeyWasPressed(int key,
                      int scanCode,
                      int action,
-                     int mods)         -> void;
-  auto QuitWasRequested(void)          -> bool;
+                     int mods)                    -> void;
+  auto QuitWasRequested(void)                     -> bool;
 
-  inline auto GetFov(void) const       -> float {return fFov;}
-  inline auto SetFov(float fov)        -> void  {fFov = fov;}
+  inline auto GetFov(void) const                  -> float {return fFov;}
+  inline auto SetFov(float fov)                   -> void  {fFov = fov;}
 
-  inline auto GetNearClip(void) const  -> float {return fNearClip;}
-  inline auto SetNearClip(float nc)    -> void  {fNearClip = nc;}
+  inline auto GetNearClip(void) const             -> float {return fNearClip;}
+  inline auto SetNearClip(float nc)               -> void  {fNearClip = nc;}
 
-  inline auto GetFarClip(void) const   -> float {return fFarClip;}
-  inline auto SetFarClip(float fc)     -> void  {fFarClip = fc;}
+  inline auto GetFarClip(void) const              -> float {return fFarClip;}
+  inline auto SetFarClip(float fc)                -> void  {fFarClip = fc;}
+
+  inline auto GetBackgroundColor(void) const      -> glm::vec4 {return fBackgroundColor;}
+  inline auto SetBackgroundColor(glm::vec4 color) -> void      {fBackgroundColor = color;}
 protected:
-  auto _UpdateShaderMatrices(GLuint)   -> void;
+  auto _UpdateShaderMatrices(GLuint)              -> void;
 private:
-  auto _SetupContext(void)             -> void;
+  auto _SetupContext(void)                        -> void;
 
   static bool sGlewInitialized;
 
@@ -65,6 +68,7 @@ private:
   glm::mat4 fTextureMatrix;
   glm::mat4 fModelMatrix;
 
+  glm::vec4 fBackgroundColor;
   glm::vec3 fCameraPos;
 
   std::list<Pneumatic::RenderObject*> fObjects;

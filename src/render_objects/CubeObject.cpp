@@ -20,7 +20,8 @@
 #include "Shader.hpp"
 #include "RenderObject.hpp"
 
-Pneumatic::CubeObject::CubeObject() :
+Pneumatic::CubeObject::CubeObject()
+  :
   RenderObject(Mesh::GenerateCube())
 {
   Shader *s1 = new Shader("cube1", "cube1", "cube1");

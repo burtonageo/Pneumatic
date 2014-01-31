@@ -1,3 +1,11 @@
+#
+# CSC3223 Graphics for Games
+# Coursework 2
+# Name: George Burton
+# Student Number: 110204567
+# File: thirdparty/CMakeLists.txt
+#
+
 cmake_minimum_required(VERSION 2.8)
 
 set(GLM_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/glm" PARENT_SCOPE)

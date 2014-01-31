@@ -71,14 +71,6 @@ Pneumatic::Renderer::Renderer(Window *window)
 }
 
 auto
-Pneumatic::Renderer::_UpdateShaderMatrices(GLuint program) -> void
-{
-  glm::mat4 mvp = fModelMatrix * fProjectionMatrix * fViewMatrix;
-  GLuint mvpUniform = glGetUniformLocation(program, "MVP");
-  glUniformMatrix4fv(mvpUniform, 1, GL_FALSE, &mvp[0][0]);
-}
-
-auto
 Pneumatic::Renderer::UpdateScene(double ms) -> void
 {
   float ratio = fWidth/static_cast<float>(fHeight);
@@ -167,6 +159,14 @@ auto
 Pneumatic::Renderer::QuitWasRequested(void) -> bool
 {
   return false;
+}
+
+auto
+Pneumatic::Renderer::_UpdateShaderMatrices(GLuint program) -> void
+{
+  glm::mat4 mvp = fModelMatrix * fProjectionMatrix * fViewMatrix;
+  GLuint mvpUniform = glGetUniformLocation(program, "MVP");
+  glUniformMatrix4fv(mvpUniform, 1, GL_FALSE, &mvp[0][0]);
 }
 
 auto

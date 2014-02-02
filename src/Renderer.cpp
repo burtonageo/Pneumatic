@@ -153,7 +153,7 @@ Pneumatic::Renderer::_SetupContext(void) -> void
   glfwSetWindowUserPointer(fWindow->fGlWindow, this);
   glfwSwapInterval(1);
   glfwMakeContextCurrent(fWindow->fGlWindow);
-  
+
   if (!sGlewInitialized) {
     glewExperimental = GL_TRUE;
     GLenum err = glewInit();
@@ -163,12 +163,12 @@ Pneumatic::Renderer::_SetupContext(void) -> void
     sGlewInitialized = true;
     glGetError();
   }
-  
+
   glfwSetKeyCallback(fWindow->fGlWindow, StaticRendererKeypressCallback);
   glfwSetWindowCloseCallback(fWindow->fGlWindow, StaticRendererQuitRequestedCallback);
   glfwSetFramebufferSizeCallback(fWindow->fGlWindow, StaticRendererResizeCallback);
   glfwSetWindowRefreshCallback(fWindow->fGlWindow, StaticRendererRefreshCallback);
-  
+
   glEnable(GL_MULTISAMPLE);
   glEnable(GL_CULL_FACE);
   glEnable(GL_BLEND);

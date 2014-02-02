@@ -86,7 +86,7 @@ Pneumatic::Mesh::NewFromObjFile(std::string const &fname) -> Mesh*
 auto
 Pneumatic::Mesh::_LoadFromFile(std::string const &fileName) -> Mesh*
 {
-  std::string filePath = Config::GetMeshResDir() + fileName + ".mesh";
+  std::string filePath = Config::kMeshResDir + fileName + ".mesh";
   std::ifstream fs(filePath);
   if (!fs) {
     return nullptr;

@@ -14,19 +14,21 @@
 #include <string>
 
 namespace Pneumatic {
-  namespace Config {
-    inline auto GetFragmentDir() -> std::string {return "@FRAGMENT_DIR@/";}
-    inline auto GetVertexDir()   -> std::string {return "@VERTEX_DIR@/";}
-    inline auto GetGeometryDir() -> std::string {return "@GEOMETRY_DIR@/";}
-    inline auto GetTessEvalDir() -> std::string {return "@TESS_EVAL_DIR@/";}
-    inline auto GetTessCtrlDir() -> std::string {return "@TESS_CONTROL_DIR@/";}
-    inline auto GetMeshResDir()  -> std::string {return "@RES_MESH_DIR@/";}
-    inline auto GetImgResDir()   -> std::string {return "@RES_IMG_DIR@/";}
-    inline auto GetProgramName() -> std::string {return "@PROJECT_NAME@";}
-  
-    inline auto GetProgramVersionMajor() -> int {return @PROJECT_VERSION_MAJOR@;}
-    inline auto GetProgramVersionMinor() -> int {return @PROJECT_VERSION_MINOR@;}
-  }
-}
+namespace Config {
+
+static const std::string kFragmentDir = "@FRAGMENT_DIR@/";
+static const std::string kVertexDir   = "@VERTEX_DIR@/";
+static const std::string kGeometryDir = "@GEOMETRY_DIR@/";
+static const std::string kTessEvalDir = "@TESS_EVAL_DIR@/";
+static const std::string kTessCtrlDir = "@TESS_CONTROL_DIR@/";
+static const std::string kMeshResDir  = "@RES_MESH_DIR@/";
+static const std::string kImgResDir   = "@RES_IMG_DIR@/";
+static const std::string kProgramName = "@PROJECT_NAME@";
+
+static const int kProgramVersionMajor = @PROJECT_VERSION_MAJOR@;
+static const int kProgramVersionMinor = @PROJECT_VERSION_MINOR@;
+
+} // namespace Config
+} // namespace Pneumatic
 
 #endif // CONFIG_HPP

@@ -12,8 +12,6 @@
 #include <cstdlib>
 #include <iostream>
 
-#include "Config.hpp"
-
 #include "Renderer.hpp"
 
 Pneumatic::Window::Window(std::string const &title,

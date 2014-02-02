@@ -20,7 +20,7 @@ Pneumatic::Texture::Texture(std::string fileName)
   :
   fObject(0)
 {
-  std::string filePath = Config::GetImgResDir() + fileName;
+  std::string filePath = Config::kImgResDir + fileName;
   glGenTextures(1, &fObject);
   glBindTexture(GL_TEXTURE_2D, fObject);
 

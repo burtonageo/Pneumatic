@@ -48,17 +48,17 @@ Pneumatic::Shader::Shader(std::string const &vertFile, std::string const &fragFi
   const std::string tcsFileExt = ".tcs_glsl";
   const std::string tesFileExt = ".tes_glsl";
 
-  const std::string vertShaderPath = Config::GetVertexDir() + vertFile + vertFileExt;
-  const std::string fragShaderPath = Config::GetFragmentDir() + fragFile + fragFileExt;
-  const std::string geomShaderPath = MAYBE_CREATE_SHADER_PATH(Config::GetGeometryDir(),
+  const std::string vertShaderPath = Config::kVertexDir + vertFile + vertFileExt;
+  const std::string fragShaderPath = Config::kFragmentDir + fragFile + fragFileExt;
+  const std::string geomShaderPath = MAYBE_CREATE_SHADER_PATH(Config::kGeometryDir,
                                                               geomFile,
                                                               geomFileExt);
 
-  const std::string tctrlShaderPath = MAYBE_CREATE_SHADER_PATH(Config::GetTessCtrlDir(),
+  const std::string tctrlShaderPath = MAYBE_CREATE_SHADER_PATH(Config::kTessCtrlDir,
                                                                tcsFile,
                                                                tcsFileExt);
 
-  const std::string tevalShaderPath = MAYBE_CREATE_SHADER_PATH(Config::GetTessEvalDir(),
+  const std::string tevalShaderPath = MAYBE_CREATE_SHADER_PATH(Config::kTessEvalDir,
                                                                tesFile,
                                                                tesFileExt);
   auto vertShaderCode = ResourceLoader::LoadTextFile(vertShaderPath);

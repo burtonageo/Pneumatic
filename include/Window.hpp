@@ -26,7 +26,7 @@ class Renderer;
 
 class Window final {
 public:
-  Window(std::string const &title = Config::GetProgramName(),
+  Window(std::string const &title = Config::kProgramName,
          int width = 800,
          int height = 600);
 

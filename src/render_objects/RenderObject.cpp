@@ -8,7 +8,6 @@
 
 #include "RenderObject.hpp"
 
-#include "Config.hpp"
 #include "Light.hpp"
 #include "Mesh.hpp"
 #include "Shader.hpp"

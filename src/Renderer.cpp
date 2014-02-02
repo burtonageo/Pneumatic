@@ -36,32 +36,6 @@ Pneumatic::Renderer::Renderer(Window *window)
   fCameraPos(glm::vec3(4.0f, 0.0f, 4.0f)),
   fObjects(std::list<Pneumatic::RenderObject*>())
 {
-  glfwSetWindowUserPointer(fWindow->fGlWindow, this);
-  glfwSwapInterval(1);
-  glfwMakeContextCurrent(fWindow->fGlWindow);
-
-  if (!sGlewInitialized) {
-    glewExperimental = GL_TRUE;
-    GLenum err = glewInit();
-    if (err != GLEW_OK) {
-      throw new std::runtime_error("GLEW not initialized");
-    }
-    sGlewInitialized = true;
-    glGetError();
-  }
-
-  glfwSetKeyCallback(fWindow->fGlWindow, StaticRendererKeypressCallback);
-  glfwSetWindowCloseCallback(fWindow->fGlWindow, StaticRendererQuitRequestedCallback);
-  glfwSetFramebufferSizeCallback(fWindow->fGlWindow, StaticRendererResizeCallback);
-  glfwSetWindowRefreshCallback(fWindow->fGlWindow, StaticRendererRefreshCallback);
-
-  glEnable(GL_MULTISAMPLE);
-  glEnable(GL_CULL_FACE);
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  glEnable(GL_DEPTH_TEST);
-  glDepthFunc(GL_LESS);
-
   _SetupContext();
   fWindow->fRenderer = this;
   fWidth = fWindow->fWidth;
@@ -176,6 +150,32 @@ Pneumatic::Renderer::_UpdateShaderMatrices(GLuint program) -> void
 auto
 Pneumatic::Renderer::_SetupContext(void) -> void
 {
+  glfwSetWindowUserPointer(fWindow->fGlWindow, this);
+  glfwSwapInterval(1);
+  glfwMakeContextCurrent(fWindow->fGlWindow);
+  
+  if (!sGlewInitialized) {
+    glewExperimental = GL_TRUE;
+    GLenum err = glewInit();
+    if (err != GLEW_OK) {
+      throw new std::runtime_error("GLEW not initialized");
+    }
+    sGlewInitialized = true;
+    glGetError();
+  }
+  
+  glfwSetKeyCallback(fWindow->fGlWindow, StaticRendererKeypressCallback);
+  glfwSetWindowCloseCallback(fWindow->fGlWindow, StaticRendererQuitRequestedCallback);
+  glfwSetFramebufferSizeCallback(fWindow->fGlWindow, StaticRendererResizeCallback);
+  glfwSetWindowRefreshCallback(fWindow->fGlWindow, StaticRendererRefreshCallback);
+  
+  glEnable(GL_MULTISAMPLE);
+  glEnable(GL_CULL_FACE);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glEnable(GL_DEPTH_TEST);
+  glDepthFunc(GL_LESS);
+
   glfwSetTime(0.0);
 }
 

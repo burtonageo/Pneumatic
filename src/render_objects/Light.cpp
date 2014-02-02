@@ -21,7 +21,7 @@ Pneumatic::Light::Light(glm::vec4 col,
   fDirection(dir),
   fRadius(rad) 
 {
-  
+
 }
 
 Pneumatic::Light::~Light()

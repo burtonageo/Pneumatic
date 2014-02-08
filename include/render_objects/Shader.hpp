@@ -19,12 +19,9 @@
 
 #include <glm/fwd.hpp>
 
+#include "UniformDerived.hpp"
+
 namespace Pneumatic {
-namespace ___hidden___ {
-
-class ShaderUpdateMixin;
-
-} // namespace ___hidden___
 
 class Shader {
 public:
@@ -50,7 +47,6 @@ private:
 
   friend class Mesh;
   friend class RenderObject;
-  friend class ___hidden___::ShaderUpdateMixin;
 };
 
 } // namespace Pneumatic

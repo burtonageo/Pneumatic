@@ -12,6 +12,7 @@
 #define PNEUMATIC_RENDERER_HPP
 
 #include <list>
+#include <memory>
 
 #define GLFW_INCLUDE_GL3
 #define GLFW_NO_GLU
@@ -28,30 +29,35 @@ class Renderer {
 public:
   Renderer(Window*);
 
-  auto UpdateScene(double ms)                     -> void;
-  auto RenderScene(void)                          -> void;
-  auto ViewportDidResize(int w, int h)            -> void;
+  auto UpdateScene(double ms)                                      -> void;
+  auto RenderScene(void)                                           -> void;
+
+  auto DrawLine(glm::vec3 from,
+                glm::vec3 to,
+                glm::vec4 col = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)) -> void;
+
+  auto ViewportDidResize(int w, int h)                             -> void;
   auto KeyWasPressed(int key,
                      int scanCode,
                      int action,
-                     int mods)                    -> void;
-  auto QuitWasRequested(void)                     -> bool;
+                     int mods)                                     -> void;
+  auto QuitWasRequested(void)                                      -> bool;
 
-  inline auto GetFov(void) const                  -> float {return fFov;}
-  inline auto SetFov(float fov)                   -> void  {fFov = fov;}
+  inline auto GetFov(void) const                                   -> float {return fFov;}
+  inline auto SetFov(float fov)                                    -> void  {fFov = fov;}
 
-  inline auto GetNearClip(void) const             -> float {return fNearClip;}
-  inline auto SetNearClip(float nc)               -> void  {fNearClip = nc;}
+  inline auto GetNearClip(void) const                              -> float {return fNearClip;}
+  inline auto SetNearClip(float nc)                                -> void  {fNearClip = nc;}
 
-  inline auto GetFarClip(void) const              -> float {return fFarClip;}
-  inline auto SetFarClip(float fc)                -> void  {fFarClip = fc;}
+  inline auto GetFarClip(void) const                               -> float {return fFarClip;}
+  inline auto SetFarClip(float fc)                                 -> void  {fFarClip = fc;}
 
-  inline auto GetBackgroundColor(void) const      -> glm::vec4 {return fBackgroundColor;}
-  inline auto SetBackgroundColor(glm::vec4 color) -> void      {fBackgroundColor = color;}
+  inline auto GetBackgroundColor(void) const                       -> glm::vec4 {return fBackgroundColor;}
+  inline auto SetBackgroundColor(glm::vec4 color)                  -> void      {fBackgroundColor = color;}
 protected:
-  auto _UpdateShaderMatrices(GLuint)              -> void;
+  auto _UpdateShaderMatrices(GLuint)                               -> void;
 private:
-  auto _SetupContext(void)                        -> void;
+  auto _SetupContext(void)                                         -> void;
 
   static bool sGlewInitialized;
 
@@ -71,7 +77,7 @@ private:
   glm::vec4 fBackgroundColor;
   glm::vec3 fCameraPos;
 
-  std::list<Pneumatic::RenderObject*> fObjects;
+  std::list<std::shared_ptr<Pneumatic::RenderObject>> fObjects;
 
   inline static auto StaticRendererResizeCallback(GLFWwindow* win,
                                                   int w,

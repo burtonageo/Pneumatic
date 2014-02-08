@@ -26,5 +26,5 @@ Pneumatic::Light::Light(glm::vec4 col,
 
 Pneumatic::Light::~Light()
 {
-  
+
 }

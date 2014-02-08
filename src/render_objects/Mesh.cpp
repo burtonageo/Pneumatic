@@ -19,13 +19,18 @@
 #include "ResourceLoader.hpp"
 #include "Shader.hpp"
 
-Pneumatic::Mesh::Mesh(int numVerts, glm::vec3 *vertices)
+#include "make_unique.hpp"
+
+using namespace std;
+using namespace glm;
+
+Pneumatic::Mesh::Mesh(int numVerts)
   :
   fNumVertices(numVerts),
-  fVertices(vertices),
-  fNormals(nullptr),
-  fColors(nullptr),
-  fTexCoords(nullptr),
+  fVertices(unique_ptr<vector<vec3>>(nullptr)),
+  fNormals(unique_ptr<vector<vec3>>(nullptr)),
+  fColors(unique_ptr<vector<vec4>>(nullptr)),
+  fTexCoords(unique_ptr<vector<vec2>>(nullptr)),
   fVao(0),
   fType(GL_TRIANGLES)
 {
@@ -34,57 +39,57 @@ Pneumatic::Mesh::Mesh(int numVerts, glm::vec3 *vertices)
 
 Pneumatic::Mesh::~Mesh()
 {
-  delete[] fVertices;
-  delete[] fColors;
-  delete[] fTexCoords;
+
 }
 
 auto
-Pneumatic::Mesh::GenerateTriangle() -> Mesh*
+Pneumatic::Mesh::GenerateTriangle() -> std::shared_ptr<Mesh>
 {
-  Mesh *mesh = new Mesh(3);
+  std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>(3);
 
   using namespace glm;
-  mesh->fVertices = new vec3[mesh->fNumVertices] {
+/*
+  mesh->fVertices = make_unique<vector<vec3>>({
     vec3(-1.0f, -1.0f, 0.0f),
     vec3( 1.0f, -1.0f, 0.0f),
     vec3( 0.0f,  1.0f, 0.0f)
-  };
+  });
 
-  mesh->fColors = new vec4[mesh->fNumVertices] {
+  mesh->fColors = make_unique<vector<vec4>>({
     vec4(1.0f, 0.0f, 0.0f, 1.0f),
     vec4(0.0f, 1.0f, 0.0f, 1.0f),
     vec4(0.0f, 0.0f, 1.0f, 1.0f),  
-  };
+  });
 
-  mesh->fTexCoords = new vec2[mesh->fNumVertices] {
+  mesh->fTexCoords = make_unique<vector<vec2>>({
     vec2(1.0f, 1.0f),
     vec2(0.0f, 1.0f),
     vec2(1.0f, 0.0f)
-  };
+  });
+  */
   mesh->_BufferData();
 
   return mesh;
 }
 
 auto
-Pneumatic::Mesh::GenerateCube() -> Mesh*
+Pneumatic::Mesh::GenerateCube() -> std::shared_ptr<Mesh>
 {
-  Mesh *mesh = _LoadFromFile("cube");
+  std::shared_ptr<Mesh> mesh = _LoadFromFile("cube");
   mesh->_GenerateNormals();
   mesh->_BufferData();
   return mesh;
 }
 
 auto
-Pneumatic::Mesh::NewFromObjFile(std::string const &fname) -> Mesh*
+Pneumatic::Mesh::NewFromObjFile(std::string const &fname) -> std::shared_ptr<Mesh>
 {
-  Mesh *mesh = _LoadFromFile(fname);
+  std::shared_ptr<Mesh> mesh = _LoadFromFile(fname);
   return mesh;
 }
 
 auto
-Pneumatic::Mesh::_LoadFromFile(std::string const &fileName) -> Mesh*
+Pneumatic::Mesh::_LoadFromFile(std::string const &fileName) -> std::shared_ptr<Mesh>
 {
   std::string filePath = Config::kMeshResDir + fileName + ".mesh";
   std::ifstream fs(filePath);
@@ -92,7 +97,7 @@ Pneumatic::Mesh::_LoadFromFile(std::string const &fileName) -> Mesh*
     return nullptr;
   }
 
-  Mesh *mesh = new Mesh();
+  std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
   mesh->fType = GL_TRIANGLES;
   fs >> mesh->fNumVertices;
 
@@ -101,23 +106,22 @@ Pneumatic::Mesh::_LoadFromFile(std::string const &fileName) -> Mesh*
   fs >> hasColour;
   fs >> hasTex;
 
-  mesh->fVertices = new glm::vec3[mesh->fNumVertices];
-  mesh->fNormals = new glm::vec3[mesh->fNumVertices];
-  mesh->fColors = new glm::vec4[mesh->fNumVertices];
-  mesh->fTexCoords = new glm::vec2[mesh->fNumVertices];
+  mesh->fVertices = make_unique<vector<glm::vec3>>(mesh->fNumVertices);
+  mesh->fColors = make_unique<vector<glm::vec4>>(mesh->fNumVertices);
+  mesh->fTexCoords = make_unique<vector<glm::vec2>>(mesh->fNumVertices);
   
   for (int i = 0; i < mesh->fNumVertices; i++) {
-    fs >> mesh->fVertices[i].x;
-    fs >> mesh->fVertices[i].y;
-    fs >> mesh->fVertices[i].z;
+    fs >> (*(mesh->fVertices))[i].x;
+    fs >> (*(mesh->fVertices))[i].y;
+    fs >> (*(mesh->fVertices))[i].z;
   }
 
   if (hasColour) {
     for (int i = 0; i < mesh->fNumVertices; i++) {
-      fs >> mesh->fColors[i].r;
-      fs >> mesh->fColors[i].g;
-      fs >> mesh->fColors[i].b;
-      fs >> mesh->fColors[i].a;
+      fs >> (*(mesh->fColors))[i].r;
+      fs >> (*(mesh->fColors))[i].g;
+      fs >> (*(mesh->fColors))[i].b;
+      fs >> (*(mesh->fColors))[i].a;
     }
   } else {
       mesh->fColors = nullptr;
@@ -125,8 +129,8 @@ Pneumatic::Mesh::_LoadFromFile(std::string const &fileName) -> Mesh*
 
   if (hasTex) {
     for (int i = 0; i < mesh->fNumVertices; i++) {
-      fs >> mesh->fTexCoords[i].x;
-      fs >> mesh->fTexCoords[i].y;
+      fs >> (*(mesh->fTexCoords))[i].x;
+      fs >> (*(mesh->fTexCoords))[i].y;
     }
   }
 
@@ -137,16 +141,16 @@ auto
 Pneumatic::Mesh::_GenerateNormals() -> void
 {
   using namespace glm;
-  fNormals = new vec3[fNumVertices];
+  fNormals = make_unique<vector<glm::vec3>>(fNumVertices);
   for (int i = 0; i < fNumVertices; i+=3) {
-    vec3 &a = fVertices[i];
-    vec3 &b = fVertices[i+1];
-    vec3 &c = fVertices[i+2];
-    vec3 normal = glm::cross(b - a, c - a);
-    glm::normalize(normal);
-    fNormals[i] = normal;
-    fNormals[i+1] = normal;
-    fNormals[i+2] = normal;
+    vec3 &a = (*fVertices)[i];
+    vec3 &b = (*fVertices)[i+1];
+    vec3 &c = (*fVertices)[i+2];
+    vec3 normal = cross(b - a, c - a);
+    normalize(normal);
+    (*fNormals)[i] = normal;
+    (*fNormals)[i+1] = normal;
+    (*fNormals)[i+2] = normal;
   }
 }
 
@@ -176,7 +180,7 @@ Pneumatic::Mesh::_BufferData() -> void
   int index = 0;
 
   glBufferData(GL_ARRAY_BUFFER, fNumVertices * sizeof(glm::vec3),
-               &fVertices[0], GL_STATIC_DRAW);
+               &(fVertices.get())[0], GL_STATIC_DRAW);
   glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, 0, 0);
   glEnableVertexAttribArray(index);
 
@@ -186,7 +190,7 @@ Pneumatic::Mesh::_BufferData() -> void
     glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
 
     glBufferData(GL_ARRAY_BUFFER, fNumVertices * sizeof(glm::vec4),
-                 &fColors[0], GL_STATIC_DRAW);
+                 &(fColors.get())[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(index);
     glVertexAttribPointer(index, 4, GL_FLOAT, GL_FALSE, 0, 0);
 
@@ -197,7 +201,7 @@ Pneumatic::Mesh::_BufferData() -> void
     glGenBuffers(1, &textureVBO);
     glBindBuffer(GL_ARRAY_BUFFER, textureVBO);
     glBufferData(GL_ARRAY_BUFFER, fNumVertices * sizeof(glm::vec2),
-                 &fTexCoords[0], GL_STATIC_DRAW);
+                 &(fTexCoords.get())[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(index);
     glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
@@ -208,7 +212,7 @@ Pneumatic::Mesh::_BufferData() -> void
     glGenBuffers(1, &normalsVBO);
     glBindBuffer(GL_ARRAY_BUFFER, normalsVBO);
     glBufferData(GL_ARRAY_BUFFER, fNumVertices * sizeof(glm::vec3),
-                 &fNormals[0], GL_STATIC_DRAW );
+                 &(fNormals.get())[0], GL_STATIC_DRAW );
     glEnableVertexAttribArray(index);
     glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, 0, 0);
 

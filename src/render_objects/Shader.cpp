@@ -130,12 +130,19 @@ Pneumatic::Shader::~Shader()
 }
 
 auto
+Pneumatic::Shader::Update(double ms) -> void
+{
+
+}
+
+auto
 Pneumatic::Shader::_SetDefaultAttributes() -> void
 {
   const GLuint VERTEX_BUFFER = 0;
   const GLuint COLOR_BUFFER = 1;
   const GLuint TEXTURE_BUFFER = 2;
   const GLuint NORMALS_BUFFER = 3;
+
   glBindAttribLocation(fProgramID, VERTEX_BUFFER,  "position");
   glBindAttribLocation(fProgramID, COLOR_BUFFER,   "color");
   glBindAttribLocation(fProgramID, TEXTURE_BUFFER, "texCoord");

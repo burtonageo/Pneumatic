@@ -13,37 +13,29 @@
 #include "Shader.hpp"
 #include "Texture.hpp"
 
-Pneumatic::RenderObject::RenderObject(Pneumatic::Mesh *m)
+using namespace std;
+
+Pneumatic::RenderObject::RenderObject(std::shared_ptr<Pneumatic::Mesh> m)
   :
   fMesh(m),
   fModelMatrix(glm::mat4(1.0)),
-  fShaders(new std::vector<Shader*>()),
-  fTextures(new std::vector<Texture*>()),
-  fShaderUpdaters(new std::vector<___hidden___::ShaderUpdateMixin*>()),
+  fShaders(unique_ptr<vector<shared_ptr<Shader>>>()),
+  fTextures(unique_ptr<vector<shared_ptr<Texture>>>()),
   fCurrentShaderIndex(0)
 {
 
 }
 
-Pneumatic::RenderObject::~RenderObject()
-{
-  delete fMesh;
-  delete fShaders;
-  if (fTextures != nullptr) {
-    delete fTextures;
-  }
-}
-
 auto
 Pneumatic::RenderObject::Update(double delta) -> void
 { 
-  fShaderUpdaters->at(fCurrentShaderIndex)->Update(delta);
+  fShaders->at(fCurrentShaderIndex)->Update(delta);
 }
 
 auto
 Pneumatic::RenderObject::AddTexture(std::string const &texFile) -> void
 {
-  fTextures->push_back(new Texture(texFile));
+  fTextures->push_back(make_shared<Texture>(texFile));
 }
 
 auto
@@ -61,10 +53,10 @@ Pneumatic::RenderObject::UseShader() -> void
 auto
 Pneumatic::RenderObject::Draw() -> void
 {
-  auto *currShader = fShaders->at(fCurrentShaderIndex);
-  auto *currTexture = fTextures->at(fCurrentShaderIndex); 
+  auto currShader = fShaders->at(fCurrentShaderIndex);
+  auto currTexture = fTextures->at(fCurrentShaderIndex); 
   if (currTexture != nullptr) {
-    currTexture->Bind(currShader);
+    currTexture->Bind(&*currShader);
   }
   fMesh->Draw();
   if (currTexture != nullptr) {

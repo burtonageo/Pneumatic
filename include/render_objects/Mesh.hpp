@@ -12,6 +12,7 @@
 #define PNEUMATIC_MESH_HPP
 
 #include <string>
+#include <memory>
 #include <vector>
 
 #include <GL/glew.h>
@@ -24,18 +25,17 @@ namespace Pneumatic {
 
 class Mesh final {
 public:
-  Mesh(int numVerts = 0,
-       glm::vec3 *vertices = nullptr);
+  Mesh(int numVerts = 0);
   ~Mesh();
 
-  static auto GenerateTriangle(void)                   -> Mesh*;
-  static auto GenerateCube(void)                       -> Mesh*;
-  static auto NewFromObjFile(std::string const &fname) -> Mesh*;
+  static auto GenerateTriangle(void)                   -> std::shared_ptr<Mesh>;
+  static auto GenerateCube(void)                       -> std::shared_ptr<Mesh>;
+  static auto NewFromObjFile(std::string const &fname) -> std::shared_ptr<Mesh>;
 
   auto Draw(void)                                      -> void;
 
 private:
-  static auto _LoadFromFile(std::string const &file)   -> Mesh*;
+  static auto _LoadFromFile(std::string const &file)   -> std::shared_ptr<Mesh>;
 
   auto _GenerateNormals(void)                          -> void;
   auto _BufferData(void)                               -> void;
@@ -45,10 +45,10 @@ private:
 
   int fNumVertices;
 
-  glm::vec3 *fVertices;
-  glm::vec3 *fNormals;
-  glm::vec4 *fColors;
-  glm::vec2 *fTexCoords;
+  std::unique_ptr<std::vector<glm::vec3>> fVertices;
+  std::unique_ptr<std::vector<glm::vec3>> fNormals;
+  std::unique_ptr<std::vector<glm::vec4>> fColors;
+  std::unique_ptr<std::vector<glm::vec2>> fTexCoords;
 
   GLuint fVao;
   GLuint fType;

@@ -12,6 +12,7 @@
 #define PNEUMATIC_RENDEROBJECT_HPP
 
 #include <iostream>
+#include <memory>
 #include <vector>
 
 #include <GL/glew.h>
@@ -21,12 +22,6 @@
 
 namespace Pneumatic {
 
-namespace ___hidden___ {
-
-class ShaderUpdateMixin;
-
-} // namespace ___hidden___
-
 class Light;
 class Mesh;
 class Shader;
@@ -34,26 +29,34 @@ class Texture;
 
 class RenderObject {
 public:
-  RenderObject(Pneumatic::Mesh *m = nullptr);
+  RenderObject(std::shared_ptr<Pneumatic::Mesh> m =
+                 std::shared_ptr<Pneumatic::Mesh>(nullptr));
   ~RenderObject(void);
 
-  auto UseShader(void)                        -> void;
-  auto AddTexture(std::string const &)        -> void;
+  auto UseShader(void)                                    -> void;
+  auto AddTexture(std::string const &)                    -> void;
 
-  auto Update(double delta)                   -> void;
-  auto SetShaderLight(Pneumatic::Light*)      -> void;
-  auto Draw(void)                             -> void;
+  auto Update(double delta)                               -> void;
+  auto SetShaderLight(Pneumatic::Light*)                  -> void;
+  auto Draw(void)                                         -> void;
 
-  inline auto GetMesh(void) const             -> Mesh* {return fMesh;}
-  inline auto SetMesh(Pneumatic::Mesh *m)     -> void  {fMesh = m;}
+  inline auto GetMesh(void) const                         -> std::shared_ptr<Mesh> {return fMesh;}
+  inline auto SetMesh(std::shared_ptr<Pneumatic::Mesh> m) -> void  {fMesh = m;}
 
-  inline auto GetShader(void) const           -> Shader* {return fShaders->at(fCurrentShaderIndex);}
-  inline auto AddShader(Pneumatic::Shader *s) -> void    {fShaders->push_back(s);}
+  inline auto GetShader(void) const                       -> std::shared_ptr<Shader>
+  {
+    return fShaders->at(fCurrentShaderIndex);
+  }
 
-  inline auto GetModelMatrix(void) const      -> glm::mat4 {return fModelMatrix;}
-  inline auto SetModelMatrix(glm::mat4 mat)   -> void      {fModelMatrix = mat;}
+  inline auto AddShader(std::shared_ptr<Pneumatic::Shader> s) -> void
+  {
+    fShaders->push_back(s);
+  }
 
-  inline auto ChangeShaders(void)             -> void
+  inline auto GetModelMatrix(void) const                  -> glm::mat4 {return fModelMatrix;}
+  inline auto SetModelMatrix(glm::mat4 mat)               -> void      {fModelMatrix = mat;}
+
+  inline auto ChangeShaders(void)                         -> void
   {
     fCurrentShaderIndex = fCurrentShaderIndex < (fShaders->size() - 1)
       ? fCurrentShaderIndex + 1
@@ -61,26 +64,14 @@ public:
   }
 
 protected:
-  Mesh     *fMesh;
+  std::shared_ptr<Mesh> fMesh;
   glm::mat4 fModelMatrix;
 
-  std::vector<Shader*>  *fShaders;
-  std::vector<Texture*> *fTextures;
-  std::vector<___hidden___::ShaderUpdateMixin*> *fShaderUpdaters;
+  std::unique_ptr<std::vector<std::shared_ptr<Shader>>>  fShaders;
+  std::unique_ptr<std::vector<std::shared_ptr<Texture>>> fTextures;
 private:
   unsigned long fCurrentShaderIndex;
 };
-
-// Used to update shaders
-namespace ___hidden___ {
-class ShaderUpdateMixin {
-public:
-  ShaderUpdateMixin(Shader *s) : shader(s) {}
-  virtual auto Update(double delta) -> void = 0;
-  Shader *shader;
-};
-
-} // namespace ___hidden___
 
 } // namespace Pneumatic
 

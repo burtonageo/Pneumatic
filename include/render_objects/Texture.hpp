@@ -29,5 +29,7 @@ public:
 private:
   GLuint fObject;
 };
+
 } // namespace Pneumatic
+
 #endif // PNEUMATIC_TEXTURE_HPP

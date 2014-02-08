@@ -13,8 +13,6 @@
 
 #include "ResourceLoader.hpp"
 #include "RenderObject.hpp"
-#include "TriObject.hpp"
-#include "CubeObject.hpp"
 #include "Shader.hpp"
 #include "Window.hpp"
 
@@ -34,15 +32,12 @@ Pneumatic::Renderer::Renderer(Window *window)
   fModelMatrix(glm::mat4(1.0f)),
   fBackgroundColor(glm::vec4(0.3f, 0.3f, 0.3f, 1.0f)),
   fCameraPos(glm::vec3(4.0f, 0.0f, 4.0f)),
-  fObjects(std::list<Pneumatic::RenderObject*>())
+  fObjects(std::list<std::shared_ptr<Pneumatic::RenderObject>>())
 {
   _SetupContext();
   fWindow->fRenderer = this;
   fWidth = fWindow->fWidth;
   fHeight = fWindow->fHeight;
-
-  Pneumatic::RenderObject *cube = new CubeObject();
-  fObjects.push_back(cube);
 }
 
 auto
@@ -55,9 +50,10 @@ Pneumatic::Renderer::UpdateScene(double ms) -> void
     glm::vec3(0.0f, 0.0f, 0.0f) - fCameraPos, // camera looks at
     glm::vec3(0.0f, 1.0f, 0.0f)               // up vector
   );
+
   std::for_each(fObjects.begin(),
                 fObjects.end(),
-                [&](Pneumatic::RenderObject *r) {
+                [&](std::shared_ptr<Pneumatic::RenderObject> r) {
                   r->Update(ms);
                   fModelMatrix = r->GetModelMatrix();
                   _UpdateShaderMatrices(r->GetShader()->GetShaderProgram());
@@ -72,9 +68,10 @@ Pneumatic::Renderer::RenderScene(void) -> void
                fBackgroundColor.g,
                fBackgroundColor.b,
                fBackgroundColor.a);
+
   std::for_each(fObjects.begin(),
                 fObjects.end(),
-                [&](Pneumatic::RenderObject *r) {
+                [&](std::shared_ptr<Pneumatic::RenderObject> r) {
                   r->UseShader();
                   r->Draw();});
 
@@ -93,44 +90,11 @@ Pneumatic::Renderer::ViewportDidResize(int width, int height) -> void
 
 auto
 Pneumatic::Renderer::KeyWasPressed(int key,
-                        int scanCode,
-                        int action,
-                        int mods) -> void
+                                   int scanCode,
+                                   int action,
+                                   int mods) -> void
 {
-  float moveFactor = 0.7;
-  switch(key) {
-    case GLFW_KEY_W:
-      if (fCameraPos.z > 2.0f) {
-        fCameraPos.z -= 0.7f * moveFactor;
-      }
-      break;
-    case GLFW_KEY_S:
-      if (fCameraPos.z < 20.0f) {
-        fCameraPos.z += 0.7f * moveFactor;
-      }
-      break;
-    case GLFW_KEY_Q:
-      if (fCameraPos.y < 2.0f) {
-        fCameraPos.y += 0.7f * moveFactor;
-      }
-      break;
-    case GLFW_KEY_E:
-      if (fCameraPos.y > -2.0f) {
-        fCameraPos.y -= 0.7f * moveFactor;
-      }
-      break;
-    case GLFW_KEY_X:
-      if (action == GLFW_RELEASE) {
-        std::for_each(fObjects.begin(),
-                      fObjects.end(),
-                      [&](Pneumatic::RenderObject *r) {
-                        r->ChangeShaders();});
-      }
-      break;
-    default:
 
-      break;
-  }
 }
 
 auto

@@ -39,8 +39,8 @@ private:
 
   friend class Renderer;
 
-  int         fWidth;
-  int         fHeight;
+  int fWidth;
+  int fHeight;
 
   struct WindowDeleter {
     void operator()(GLFWwindow *window) {
@@ -48,7 +48,7 @@ private:
     }
   };
   std::unique_ptr<GLFWwindow, WindowDeleter> fGlWindow;
-  std::unique_ptr<Renderer>   fRenderer;
+  std::unique_ptr<Renderer> fRenderer;
 };
 } // namespace Pneumatic
 

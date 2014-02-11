@@ -12,6 +12,7 @@
 #define PNEUMATIC_WINDOW_HPP
 
 #include <exception>
+#include <memory>
 #include <string>
 
 #define GLFW_INCLUDE_GL3
@@ -30,7 +31,6 @@ public:
          int width = 800,
          int height = 600);
 
-  ~Window(void);
   auto UpdateWindow(void)                  -> void;
   auto PollEvents(void)                    -> void;
   auto IsRunning(void) const               -> bool;
@@ -41,8 +41,14 @@ private:
 
   int         fWidth;
   int         fHeight;
-  GLFWwindow *fGlWindow;
-  Renderer   *fRenderer;
+
+  struct WindowDeleter {
+    void operator()(GLFWwindow *window) {
+      glfwDestroyWindow(window);
+    }
+  };
+  std::unique_ptr<GLFWwindow, WindowDeleter> fGlWindow;
+  std::unique_ptr<Renderer>   fRenderer;
 };
 } // namespace Pneumatic
 

@@ -48,25 +48,28 @@ Pneumatic::Mesh::GenerateTriangle() -> std::shared_ptr<Mesh>
   std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>(3);
 
   using namespace glm;
-/*
-  mesh->fVertices = make_unique<vector<vec3>>({
+
+  mesh->fVertices = make_unique<vector<vec3>>(
+  vector<vec3> {
     vec3(-1.0f, -1.0f, 0.0f),
     vec3( 1.0f, -1.0f, 0.0f),
     vec3( 0.0f,  1.0f, 0.0f)
   });
 
-  mesh->fColors = make_unique<vector<vec4>>({
+  mesh->fColors = make_unique<vector<vec4>>(
+  vector<vec4> {
     vec4(1.0f, 0.0f, 0.0f, 1.0f),
     vec4(0.0f, 1.0f, 0.0f, 1.0f),
     vec4(0.0f, 0.0f, 1.0f, 1.0f),  
   });
 
-  mesh->fTexCoords = make_unique<vector<vec2>>({
+  mesh->fTexCoords = make_unique<vector<vec2>>(
+  vector<vec2> {
     vec2(1.0f, 1.0f),
     vec2(0.0f, 1.0f),
     vec2(1.0f, 0.0f)
   });
-  */
+
   mesh->_BufferData();
 
   return mesh;

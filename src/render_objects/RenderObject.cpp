@@ -56,7 +56,7 @@ Pneumatic::RenderObject::Draw() -> void
   auto currShader = fShaders->at(fCurrentShaderIndex);
   auto currTexture = fTextures->at(fCurrentShaderIndex); 
   if (currTexture != nullptr) {
-    currTexture->Bind(&*currShader);
+    currTexture->Bind(currShader);
   }
   fMesh->Draw();
   if (currTexture != nullptr) {

@@ -8,9 +8,6 @@
 
 #include "Texture.hpp"
 
-#include <cstdlib>
-#include <iostream>
-
 #include <SOIL.h>
 
 #include "Config.hpp"
@@ -28,8 +25,8 @@ Pneumatic::Texture::Texture(std::string fileName)
   int height;
   int channels;
 
-  unsigned char *texData = SOIL_load_image(filePath.c_str(),
-                                           &width, &height, &channels, 0);
+  const auto texData = SOIL_load_image(filePath.c_str(),
+                                       &width, &height, &channels, 0);
   if (texData == NULL) {
     glDeleteTextures(1, &fObject);
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -54,7 +51,7 @@ Pneumatic::Texture::~Texture()
 }
 
 auto
-Pneumatic::Texture::Bind(Shader *shader) -> void
+Pneumatic::Texture::Bind(std::shared_ptr<Shader> &shader) -> void
 {
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, fObject);

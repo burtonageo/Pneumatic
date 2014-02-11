@@ -11,6 +11,7 @@
 #ifndef PNEUMATIC_TEXTURE_HPP
 #define PNEUMATIC_TEXTURE_HPP
 
+#include <memory>
 #include <string>
 
 #include <GL/glew.h>
@@ -23,9 +24,9 @@ class Texture final {
 public:
   Texture(std::string file);
   ~Texture();
-  auto Bind(Shader*)            -> void;
-  auto Unbind()                 -> void;
-  inline auto GetObject() const -> GLuint {return fObject;};
+  auto Bind(std::shared_ptr<Shader>&) -> void;
+  auto Unbind()                      -> void;
+  inline auto GetObject() const      -> GLuint {return fObject;};
 private:
   GLuint fObject;
 };

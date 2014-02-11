@@ -14,26 +14,23 @@
 
 #include "Renderer.hpp"
 
+#include "make_unique.hpp"
+
+using namespace std;
+
 Pneumatic::Window::Window(std::string const &title,
                           int width,
                           int height)
   try :
   fWidth(width),
   fHeight(height),
-  fGlWindow(nullptr),
+  fGlWindow(),
   fRenderer(nullptr)
 {
   _InitGLFW(title);
-  fRenderer = new Pneumatic::Renderer(this);
-} catch (std::runtime_error &e) {
+  fRenderer = make_unique<Renderer>(this);
+} catch (runtime_error &e) {
   throw e;
-}
-
-Pneumatic::Window::~Window()
-{
-  if (fGlWindow != nullptr) {
-    glfwDestroyWindow(fGlWindow);
-  }
 }
 
 auto
@@ -53,7 +50,7 @@ Pneumatic::Window::PollEvents() -> void
 auto
 Pneumatic::Window::IsRunning(void) const  -> bool
 {
-  return !glfwWindowShouldClose(fGlWindow);
+  return !glfwWindowShouldClose(fGlWindow.get());
 }
 
 auto
@@ -70,14 +67,14 @@ Pneumatic::Window::_InitGLFW(std::string const &title) -> void
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    fGlWindow = glfwCreateWindow(fWidth,
-                                 fHeight,
-                                 title.c_str(),
-                                 NULL,
-                                 NULL);
+    fGlWindow = unique_ptr<GLFWwindow,
+                           WindowDeleter>(glfwCreateWindow(fWidth,
+                                                           fHeight,
+                                                           title.c_str(),
+                                                           NULL,
+                                                           NULL));
 
     if (!fGlWindow) {
-      delete this;
       throw std::runtime_error(badInitMsg);
     }
   } catch (std::runtime_error &e) {

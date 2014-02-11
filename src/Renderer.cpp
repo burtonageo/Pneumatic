@@ -16,6 +16,8 @@
 #include "Shader.hpp"
 #include "Window.hpp"
 
+#include "make_unique.hpp"
+
 bool Pneumatic::Renderer::sGlewInitialized = false;
 
 Pneumatic::Renderer::Renderer(Window *window)
@@ -35,7 +37,6 @@ Pneumatic::Renderer::Renderer(Window *window)
   fObjects(std::list<std::shared_ptr<Pneumatic::RenderObject>>())
 {
   _SetupContext();
-  fWindow->fRenderer = this;
   fWidth = fWindow->fWidth;
   fHeight = fWindow->fHeight;
 }
@@ -75,7 +76,7 @@ Pneumatic::Renderer::RenderScene(void) -> void
                   r->UseShader();
                   r->Draw();});
 
-  glfwSwapBuffers(fWindow->fGlWindow);
+  glfwSwapBuffers(fWindow->fGlWindow.get());
 }
 
 auto
@@ -114,9 +115,9 @@ Pneumatic::Renderer::_UpdateShaderMatrices(GLuint program) -> void
 auto
 Pneumatic::Renderer::_SetupContext(void) -> void
 {
-  glfwSetWindowUserPointer(fWindow->fGlWindow, this);
+  glfwSetWindowUserPointer(fWindow->fGlWindow.get(), this);
   glfwSwapInterval(1);
-  glfwMakeContextCurrent(fWindow->fGlWindow);
+  glfwMakeContextCurrent(fWindow->fGlWindow.get());
 
   if (!sGlewInitialized) {
     glewExperimental = GL_TRUE;
@@ -128,10 +129,10 @@ Pneumatic::Renderer::_SetupContext(void) -> void
     glGetError();
   }
 
-  glfwSetKeyCallback(fWindow->fGlWindow, StaticRendererKeypressCallback);
-  glfwSetWindowCloseCallback(fWindow->fGlWindow, StaticRendererQuitRequestedCallback);
-  glfwSetFramebufferSizeCallback(fWindow->fGlWindow, StaticRendererResizeCallback);
-  glfwSetWindowRefreshCallback(fWindow->fGlWindow, StaticRendererRefreshCallback);
+  glfwSetKeyCallback(fWindow->fGlWindow.get(), StaticRendererKeypressCallback);
+  glfwSetWindowCloseCallback(fWindow->fGlWindow.get(), StaticRendererQuitRequestedCallback);
+  glfwSetFramebufferSizeCallback(fWindow->fGlWindow.get(), StaticRendererResizeCallback);
+  glfwSetWindowRefreshCallback(fWindow->fGlWindow.get(), StaticRendererRefreshCallback);
 
   glEnable(GL_MULTISAMPLE);
   glEnable(GL_CULL_FACE);

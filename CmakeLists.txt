@@ -56,9 +56,7 @@ set(SOURCES
 	"${RO_DIR}/Shader.cpp"
 	"${RO_DIR}/Texture.cpp"
 	"${RO_DIR}/Light.cpp"	
-	"${RO_DIR}/RenderObject.cpp"
-	"${RO_DIR}/TriObject.cpp"
-	"${RO_DIR}/CubeObject.cpp")
+	"${RO_DIR}/RenderObject.cpp")
 
 configure_file(
 	"${INCLUDE_DIR}/Config.hpp.cmake"

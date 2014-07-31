@@ -26,11 +26,9 @@
 
 #include "ResourceLoader.hpp"
 
-#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <vector>
 
 using namespace std;
 using namespace Pneumatic::Core;

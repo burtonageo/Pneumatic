@@ -26,8 +26,6 @@
 
 #include "Renderer.hpp"
 
-#include <cstdio>
-#include <iostream>
 #include <memory>
 
 #include <glm/glm.hpp>

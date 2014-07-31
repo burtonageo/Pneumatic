@@ -30,7 +30,6 @@
 #include <string>
 #include <vector>
 
-#include "Config.hpp"
 #include "GlInclude.hpp"
 #include "ResourceLoader.hpp"
 
@@ -136,23 +135,23 @@ Pneumatic::Graphics::Shader::_createShader(GLenum shader_type,
   std::string path, suffix;
   switch (shader_type) {
     case GL_VERTEX_SHADER:
-      path = Config::getVertexDir();
+      //path = Config::getVertexDir();
       suffix = ".vert_glsl";
       break;
     case GL_FRAGMENT_SHADER:
-      path = Config::getFragmentDir();
+      //path = Config::getFragmentDir();
       suffix = ".frag_glsl";
       break;
     case GL_GEOMETRY_SHADER:
-      path = Config::getGeometryDir();
+      //path = Config::getGeometryDir();
       suffix = ".geom_glsl";
       break;
     case GL_TESS_CONTROL_SHADER:
-      path = Config::getTessCtrlDir();
+      //path = Config::getTessCtrlDir();
       suffix = ".tcs_glsl";
       break;
     case GL_TESS_EVALUATION_SHADER:
-      path = Config::getTessEvalDir();
+      //path = Config::getTessEvalDir();
       suffix = ".tes_glsl";
       break;
     default:

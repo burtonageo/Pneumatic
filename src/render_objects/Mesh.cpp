@@ -31,7 +31,6 @@
 #include <iostream>
 #include <fstream>
 
-#include "Config.hpp"
 #include "GlInclude.hpp"
 #include "ResourceLoader.hpp"
 #include "Shader.hpp"
@@ -106,7 +105,7 @@ Pneumatic::Graphics::Mesh::loadFromObjFile(const std::string& file_name) -> std:
 auto
 Pneumatic::Graphics::Mesh::_loadFromFile(const std::string& file_name) -> std::shared_ptr<Mesh>
 {
-  // TODO: ake file paths work good
+  // TODO: make asset directories
   string file_path = file_name + ".mesh";
   ifstream fs(file_path);
 

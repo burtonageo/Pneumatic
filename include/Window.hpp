@@ -33,7 +33,6 @@
 #include <memory>
 #include <string>
 
-#include "Config.hpp"
 #include "GlInclude.hpp"
 #include "RenderObject.hpp"
 

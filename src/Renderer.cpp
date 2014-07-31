@@ -39,9 +39,6 @@
 #include "Shader.hpp"
 #include "Window.hpp"
 
-#include "CubeObject.hpp"
-#include "TriObject.hpp"
-
 using namespace std;
 
 namespace Pneumatic {
@@ -208,15 +205,7 @@ Pneumatic::Graphics::Renderer::keyWasPressed(int key,
                       });
       }
       break;
-    case GLFW_KEY_C:
-        if (action == GLFW_RELEASE) {
-            addRenderObject(make_shared<TriObject>());
-        }
-    case GLFW_KEY_V:
-    if (action == GLFW_RELEASE) {
-        addRenderObject(make_shared<CubeObject>());
-    }
-    
+
     default:
       break;
   }

@@ -44,10 +44,6 @@ set(SOURCES
 	"${RO_DIR}/Texture.cpp"
 	"${RO_DIR}/RenderObject.cpp")
 
-configure_file(
-	"${INCLUDE_DIR}/Config.hpp.cmake"
-	"${PROJECT_BINARY_DIR}/Config.hpp")
-
 include_directories(
 	${SOIL_INCLUDE}
 	${SOIL_DIR}

@@ -28,7 +28,6 @@
 
 #include <SOIL.h>
 
-#include "Config.hpp"
 #include "Shader.hpp"
 
 using namespace std;
@@ -49,7 +48,7 @@ Pneumatic::Graphics::Texture::~Texture()
 auto
 Pneumatic::Graphics::Texture::init(const std::string& file_name) -> Pneumatic::Core::MethResult
 {
-  const std::string k_file_path = Config::getImgResDir() + file_name;
+  const std::string k_file_path = file_name;
   int width, height, channels;
 
   unsigned char* tex_data = SOIL_load_image(k_file_path.c_str(),

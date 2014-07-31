@@ -30,14 +30,10 @@
 #include <cstdlib>
 #include <iostream>
 
-#include "Config.hpp"
 #include "GlInclude.hpp"
 #include "MethResult.hpp"
 #include "Renderer.hpp"
 #include "RenderObject.hpp"
-
-#include "TriObject.hpp"
-#include "CubeObject.hpp"
 
 namespace Pneumatic {
 
@@ -178,11 +174,6 @@ Pneumatic::Graphics::Window::_initGlfw(const std::string& title) -> bool
 auto
 Pneumatic::Graphics::Window::_handleKeypress(int key, int scan_code, int action, int mods)  -> void
 {
-  if (key == GLFW_KEY_C && action == GLFW_RELEASE) {
-    //addRenderObject(make_shared<TriObject>());
-  } if (key == GLFW_KEY_V && action == GLFW_RELEASE) {
-    //addRenderObject(make_shared<CubeObject>());
-  }
   fWinImpl->renderer->keyWasPressed(key, scan_code, action, mods);
 }
 

@@ -29,8 +29,6 @@
 #ifndef PNEUMATIC_FUNCRESULT_HPP
 #define PNEUMATIC_FUNCRESULT_HPP
 
-#include <cassert>
-#include <iostream>
 #include <memory>
 #include <string>
 

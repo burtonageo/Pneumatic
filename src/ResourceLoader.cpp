@@ -32,8 +32,6 @@
 #include <string>
 #include <vector>
 
-#include "Config.hpp"
-
 using namespace std;
 using namespace Pneumatic::Core;
 

@@ -26,7 +26,6 @@
 
 #include "RenderObject.hpp"
 
-#include "Config.hpp"
 #include "Mesh.hpp"
 #include "Shader.hpp"
 #include "Texture.hpp"

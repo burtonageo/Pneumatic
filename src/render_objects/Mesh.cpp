@@ -27,7 +27,6 @@
 #include "Mesh.hpp"
 
 #include <algorithm>
-#include <cassert>
 #include <iostream>
 #include <fstream>
 

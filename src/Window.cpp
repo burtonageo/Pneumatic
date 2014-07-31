@@ -26,9 +26,6 @@
 
 #include "Window.hpp"
 
-#include <cstdlib>
-#include <iostream>
-
 #include "GlInclude.hpp"
 #include "MethResult.hpp"
 #include "Renderer.hpp"

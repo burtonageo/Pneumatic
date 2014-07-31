@@ -24,62 +24,62 @@
  *
  **/
 
-#include "Light.hpp"
+#pragma once
 
-Pneumatic::Graphics::Light::Light(const glm::vec3& position,
-                                  const glm::vec4& color,
-                                  float radius)
-  :
-  fPosition(position),
-  fColor(color),
-  fRadius(radius)
-{
+#ifndef PNEUMATIC_OPRESULT_HPP
+#define PNEUMATIC_OPRESULT_HPP
 
-}
+#include <string>
 
-Pneumatic::Graphics::Light::Light(const Light& other)
-  :
-  fPosition(other.fPosition),
-  fColor(other.fColor),
-  fRadius(other.fRadius)
-{
+namespace Pneumatic {
 
-}
+namespace Core {
 
-Pneumatic::Graphics::Light::~Light() = default;
+class MethResult final {
+public:
+  static auto ok(void) -> MethResult
+  {
+    return MethResult(true, "");
+  }
 
-auto
-Pneumatic::Graphics::Light::getPosition() const -> glm::vec3
-{
-  return fPosition;
-}
+  static auto error(const std::string& desc) -> MethResult
+  {
+    return MethResult(false, desc);
+  }
 
-auto
-Pneumatic::Graphics::Light::setPosition(const glm::vec3& new_pos) -> void
-{
-  fPosition = new_pos;
-}
+  MethResult(const MethResult&) = default;
+  ~MethResult(void)         = default;
 
-auto
-Pneumatic::Graphics::Light::getColor() const -> glm::vec4
-{
-  return fColor;
-}
+  inline auto isOk(void) const -> bool
+  {
+    return fOk;
+  }
 
-auto
-Pneumatic::Graphics::Light::setColor(const glm::vec4& new_col) -> void
-{
-  fColor = new_col;
-}
+  inline auto getError(void) const -> std::string
+  {
+    return fDescription;
+  }
 
-auto
-Pneumatic::Graphics::Light::getRadius() const -> float
-{
-  return fRadius;
-}
+private:
+  MethResult(bool ok, const std::string& desc)
+    :
+    fOk(ok),
+    fDescription(desc) { }
 
-auto
-Pneumatic::Graphics::Light::setRadius(float new_radius) -> void
-{
-  fRadius = new_radius;
-}
+  const bool fOk;
+  const std::string fDescription;
+};
+
+} // namespace Core
+
+} // namespace Pneumatic
+
+#define PNEU_METHRES_TRY(func) \
+  do { \
+    auto err = func; \
+    if (!err.isOk()) { \
+      return err; \
+    } \
+  } while(0)
+
+#endif // PNEUMATIC_OPRESULT_HPP

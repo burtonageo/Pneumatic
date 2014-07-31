@@ -1,10 +1,28 @@
 /**
- * CSC3223 Graphics for Games
- * Coursework 2
- * Name: George Burton
- * Student Number: 110204567
- * File: RenderObject.hpp
- */
+ * This file is part of the Pneumatic game engine
+ *
+ * Copyright (c) 2014 George Burton
+ * 
+ * THIS SOFTWARE IS PROVIDED 'AS-IS', WITHOUT ANY EXPRESS OR IMPLIED
+ * WARRANTY. IN NO EVENT WILL THE AUTHORS BE HELD LIABLE FOR ANY DAMAGES
+ * ARISING FROM THE USE OF THIS SOFTWARE.
+ * 
+ * Permission is granted to anyone to use this software for any purpose,  
+ * including commercial applications, and to alter it and redistribute it  
+ * freely, subject to the following restrictions:
+ * 
+ *    1. The origin of this software must not be misrepresented; you must not  
+ *       claim that you wrote the original software. If you use this software  
+ *       in a product, an acknowledgment in the product documentation would be  
+ *       appreciated but is not required.
+ * 
+ *    2. Altered source versions must be plainly marked as such, and must not be  
+ *       misrepresented as being the original software.
+ * 
+ *    3. This notice may not be removed or altered from any source  
+ *       distribution.
+ *
+ **/
 
 #pragma once
 
@@ -12,66 +30,60 @@
 #define PNEUMATIC_RENDEROBJECT_HPP
 
 #include <iostream>
-#include <memory>
 #include <vector>
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
+#define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 
+#include "GlInclude.hpp"
+
 namespace Pneumatic {
+
+namespace Graphics {
 
 class Light;
 class Mesh;
 class Shader;
+class ShaderUpdateMixin;
 class Texture;
 
 class RenderObject {
 public:
-  RenderObject(std::shared_ptr<Pneumatic::Mesh> m =
-                 std::shared_ptr<Pneumatic::Mesh>(nullptr));
+  explicit RenderObject(std::shared_ptr<Mesh> mesh = nullptr);
+  RenderObject(const RenderObject&) = delete;
+  RenderObject(RenderObject&&)      = delete;
   ~RenderObject(void);
 
-  auto UseShader(void)                                    -> void;
-  auto AddTexture(std::string const &)                    -> void;
+  auto update(double delta_time)                 -> void;
+  virtual auto draw(void)                        -> void;
 
-  auto Update(double delta)                               -> void;
-  auto SetShaderLight(Pneumatic::Light*)                  -> void;
-  auto Draw(void)                                         -> void;
+  auto changeShaders(void)                       -> void;
+  auto setShaderLight(const Light& light)        -> void;
 
-  inline auto GetMesh(void) const                         -> std::shared_ptr<Mesh> {return fMesh;}
-  inline auto SetMesh(std::shared_ptr<Pneumatic::Mesh> m) -> void  {fMesh = m;}
+  auto addTexture(const std::string& tex_file)   -> void;
 
-  inline auto GetShader(void) const                       -> std::shared_ptr<Shader>
-  {
-    return fShaders->at(fCurrentShaderIndex);
-  }
+  auto getMesh(void) const                       -> std::shared_ptr<Mesh>;
+  auto setMesh(std::shared_ptr<Mesh> mesh)       -> void;
 
-  inline auto AddShader(std::shared_ptr<Pneumatic::Shader> s) -> void
-  {
-    fShaders->push_back(s);
-  }
+  auto getShader(void) const                     -> std::shared_ptr<Shader>;
+  auto addShader(std::shared_ptr<Shader> shader) -> void;
 
-  inline auto GetModelMatrix(void) const                  -> glm::mat4 {return fModelMatrix;}
-  inline auto SetModelMatrix(glm::mat4 mat)               -> void      {fModelMatrix = mat;}
-
-  inline auto ChangeShaders(void)                         -> void
-  {
-    fCurrentShaderIndex = fCurrentShaderIndex < (fShaders->size() - 1)
-      ? fCurrentShaderIndex + 1
-      : 0;
-  }
+  auto getModelMatrix(void) const                -> glm::mat4;
+  auto setModelMatrix(const glm::mat4& matrix)   -> void;
 
 protected:
   std::shared_ptr<Mesh> fMesh;
   glm::mat4 fModelMatrix;
 
-  std::unique_ptr<std::vector<std::shared_ptr<Shader>>>  fShaders;
-  std::unique_ptr<std::vector<std::shared_ptr<Texture>>> fTextures;
+  std::vector<std::shared_ptr<Shader>> fShaders;
+  std::vector<std::shared_ptr<Texture>> fTextures;
+  std::vector<std::shared_ptr<ShaderUpdateMixin>> fShaderUpdaters;
+
 private:
-  unsigned long fCurrentShaderIndex;
+  unsigned int fCurrentShaderIndex;
 };
+
+} // namespace Graphics
 
 } // namespace Pneumatic
 

@@ -6,108 +6,77 @@
 # File: CMakeLists.txt
 #
 
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.0)
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-
-set(PROJECT_VERSION_MAJOR 0)
-set(PROJECT_VERSION_MINOR 1)
-project(glCube)
+set(PROJECT_NAME pneumatic)
+set(CMAKE_MAJOR_VERSION 0)
+set(CMAKE_MINOR_VERSION 1)
+project(${PROJECT_NAME})
 
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
-find_package(PkgConfig REQUIRED)
-
-if(APPLE)
-	include_directories("/System/Library/Frameworks")
-	find_library(COCOA_LIBRARY Cocoa)
-	find_library(QUARTZCORE_LIBRARY QuartzCore)
-	find_library(IOKIT_LIBRARY IOKit)
-	mark_as_advanced(COCOA_LIBRARY QUARTZCORE_LIBRARY IOKIT_LIBRARY)
-endif()
 
 set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")
 set(RO_DIR "${SRC_DIR}/render_objects")
+set(CORE_DIR "${SRC_DIR}/core")
 set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
 set(RO_INCLUDE_DIR "${INCLUDE_DIR}/render_objects")
-set(THIRDPARTY_DIR "${PROJECT_SOURCE_DIR}/thirdparty")
+set(CORE_INCLUDE_DIR "${INCLUDE_DIR}/core")
 
-set(SHADER_DIR "${PROJECT_SOURCE_DIR}/shader")
-set(COMPILED_SHADER_DIR "${PROJECT_BINARY_DIR}/shader")
+set(SOIL_DIR "${PROJECT_SOURCE_DIR}/thirdparty/SOIL")
+set(SOIL_LINK "SOIL")
+set(SOIL_INCLUDE "${SOIL_DIR}/include")
 
-set(FRAGMENT_DIR "${COMPILED_SHADER_DIR}/fragment")
-set(VERTEX_DIR "${COMPILED_SHADER_DIR}/vertex")
-set(GEOMETRY_DIR "${COMPILED_SHADER_DIR}/geometry")
-set(TESS_CONTROL_DIR "${COMPILED_SHADER_DIR}/tess_control")
-set(TESS_EVAL_DIR "${COMPILED_SHADER_DIR}/tess_eval")
+set(GLFW_DIR "${PROJECT_SOURCE_DIR}/thirdparty/glfw")
+set(GLFW_LINK "glfw")
+set(GLFW_INCLUDE_DIRS "${GLFW_DIR}/include")
 
-set(RES_DIR "${PROJECT_SOURCE_DIR}/res")
-set(COMPILED_RES_DIR "${PROJECT_BINARY_DIR}/res")
-
-set(RES_MESH_DIR "${COMPILED_RES_DIR}/mesh")
-set(RES_IMG_DIR "${COMPILED_RES_DIR}/img")
+set (GLM_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/thirdparty/glm")
 
 set(SOURCES
-	"${SRC_DIR}/Main.cpp"
+	"${SRC_DIR}/Camera.cpp"
 	"${SRC_DIR}/Renderer.cpp"
 	"${SRC_DIR}/ResourceLoader.cpp"
 	"${SRC_DIR}/Window.cpp"
+	"${RO_DIR}/Light.cpp"
 	"${RO_DIR}/Mesh.cpp"
 	"${RO_DIR}/Shader.cpp"
 	"${RO_DIR}/Texture.cpp"
-	"${RO_DIR}/Light.cpp"	
 	"${RO_DIR}/RenderObject.cpp")
 
 configure_file(
 	"${INCLUDE_DIR}/Config.hpp.cmake"
 	"${PROJECT_BINARY_DIR}/Config.hpp")
 
-add_subdirectory(${THIRDPARTY_DIR})
-link_directories(${SOIL})
-link_directories(${GLFW})
-
 include_directories(
-	${PROJECT_BINARY_DIR}
+	${SOIL_INCLUDE}
+	${SOIL_DIR}
 	${SRC_DIR}
 	${INCLUDE_DIR}
+	${CORE_INCLUDE_DIR}
 	${RO_INCLUDE_DIR}
-	${GLM_INCLUDE_DIRS}
-	${SOIL_INCLUDE_DIRS}
+	${PROJECT_BINARY_DIR}
 	${OPENGL_INCLUDE_DIRS}
 	${GLFW_INCLUDE_DIRS}
 	${GLEW_INCLUDE_DIRS}
-	${GLU_INCLUDE_DIRS})
+	${GLU_INCLUDE_DIRS}
+	${GLM_INCLUDE_DIRS})
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_subdirectory(${SOIL_DIR})
+add_subdirectory(${GLFW_DIR})
+link_directories(${SOIL_DIR})
+link_directories(${GLFW_DIR})
 
-#set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE)
-
-add_custom_command(
-	TARGET ${PROJECT_NAME}
-	PRE_BUILD
-	COMMAND ${CMAKE_COMMAND} -E copy_directory
-		${SHADER_DIR} ${COMPILED_SHADER_DIR}
-	COMMAND ${CMAKE_COMMAND} -E copy_directory
-		${RES_DIR} ${COMPILED_RES_DIR})
-
-target_link_libraries(${PROJECT_NAME}
-	${OPENGL_LIBRARIES}
-	${GLFW_LIBRARIES}
-	${GLEW_LIBRARIES}
-	${GLU_LIBRARIES}
-	${SOIL_LIBRARIES})
-
-if (APPLE)
-	target_link_libraries(${PROJECT_NAME}
-		${COCOA_LIBRARY}
-		${QUARTZCORE_LIBRARY}
-		${IOKIT_LIBRARY})
-endif()
+add_library(${PROJECT_NAME} ${SOURCES})
 
 add_definitions(
-	-std=c++11
-	-O2
-	-Wall
-	-Wextra
-	-Werror
-	-Wno-unused-parameter)
+	-std=c++1y
+	-Wall)
+
+target_link_libraries(${PROJECT_NAME}
+	${SOIL_LINK}
+	${GLFW_LINK}
+	${GLFW_LIBRARIES}
+	${OPENGL_LIBRARIES}
+	${GLEW_LIBRARIES}
+	${GLU_LIBRARIES})

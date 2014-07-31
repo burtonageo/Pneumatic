@@ -1,165 +1,220 @@
 /**
- * CSC3223 Graphics for Games
- * Coursework 2
- * Name: George Burton
- * Student Number: 110204567
- * File: Shader.cpp
- */
+ * This file is part of the Pneumatic game engine
+ *
+ * Copyright (c) 2014 George Burton
+ * 
+ * THIS SOFTWARE IS PROVIDED 'AS-IS', WITHOUT ANY EXPRESS OR IMPLIED
+ * WARRANTY. IN NO EVENT WILL THE AUTHORS BE HELD LIABLE FOR ANY DAMAGES
+ * ARISING FROM THE USE OF THIS SOFTWARE.
+ * 
+ * Permission is granted to anyone to use this software for any purpose,  
+ * including commercial applications, and to alter it and redistribute it  
+ * freely, subject to the following restrictions:
+ * 
+ *    1. The origin of this software must not be misrepresented; you must not  
+ *       claim that you wrote the original software. If you use this software  
+ *       in a product, an acknowledgment in the product documentation would be  
+ *       appreciated but is not required.
+ * 
+ *    2. Altered source versions must be plainly marked as such, and must not be  
+ *       misrepresented as being the original software.
+ * 
+ *    3. This notice may not be removed or altered from any source  
+ *       distribution.
+ *
+ **/
 
 #include "Shader.hpp"
 
 #include <iostream>
+#include <string>
+#include <vector>
 
-#include "ResourceLoader.hpp"
 #include "Config.hpp"
+#include "GlInclude.hpp"
+#include "ResourceLoader.hpp"
 
-#define MAYBE_CREATE_SHADER_ID(file, shaderType) { \
-  file != "" ? \
-    glCreateShader(shaderType) : \
-    0}
-#define MAYBE_CREATE_SHADER_PATH(dir, file, ext) { \
-  file != "" ? \
-    dir + file + ext : \
-    ""}
-#define MAYBE_ATTATCH_SHADER(fProgramID, shaderID) { \
-  if (shaderID != 0) { \
-    glAttachShader(fProgramID, shaderID); \
-  }}
-#define MAYBE_DELETE_SHADER(shaderID) { \
-  if (shaderID != 0) { \
-    glDeleteShader(shaderID); \
-  }}
-Pneumatic::Shader::Shader(std::string const &vertFile, std::string const &fragFile,
-                          std::string const &geomFile, std::string const &tcsFile,
-                          std::string const &tesFile)
+using namespace std;
+using namespace Pneumatic::Core;
+
+Pneumatic::Graphics::Shader::Shader()
   :
   fProgramID(0)
 {
-  GLuint vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
-  GLuint fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
-  GLuint geometryShaderID = MAYBE_CREATE_SHADER_ID(geomFile, GL_GEOMETRY_SHADER);
-  GLuint tessControlShaderID = MAYBE_CREATE_SHADER_ID(tcsFile, GL_TESS_CONTROL_SHADER);
-  GLuint tessellationShaderID = MAYBE_CREATE_SHADER_ID(tesFile, GL_TESS_EVALUATION_SHADER);
-
-  const std::string vertFileExt = ".vert_glsl";
-  const std::string fragFileExt = ".frag_glsl";
-  const std::string geomFileExt = ".geom_glsl";
-  const std::string tcsFileExt = ".tcs_glsl";
-  const std::string tesFileExt = ".tes_glsl";
-
-  const std::string vertShaderPath = Config::kVertexDir + vertFile + vertFileExt;
-  const std::string fragShaderPath = Config::kFragmentDir + fragFile + fragFileExt;
-  const std::string geomShaderPath = MAYBE_CREATE_SHADER_PATH(Config::kGeometryDir,
-                                                              geomFile,
-                                                              geomFileExt);
-
-  const std::string tctrlShaderPath = MAYBE_CREATE_SHADER_PATH(Config::kTessCtrlDir,
-                                                               tcsFile,
-                                                               tcsFileExt);
-
-  const std::string tevalShaderPath = MAYBE_CREATE_SHADER_PATH(Config::kTessEvalDir,
-                                                               tesFile,
-                                                               tesFileExt);
-  auto vertShaderCode = ResourceLoader::LoadTextFile(vertShaderPath);
-  auto fragShaderCode = ResourceLoader::LoadTextFile(fragShaderPath);
-  auto geomShaderCode = ResourceLoader::LoadTextFile(geomShaderPath);
-  auto tctrlShaderCode = ResourceLoader::LoadTextFile(tctrlShaderPath);
-  auto tevalShaderCode = ResourceLoader::LoadTextFile(tevalShaderPath);
-
-  GLint result = GL_FALSE;
-  int infoLogLength = 0;
-
-  const char *vertexSourcePointer = vertShaderCode.c_str();
-  std::vector<char> vertexShaderErrorMessage;
-  _CompileShader(vertexShaderID, vertexSourcePointer, result, infoLogLength,
-                 vertexShaderErrorMessage);
-
-  const char *fragSourcePointer = fragShaderCode.c_str();
-  std::vector<char> fragmentShaderErrorMessage;
-  _CompileShader(fragmentShaderID, fragSourcePointer, result, infoLogLength,
-                 fragmentShaderErrorMessage);
-
-  if (geomShaderCode != "") {
-    const char *geomSourcePointer = geomShaderCode.c_str();
-    std::vector<char> geometryShaderErrorMessage;
-    _CompileShader(geometryShaderID, geomSourcePointer, result, infoLogLength,
-                   geometryShaderErrorMessage);
-  }
-
-  if (tctrlShaderCode != "") {
-    const char *tctrlSourcePointer = tctrlShaderCode.c_str();
-    std::vector<char> tessControlShaderErrorMessage;
-    _CompileShader(tessControlShaderID, tctrlSourcePointer, result, infoLogLength,
-                   tessControlShaderErrorMessage);
-  }
-
-  if (tevalShaderCode != "") {
-    const char *tevalSourcePointer = tctrlShaderCode.c_str();
-    std::vector<char> tessControlShaderErrorMessage;
-    _CompileShader(tessControlShaderID, tevalSourcePointer, result, infoLogLength,
-                   tessControlShaderErrorMessage);
-  }
-
-  fProgramID = glCreateProgram();
-  glAttachShader(fProgramID, vertexShaderID);
-  glAttachShader(fProgramID, fragmentShaderID);
-  MAYBE_ATTATCH_SHADER(fProgramID, geometryShaderID);
-  MAYBE_ATTATCH_SHADER(fProgramID, tessControlShaderID);
-  MAYBE_ATTATCH_SHADER(fProgramID, tessellationShaderID);
-  
-  glLinkProgram(fProgramID);
-
-  glGetProgramiv(fProgramID, GL_LINK_STATUS, &result);
-  glGetProgramiv(fProgramID, GL_INFO_LOG_LENGTH, &infoLogLength);
-  std::vector<char> programErrorMessage(std::max(infoLogLength, int(1)));
-  glGetProgramInfoLog(fProgramID, infoLogLength, NULL, &programErrorMessage[0]);
-  std::cout << std::string(programErrorMessage.begin(), programErrorMessage.end());
-
-  glDeleteShader(vertexShaderID);
-  glDeleteShader(fragmentShaderID);
-  MAYBE_DELETE_SHADER(geometryShaderID);
-  MAYBE_DELETE_SHADER(tessControlShaderID);
-  MAYBE_DELETE_SHADER(tessellationShaderID);
-  _SetDefaultAttributes();
 }
 
-Pneumatic::Shader::~Shader()
+Pneumatic::Graphics::Shader::~Shader()
 {
   glDeleteProgram(fProgramID);
 }
 
 auto
-Pneumatic::Shader::Update(double ms) -> void
+Pneumatic::Graphics::Shader::init(const std::string& vert_file,
+                                  const std::string& frag_file,
+                                  const std::string& geom_file,
+                                  const std::string& tcs_file,
+                                  const std::string& tes_file) -> Pneumatic::Core::MethResult
 {
+  fProgramID = glCreateProgram();
 
+  #define CREATE(file, file_path, id, shader_type) \
+    GLuint id; \
+    std::string file_path; \
+    do { \
+      auto tup  = _createShader(shader_type, file); \
+      id        = get<0>(tup); \
+      file_path = get<1>(tup); \
+      \
+      if (file != "" && id == 0) { \
+        return MethResult::error(string("Could not create shader from file: ") \
+                                   .append(file_path)); \
+      } \
+    } while(0)
+
+  CREATE(vert_file, vert_path, vert_shader_id, GL_VERTEX_SHADER);
+  CREATE(frag_file, frag_path, frag_shader_id, GL_FRAGMENT_SHADER);
+  CREATE(geom_file, geom_path, geom_shader_id, GL_GEOMETRY_SHADER);
+  CREATE(tcs_file,  tcs_path,  tcs_shader_id,  GL_TESS_CONTROL_SHADER);
+  CREATE(tes_file,  tes_path,  tes_shader_id,  GL_TESS_EVALUATION_SHADER);
+
+  #define TRY_COMPILE(file, func) \
+    do { \
+      if (file != "") { \
+        PNEU_METHRES_TRY(func); \
+      } \
+    } while(0)
+
+  PNEU_METHRES_TRY(_compileShader(vert_shader_id, vert_path));
+  PNEU_METHRES_TRY(_compileShader(frag_shader_id, frag_path));
+  
+  TRY_COMPILE(geom_file, _compileShader(geom_shader_id, geom_path));
+  TRY_COMPILE(tcs_file,  _compileShader(tcs_shader_id,  tcs_path));
+  TRY_COMPILE(tes_file,  _compileShader(tes_shader_id,  tes_path));
+
+  PNEU_METHRES_TRY(_linkShaderProgram());
+
+  _setDefaultAttributes();
+
+  glDeleteShader(vert_shader_id);
+  glDeleteShader(frag_shader_id);
+  glDeleteShader(geom_shader_id);
+  glDeleteShader(tcs_shader_id);
+  glDeleteShader(tes_shader_id);
+
+  return MethResult::ok();
 }
 
 auto
-Pneumatic::Shader::_SetDefaultAttributes() -> void
+Pneumatic::Graphics::Shader::getShaderProgram() const -> GLuint
 {
-  const GLuint VERTEX_BUFFER = 0;
-  const GLuint COLOR_BUFFER = 1;
-  const GLuint TEXTURE_BUFFER = 2;
-  const GLuint NORMALS_BUFFER = 3;
-
-  glBindAttribLocation(fProgramID, VERTEX_BUFFER,  "position");
-  glBindAttribLocation(fProgramID, COLOR_BUFFER,   "color");
-  glBindAttribLocation(fProgramID, TEXTURE_BUFFER, "texCoord");
-  glBindAttribLocation(fProgramID, NORMALS_BUFFER, "normal");
+  return fProgramID;
 }
 
 auto
-Pneumatic::Shader::_CompileShader(GLuint shaderID, const char *sourcePtr,
-                                  GLint result, int infoLogLength,
-                                  std::vector<char> errorVec) -> void
+Pneumatic::Graphics::Shader::_setDefaultAttributes() -> void
 {
-  glShaderSource(shaderID, 1, &sourcePtr , NULL);
-  glCompileShader(shaderID);
+  const GLuint k_vertex_buffer  = 0;
+  const GLuint k_color_buffer   = 1;
+  const GLuint k_texture_buffer = 2;
+  const GLuint k_normals_buffer = 3;
 
-  glGetShaderiv(shaderID, GL_COMPILE_STATUS, &result);
-  glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &infoLogLength);
-  errorVec = std::vector<char>(infoLogLength);
-  glGetShaderInfoLog(shaderID, infoLogLength, NULL, &errorVec[0]);
-  std::cout << std::string(errorVec.begin(), errorVec.end());
+  glBindAttribLocation(fProgramID, k_vertex_buffer,  "position");
+  glBindAttribLocation(fProgramID, k_color_buffer,   "color");
+  glBindAttribLocation(fProgramID, k_texture_buffer, "texCoord");
+  glBindAttribLocation(fProgramID, k_normals_buffer, "normal");
+}
+
+auto
+Pneumatic::Graphics::Shader::_createShader(GLenum shader_type,
+                                           const std::string& shader_file) -> std::pair<GLuint, std::string>
+{
+  if (shader_file == "") {
+    return make_pair(0, "");
+  }
+
+  std::string path, suffix;
+  switch (shader_type) {
+    case GL_VERTEX_SHADER:
+      path = Config::getVertexDir();
+      suffix = ".vert_glsl";
+      break;
+    case GL_FRAGMENT_SHADER:
+      path = Config::getFragmentDir();
+      suffix = ".frag_glsl";
+      break;
+    case GL_GEOMETRY_SHADER:
+      path = Config::getGeometryDir();
+      suffix = ".geom_glsl";
+      break;
+    case GL_TESS_CONTROL_SHADER:
+      path = Config::getTessCtrlDir();
+      suffix = ".tcs_glsl";
+      break;
+    case GL_TESS_EVALUATION_SHADER:
+      path = Config::getTessEvalDir();
+      suffix = ".tes_glsl";
+      break;
+    default:
+      return make_pair(0, "");
+  }
+
+  GLuint shader_id = glCreateShader(shader_type);
+
+  return make_pair(shader_id, path + shader_file + suffix);
+}
+
+auto
+Pneumatic::Graphics::Shader::_compileShader(GLuint shader_id,
+                                            const std::string& shader_path) -> Pneumatic::Core::MethResult
+{
+  auto source_result = ResourceLoader::loadTextFile(shader_path);
+
+  if (!source_result.isOk()) {
+    return MethResult::error(source_result.getError());
+  }
+  
+  const auto source_str = source_result.getContents();
+  const auto* k_source_ptr = source_str.c_str();
+
+  glShaderSource(shader_id, 1, &k_source_ptr , NULL);
+  glCompileShader(shader_id);
+
+  GLint result;
+  glGetShaderiv(shader_id, GL_COMPILE_STATUS, &result);
+
+  if (result == GL_FALSE) {
+    int info_log_length;
+    glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &info_log_length);
+
+    std::vector<char> error_msg_vec(info_log_length);
+    glGetShaderInfoLog(shader_id, info_log_length, NULL, error_msg_vec.data());
+
+    return MethResult::error(string(error_msg_vec.begin(),
+                                    error_msg_vec.end()));
+  }
+
+  glAttachShader(fProgramID, shader_id);
+  return MethResult::ok();
+}
+
+auto
+Pneumatic::Graphics::Shader::_linkShaderProgram() -> Pneumatic::Core::MethResult
+{
+  glLinkProgram(fProgramID);
+
+  GLint result;
+  glGetProgramiv(fProgramID, GL_LINK_STATUS, &result);
+
+  if (result == GL_FALSE) {
+    int info_log_length;
+    glGetProgramiv(fProgramID, GL_INFO_LOG_LENGTH, &info_log_length);
+
+    std::vector<char> error_msg_vec(max(info_log_length, 1));
+    glGetProgramInfoLog(fProgramID, info_log_length, NULL, error_msg_vec.data());
+
+    return MethResult::error(string(error_msg_vec.begin(),
+                                    error_msg_vec.end()));
+  }
+  return MethResult::ok();
 }

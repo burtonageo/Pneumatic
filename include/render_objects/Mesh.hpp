@@ -1,10 +1,28 @@
 /**
- * CSC3223 Graphics for Games
- * Coursework 2
- * Name: George Burton
- * Student Number: 110204567
- * File: Mesh.hpp
- */
+ * This file is part of the Pneumatic game engine
+ *
+ * Copyright (c) 2014 George Burton
+ * 
+ * THIS SOFTWARE IS PROVIDED 'AS-IS', WITHOUT ANY EXPRESS OR IMPLIED
+ * WARRANTY. IN NO EVENT WILL THE AUTHORS BE HELD LIABLE FOR ANY DAMAGES
+ * ARISING FROM THE USE OF THIS SOFTWARE.
+ * 
+ * Permission is granted to anyone to use this software for any purpose,  
+ * including commercial applications, and to alter it and redistribute it  
+ * freely, subject to the following restrictions:
+ * 
+ *    1. The origin of this software must not be misrepresented; you must not  
+ *       claim that you wrote the original software. If you use this software  
+ *       in a product, an acknowledgment in the product documentation would be  
+ *       appreciated but is not required.
+ * 
+ *    2. Altered source versions must be plainly marked as such, and must not be  
+ *       misrepresented as being the original software.
+ * 
+ *    3. This notice may not be removed or altered from any source  
+ *       distribution.
+ *
+ **/
 
 #pragma once
 
@@ -12,47 +30,55 @@
 #define PNEUMATIC_MESH_HPP
 
 #include <string>
-#include <memory>
 #include <vector>
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
 #define GLM_FORCE_RADIANS
-#include <glm/fwd.hpp>
+#include <glm/glm.hpp>
+
+#include "GlInclude.hpp"
 
 namespace Pneumatic {
 
+namespace Graphics {
+
 class Mesh final {
 public:
-  Mesh(int numVerts = 0);
-  ~Mesh();
+  explicit Mesh(int num_verts = 0);
+  ~Mesh(void);
 
-  static auto GenerateTriangle(void)                   -> std::shared_ptr<Mesh>;
-  static auto GenerateCube(void)                       -> std::shared_ptr<Mesh>;
-  static auto NewFromObjFile(std::string const &fname) -> std::shared_ptr<Mesh>;
+  // Constructor methods
+  static auto generateTriangle(void)                        -> std::shared_ptr<Mesh>;
+  static auto generateCube(void)                            -> std::shared_ptr<Mesh>;
+  static auto generateSphere(void)                          -> std::shared_ptr<Mesh>;
+  static auto generatePlane(float x_scale, float y_scale)   -> std::shared_ptr<Mesh>;
 
-  auto Draw(void)                                      -> void;
+  static auto loadFromObjFile(const std::string& file_name) -> std::shared_ptr<Mesh>;
+
+  auto draw(void)                                           -> void;
 
 private:
-  static auto _LoadFromFile(std::string const &file)   -> std::shared_ptr<Mesh>;
+  auto _generateNormals(void)                               -> void;
+  auto _bufferData(void)                                    -> void;
 
-  auto _GenerateNormals(void)                          -> void;
-  auto _BufferData(void)                               -> void;
+  auto _reserveArrays(void)                                 -> void;
 
-  class RenderObject;
-  friend class RenderObject;
+  auto _bufferVertices(void)                                -> void;
+  auto _bufferNormals(void)                                 -> void;
+  auto _bufferColors(void)                                  -> void;
+  auto _bufferTexCoords(void)                               -> void;
+
+  static auto _loadFromFile(const std::string&)             -> std::shared_ptr<Mesh>;
+
+  std::vector<glm::vec3> fVertices, fNormals;
+  std::vector<glm::vec4> fColors;
+  std::vector<glm::vec2> fTexCoords;
 
   int fNumVertices;
 
-  std::unique_ptr<std::vector<glm::vec3>> fVertices;
-  std::unique_ptr<std::vector<glm::vec3>> fNormals;
-  std::unique_ptr<std::vector<glm::vec4>> fColors;
-  std::unique_ptr<std::vector<glm::vec2>> fTexCoords;
-
-  GLuint fVao;
-  GLuint fType;
+  GLuint fVao, fType;
 };
+
+} // namespace Graphics
 
 } // namespace Pneumatic
 

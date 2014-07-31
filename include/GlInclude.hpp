@@ -24,62 +24,14 @@
  *
  **/
 
-#include "Light.hpp"
+#ifndef PNEUMATIC_GL_INCLUDE_HPP
+#define PNEUMATIC_GL_INCLUDE_HPP
 
-Pneumatic::Graphics::Light::Light(const glm::vec3& position,
-                                  const glm::vec4& color,
-                                  float radius)
-  :
-  fPosition(position),
-  fColor(color),
-  fRadius(radius)
-{
+#define GLEW_STATIC
+#include <GL/glew.h>
 
-}
+#define GLFW_INCLUDE_GL3
+#define GLFW_NO_GLU
+#include <GLFW/glfw3.h>
 
-Pneumatic::Graphics::Light::Light(const Light& other)
-  :
-  fPosition(other.fPosition),
-  fColor(other.fColor),
-  fRadius(other.fRadius)
-{
-
-}
-
-Pneumatic::Graphics::Light::~Light() = default;
-
-auto
-Pneumatic::Graphics::Light::getPosition() const -> glm::vec3
-{
-  return fPosition;
-}
-
-auto
-Pneumatic::Graphics::Light::setPosition(const glm::vec3& new_pos) -> void
-{
-  fPosition = new_pos;
-}
-
-auto
-Pneumatic::Graphics::Light::getColor() const -> glm::vec4
-{
-  return fColor;
-}
-
-auto
-Pneumatic::Graphics::Light::setColor(const glm::vec4& new_col) -> void
-{
-  fColor = new_col;
-}
-
-auto
-Pneumatic::Graphics::Light::getRadius() const -> float
-{
-  return fRadius;
-}
-
-auto
-Pneumatic::Graphics::Light::setRadius(float new_radius) -> void
-{
-  fRadius = new_radius;
-}
+#endif // PNEUMATIC_GL_INCLUDE_HPP

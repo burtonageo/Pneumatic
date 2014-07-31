@@ -26,7 +26,6 @@
 
 #include "Window.hpp"
 
-#include <cstdio>
 #include <cstdlib>
 #include <iostream>
 

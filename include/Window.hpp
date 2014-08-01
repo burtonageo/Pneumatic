@@ -39,8 +39,10 @@
 namespace Pneumatic {
 
 namespace Core {
-  class MethResult;
-}
+
+class MethResult;
+
+} // namespace Core
 
 namespace Graphics {
 

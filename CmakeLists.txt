@@ -21,7 +21,6 @@ set(RO_DIR "${SRC_DIR}/render_objects")
 set(CORE_DIR "${SRC_DIR}/core")
 set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
 set(RO_INCLUDE_DIR "${INCLUDE_DIR}/render_objects")
-set(CORE_INCLUDE_DIR "${INCLUDE_DIR}/core")
 
 set(SOIL_DIR "${PROJECT_SOURCE_DIR}/thirdparty/SOIL")
 set(SOIL_LINK "SOIL")
@@ -35,7 +34,7 @@ set (GLM_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/thirdparty/glm")
 
 set(SOURCES
 	"${SRC_DIR}/Camera.cpp"
-	"${SRC_DIR}/Renderer.cpp"
+	"${SRC_DIR}/GlRenderer.cpp"
 	"${SRC_DIR}/ResourceLoader.cpp"
 	"${SRC_DIR}/Window.cpp"
 	"${RO_DIR}/Light.cpp"
@@ -49,7 +48,6 @@ include_directories(
 	${SOIL_DIR}
 	${SRC_DIR}
 	${INCLUDE_DIR}
-	${CORE_INCLUDE_DIR}
 	${RO_INCLUDE_DIR}
 	${PROJECT_BINARY_DIR}
 	${OPENGL_INCLUDE_DIRS}

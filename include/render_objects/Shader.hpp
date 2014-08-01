@@ -36,8 +36,8 @@
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 
+#include "core/MethResult.hpp"
 #include "GlInclude.hpp"
-#include "MethResult.hpp"
 
 namespace Pneumatic {
 

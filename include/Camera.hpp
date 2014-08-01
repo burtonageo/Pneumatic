@@ -35,7 +35,7 @@ namespace Pneumatic {
 
 namespace Graphics {
 
-class Renderer;
+class GlRenderer;
 class Camera final {
 public:
   Camera(float fov                      = 45.0f,

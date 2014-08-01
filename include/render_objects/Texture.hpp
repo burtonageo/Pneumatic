@@ -33,8 +33,8 @@
 #include <string>
 #include <utility>
 
+#include "core/MethResult.hpp"
 #include "GlInclude.hpp"
-#include "MethResult.hpp"
 
 namespace Pneumatic {
 

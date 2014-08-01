@@ -31,7 +31,7 @@
 
 #include <string>
 
-#include "FuncResult.hpp"
+#include "core/FuncResult.hpp"
 
 namespace Pneumatic {
 

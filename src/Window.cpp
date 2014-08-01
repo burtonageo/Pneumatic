@@ -26,9 +26,9 @@
 
 #include "Window.hpp"
 
-#include "MethResult.hpp"
+#include "core/MethResult.hpp"
 #include "GlInclude.hpp"
-#include "Renderer.hpp"
+#include "GlRenderer.hpp"
 #include "RenderObject.hpp"
 
 namespace Pneumatic {
@@ -58,7 +58,7 @@ public:
 
   auto init(void)
   {
-    renderer = std::make_shared<Renderer>();
+    renderer = std::make_shared<GlRenderer>();
     return renderer->init(glWindow.get());
   }
 
@@ -68,7 +68,7 @@ public:
   const int min_width, min_height;
 
   std::unique_ptr<GLFWwindow, WindowDeleter> glWindow;
-  std::shared_ptr<Renderer> renderer;
+  std::shared_ptr<GlRenderer> renderer;
 };
 
 } // namespace Graphics

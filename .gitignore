@@ -25,3 +25,6 @@
 # Common build directory names
 build/
 target/
+
+# Third party files
+thirdparty

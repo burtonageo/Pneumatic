@@ -1,0 +1,3 @@
+[submodule "thirdparty/SOIL"]
+	path = thirdparty/SOIL
+	url = https://github.com/burtonageo/SOIL

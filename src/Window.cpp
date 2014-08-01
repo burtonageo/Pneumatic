@@ -26,8 +26,8 @@
 
 #include "Window.hpp"
 
-#include "GlInclude.hpp"
 #include "MethResult.hpp"
+#include "GlInclude.hpp"
 #include "Renderer.hpp"
 #include "RenderObject.hpp"
 

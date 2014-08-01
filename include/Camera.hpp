@@ -79,7 +79,7 @@ private:
   auto _getTargetPosition(void) const                -> glm::vec3;
   auto _setTargetPosition(const glm::vec3& new_targ) -> void;
 
-  friend class Pneumatic::Graphics::Renderer;
+  friend class Pneumatic::Graphics::GlRenderer;
 
   float fFov, fZoom, fNearClip, fFarClip;
   glm::uvec2 fCameraSize;

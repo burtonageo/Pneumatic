@@ -189,9 +189,9 @@ Pneumatic::Graphics::GlRenderer::viewportDidResize(int width, int height) -> voi
 
 auto
 Pneumatic::Graphics::GlRenderer::keyWasPressed(int key,
-                                             int scanCode,
-                                             int action,
-                                             int mods) -> void
+                                               int scanCode,
+                                               int action,
+                                               int mods) -> void
 {
   switch(key) {
     case GLFW_KEY_X:

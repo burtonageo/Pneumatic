@@ -23,7 +23,7 @@ set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
 set(RO_INCLUDE_DIR "${INCLUDE_DIR}/render_objects")
 
 set(SOIL_DIR "${PROJECT_SOURCE_DIR}/thirdparty/SOIL")
-set(SOIL_LINK "SOIL")
+set(SOIL_LIBRARIES "SOIL")
 set(SOIL_INCLUDE "${SOIL_DIR}/include")
 
 set(GLFW_DIR "${PROJECT_SOURCE_DIR}/thirdparty/glfw")
@@ -68,7 +68,7 @@ add_definitions(
 	-Wall)
 
 target_link_libraries(${PROJECT_NAME}
-	${SOIL_LINK}
+	${SOIL_LIBRARIES}
 	${GLFW_LINK}
 	${GLFW_LIBRARIES}
 	${OPENGL_LIBRARIES}

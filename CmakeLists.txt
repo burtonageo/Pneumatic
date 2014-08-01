@@ -13,24 +13,13 @@ set(CMAKE_MAJOR_VERSION 0)
 set(CMAKE_MINOR_VERSION 1)
 project(${PROJECT_NAME})
 
-find_package(OpenGL REQUIRED)
-find_package(GLEW REQUIRED)
-
+# Source files
+#==============
 set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")
 set(RO_DIR "${SRC_DIR}/render_objects")
 set(CORE_DIR "${SRC_DIR}/core")
 set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
 set(RO_INCLUDE_DIR "${INCLUDE_DIR}/render_objects")
-
-set(SOIL_DIR "${PROJECT_SOURCE_DIR}/thirdparty/SOIL")
-set(SOIL_LIBRARIES "SOIL")
-set(SOIL_INCLUDE "${SOIL_DIR}/include")
-
-set(GLFW_DIR "${PROJECT_SOURCE_DIR}/thirdparty/glfw")
-set(GLFW_LINK "glfw")
-set(GLFW_INCLUDE_DIRS "${GLFW_DIR}/include")
-
-set (GLM_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/thirdparty/glm")
 
 set(SOURCES
 	"${SRC_DIR}/Camera.cpp"
@@ -44,23 +33,47 @@ set(SOURCES
 	"${RO_DIR}/RenderObject.cpp")
 
 include_directories(
-	${SOIL_INCLUDE}
-	${SOIL_DIR}
 	${SRC_DIR}
 	${INCLUDE_DIR}
 	${RO_INCLUDE_DIR}
-	${PROJECT_BINARY_DIR}
+	${PROJECT_BINARY_DIR})
+
+# System OpenGL and GLEW
+#========================
+find_package(OpenGL REQUIRED)
+find_package(GLEW REQUIRED)
+
+include_directories(
 	${OPENGL_INCLUDE_DIRS}
-	${GLFW_INCLUDE_DIRS}
 	${GLEW_INCLUDE_DIRS}
-	${GLU_INCLUDE_DIRS}
-	${GLM_INCLUDE_DIRS})
+	${GLU_INCLUDE_DIRS})
+
+# SOIL
+#======
+set(SOIL_DIR "${PROJECT_SOURCE_DIR}/thirdparty/SOIL")
+set(SOIL_INCLUDE_DIRS ${SOIL_DIR}/include)
 
 add_subdirectory(${SOIL_DIR})
-add_subdirectory(${GLFW_DIR})
 link_directories(${SOIL_DIR})
-link_directories(${GLFW_DIR})
+include_directories(${SOIL_INCLUDE_DIRS})
 
+# GLFW
+#======
+set(GLFW_DIR "${PROJECT_SOURCE_DIR}/thirdparty/glfw")
+set(GLFW_LINK "glfw")
+set(GLFW_INCLUDE_DIRS "${GLFW_DIR}/include")
+
+add_subdirectory(${GLFW_DIR})
+link_directories(${GLFW_DIR})
+include_directories(${GLFW_INCLUDE_DIRS})
+
+# GLM
+#=====
+set (GLM_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/thirdparty/glm")
+include_directories(${GLM_INCLUDE_DIRS})
+
+# Project build
+#===============
 add_library(${PROJECT_NAME} ${SOURCES})
 
 add_definitions(

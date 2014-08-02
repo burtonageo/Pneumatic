@@ -24,7 +24,7 @@
  *
  **/
 
-#include "ResourceLoader.hpp"
+#include "core/ResourceLoader.hpp"
 
 #include <fstream>
 #include <iostream>

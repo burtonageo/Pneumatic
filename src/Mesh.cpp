@@ -24,15 +24,18 @@
  *
  **/
 
-#include "Mesh.hpp"
+#include "graphics/Mesh.hpp"
 
 #include <algorithm>
 #include <iostream>
 #include <fstream>
 
-#include "GlInclude.hpp"
-#include "ResourceLoader.hpp"
-#include "Shader.hpp"
+#define GLFW_INCLUDE_GL3
+#define GLFW_NO_GLU
+#include <GLFW/glfw3.h>
+
+#include "core/ResourceLoader.hpp"
+#include "graphics/Shader.hpp"
 
 using namespace glm;
 using namespace std;

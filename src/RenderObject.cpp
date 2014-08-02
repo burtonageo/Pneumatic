@@ -24,11 +24,11 @@
  *
  **/
 
-#include "RenderObject.hpp"
+#include "graphics/RenderObject.hpp"
 
-#include "Mesh.hpp"
-#include "Shader.hpp"
-#include "Texture.hpp"
+#include "graphics/Mesh.hpp"
+#include "graphics/Shader.hpp"
+#include "graphics/Texture.hpp"
 
 using namespace std;
 

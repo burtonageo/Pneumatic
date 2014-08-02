@@ -24,12 +24,16 @@
  *
  **/
 
-#include "Window.hpp"
+#include "graphics/Window.hpp"
+
+#define GLFW_INCLUDE_GL3
+#define GLFW_NO_GLU
+#include <GLFW/glfw3.h>
 
 #include "core/MethResult.hpp"
-#include "GlInclude.hpp"
+#include "graphics/RenderObject.hpp"
+
 #include "GlRenderer.hpp"
-#include "RenderObject.hpp"
 
 namespace Pneumatic {
 

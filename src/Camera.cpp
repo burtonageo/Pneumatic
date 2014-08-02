@@ -24,7 +24,7 @@
  *
  **/
 
-#include "Camera.hpp"
+#include "graphics/Camera.hpp"
 
 Pneumatic::Graphics::Camera::Camera(float fov,
                                     float zoom,

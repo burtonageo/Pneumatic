@@ -26,18 +26,23 @@
 
 #include "GlRenderer.hpp"
 
-#include <memory>
+#define GLEW_STATIC
+#include <GL/glew.h>
+
+#define GLFW_INCLUDE_GL3
+#define GLFW_NO_GLU
+#include <GLFW/glfw3.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "core/MethResult.hpp"
+#include "core/ResourceLoader.hpp"
 
-#include "Camera.hpp"
-#include "ResourceLoader.hpp"
-#include "RenderObject.hpp"
-#include "Shader.hpp"
-#include "Window.hpp"
+#include "graphics/Camera.hpp"
+#include "graphics/RenderObject.hpp"
+#include "graphics/Shader.hpp"
+#include "graphics/Window.hpp"
 
 namespace Pneumatic {
 

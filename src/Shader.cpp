@@ -24,14 +24,17 @@
  *
  **/
 
-#include "Shader.hpp"
+#include "graphics/Shader.hpp"
 
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include "GlInclude.hpp"
-#include "ResourceLoader.hpp"
+#define GLFW_INCLUDE_GL3
+#define GLFW_NO_GLU
+#include <GLFW/glfw3.h>
+
+#include "core/ResourceLoader.hpp"
 
 using namespace std;
 using namespace Pneumatic::Core;

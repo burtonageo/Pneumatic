@@ -24,7 +24,7 @@
  *
  **/
 
-#include "Light.hpp"
+#include "graphics/Light.hpp"
 
 Pneumatic::Graphics::Light::Light(const glm::vec3& position,
                                   const glm::vec4& color,

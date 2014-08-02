@@ -29,12 +29,15 @@
 #ifndef PNEUMATIC_WINDOW_HPP
 #define PNEUMATIC_WINDOW_HPP
 
-#include <exception>
 #include <memory>
 #include <string>
 
-#include "GlInclude.hpp"
-#include "RenderObject.hpp"
+#define GLEW_STATIC
+#include <GL/glew.h>
+
+#define GLFW_INCLUDE_GL3
+#define GLFW_NO_GLU
+#include <GLFW/glfw3.h>
 
 namespace Pneumatic {
 

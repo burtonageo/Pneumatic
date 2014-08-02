@@ -24,11 +24,11 @@
  *
  **/
 
-#include "Texture.hpp"
+#include "graphics/Texture.hpp"
 
 #include <SOIL.h>
 
-#include "Shader.hpp"
+#include "graphics/Shader.hpp"
 
 using namespace std;
 using namespace Pneumatic::Core;

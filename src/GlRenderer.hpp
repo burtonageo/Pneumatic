@@ -39,6 +39,12 @@
 
 namespace Pneumatic {
 
+namespace Core {
+
+class MethResult;
+
+} // namespace Core
+
 namespace Graphics {
 
 class RenderObject;
@@ -47,13 +53,13 @@ class GlRenderer final {
 public:
   explicit GlRenderer(void);
 
-  GlRenderer(const GlRenderer&)                                         = delete;
-  GlRenderer(GlRenderer&&)                                              = delete;
-  auto operator=(const GlRenderer&)                      -> GlRenderer& = delete;
+  GlRenderer(const GlRenderer&)                                       = delete;
+  GlRenderer(GlRenderer&&)                                            = delete;
+  auto operator=(const GlRenderer&)                    -> GlRenderer& = delete;
 
   ~GlRenderer(void);
 
-  auto init(GLFWwindow*)                               -> bool;
+  auto init(GLFWwindow*)                               -> Pneumatic::Core::MethResult;
 
   auto addRenderObject(std::weak_ptr<RenderObject>)    -> void;
 

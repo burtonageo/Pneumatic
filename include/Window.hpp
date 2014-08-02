@@ -64,7 +64,7 @@ public:
   auto addRenderObject(std::weak_ptr<RenderObject> object)       -> void;
 
 private:  
-  auto _initGlfw(const std::string&)                             -> bool;
+  auto _initGlfw(const std::string&)                             -> Pneumatic::Core::MethResult;
 
   auto _handleKeypress(int, int, int, int)                       -> void;
   auto _handleRefresh(void)                                      -> void;

@@ -31,13 +31,13 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "core/MethResult.hpp"
+
 #include "Camera.hpp"
 #include "ResourceLoader.hpp"
 #include "RenderObject.hpp"
 #include "Shader.hpp"
 #include "Window.hpp"
-
-using namespace std;
 
 namespace Pneumatic {
 
@@ -63,6 +63,9 @@ public:
 
 } // namespace Pneumatic
 
+using namespace std;
+using namespace Pneumatic::Core;
+
 bool Pneumatic::Graphics::GlRenderer::sGlewInitialized = false;
 
 Pneumatic::Graphics::GlRenderer::GlRenderer()
@@ -75,7 +78,7 @@ Pneumatic::Graphics::GlRenderer::GlRenderer()
 Pneumatic::Graphics::GlRenderer::~GlRenderer() = default;
 
 auto
-Pneumatic::Graphics::GlRenderer::init(GLFWwindow* win_ptr) -> bool
+Pneumatic::Graphics::GlRenderer::init(GLFWwindow* win_ptr) -> Pneumatic::Core::MethResult
 {
   glfwMakeContextCurrent(win_ptr);
 
@@ -84,13 +87,14 @@ Pneumatic::Graphics::GlRenderer::init(GLFWwindow* win_ptr) -> bool
 
     GLenum err = glewInit();
     if (err != GLEW_OK) {
-      const size_t max_buf_len = 60;
+      const size_t max_buf_len = 80;
       char err_buf[max_buf_len];
       snprintf(err_buf, max_buf_len, "GLEW not initialized: %s", glewGetErrorString(err));
-      return false;
+
+      return MethResult::error(string(err_buf));
     }
     sGlewInitialized = true;
-    glGetError();
+    glGetError(); // clear out errors
   }
 
   glEnable(GL_MULTISAMPLE);
@@ -110,7 +114,7 @@ Pneumatic::Graphics::GlRenderer::init(GLFWwindow* win_ptr) -> bool
   fRenImpl->camera.setPosition(glm::vec3(4.0f, 0.0f, 4.0f));
   fRenImpl->camera._setTargetPosition(glm::vec3(0.0f));
 
-  return true;
+  return MethResult::ok();
 }
 
 auto

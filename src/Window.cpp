@@ -56,7 +56,7 @@ public:
 
     ~WindowImpl() = default;
 
-  auto init(void)
+  auto init(void) -> Pneumatic::Core::MethResult
   {
     renderer = std::make_shared<GlRenderer>();
     return renderer->init(glWindow.get());
@@ -76,6 +76,7 @@ public:
 } // namespace Pneumatic
 
 using namespace std;
+using namespace Pneumatic::Core;
 
 Pneumatic::Graphics::Window::Window(const std::string& title, int w, int h, int mw, int mh)
   :
@@ -90,13 +91,9 @@ Pneumatic::Graphics::Window::~Window() = default;
 auto
 Pneumatic::Graphics::Window::init() -> Pneumatic::Core::MethResult
 {
-  if (!_initGlfw(fWinTitle)) {
-    return Pneumatic::Core::MethResult::error("Could not initialise glfw");
-  }
+  PNEU_METHRES_TRY(_initGlfw(fWinTitle));
+  PNEU_METHRES_TRY(fWinImpl->init());
 
-  if (!fWinImpl->init()) {
-    return Pneumatic::Core::MethResult::error("Could not initialise renderer");
-  }
   return Pneumatic::Core::MethResult::ok();
 }
 
@@ -130,11 +127,11 @@ Pneumatic::Graphics::Window::addRenderObject(std::weak_ptr<RenderObject> object)
 }
 
 auto
-Pneumatic::Graphics::Window::_initGlfw(const std::string& title) -> bool
+Pneumatic::Graphics::Window::_initGlfw(const std::string& title) -> Pneumatic::Core::MethResult
 {
   bool glfw_success = glfwInit();
   if (!glfw_success) {
-    return false;
+    return MethResult::error("Failed to initialise GLFW");
   }
 
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -149,7 +146,7 @@ Pneumatic::Graphics::Window::_initGlfw(const std::string& title) -> bool
                                    NULL);
 
   if (!win_ptr) {
-    return false;
+    return MethResult::error("Could not create GLFW window");
   }
 
   glfwSetWindowUserPointer(win_ptr, this);
@@ -164,7 +161,7 @@ Pneumatic::Graphics::Window::_initGlfw(const std::string& title) -> bool
   glfwSetWindowFocusCallback(win_ptr, _windowFocusChangeCallback);
 
   fWinImpl->glWindow = std::unique_ptr<GLFWwindow, WindowImpl::WindowDeleter>(win_ptr);
-  return true;
+  return MethResult::ok();
 }
 
 auto

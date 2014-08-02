@@ -83,18 +83,18 @@ Pneumatic::Graphics::Shader::init(const std::string& vert_file,
   #define TRY_COMPILE(file, func) \
     do { \
       if (file != "") { \
-        PNEU_METHRES_TRY(func); \
+        PNEU_TRY_METH(func); \
       } \
     } while(0)
 
-  PNEU_METHRES_TRY(_compileShader(vert_shader_id, vert_path));
-  PNEU_METHRES_TRY(_compileShader(frag_shader_id, frag_path));
+  PNEU_TRY_METH(_compileShader(vert_shader_id, vert_path));
+  PNEU_TRY_METH(_compileShader(frag_shader_id, frag_path));
   
   TRY_COMPILE(geom_file, _compileShader(geom_shader_id, geom_path));
   TRY_COMPILE(tcs_file,  _compileShader(tcs_shader_id,  tcs_path));
   TRY_COMPILE(tes_file,  _compileShader(tes_shader_id,  tes_path));
 
-  PNEU_METHRES_TRY(_linkShaderProgram());
+  PNEU_TRY_METH(_linkShaderProgram());
 
   _setDefaultAttributes();
 

@@ -86,7 +86,7 @@ private:
 
 } // namespace Pneumatic
 
-#define PNEU_FUNCRES_TRY(var, func) \
+#define PNEU_TRY_FUNC(var, func) \
   auto var = func; \
   do { \
     if (!var_name.isOk()) { \

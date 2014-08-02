@@ -74,7 +74,7 @@ private:
 
 } // namespace Pneumatic
 
-#define PNEU_METHRES_TRY(func) \
+#define PNEU_TRY_METH(func) \
   do { \
     auto err = func; \
     if (!err.isOk()) { \

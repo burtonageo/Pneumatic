@@ -95,8 +95,8 @@ Pneumatic::Graphics::Window::~Window() = default;
 auto
 Pneumatic::Graphics::Window::init() -> Pneumatic::Core::MethResult
 {
-  PNEU_METHRES_TRY(_initGlfw(fWinTitle));
-  PNEU_METHRES_TRY(fWinImpl->init());
+  PNEU_TRY_METH(_initGlfw(fWinTitle));
+  PNEU_TRY_METH(fWinImpl->init());
 
   return Pneumatic::Core::MethResult::ok();
 }

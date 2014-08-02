@@ -16,26 +16,23 @@ project(${PROJECT_NAME})
 # Source files
 #==============
 set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")
-set(RO_DIR "${SRC_DIR}/render_objects")
 set(CORE_DIR "${SRC_DIR}/core")
 set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
-set(RO_INCLUDE_DIR "${INCLUDE_DIR}/render_objects")
 
 set(SOURCES
 	"${SRC_DIR}/Camera.cpp"
 	"${SRC_DIR}/GlRenderer.cpp"
 	"${SRC_DIR}/ResourceLoader.cpp"
 	"${SRC_DIR}/Window.cpp"
-	"${RO_DIR}/Light.cpp"
-	"${RO_DIR}/Mesh.cpp"
-	"${RO_DIR}/Shader.cpp"
-	"${RO_DIR}/Texture.cpp"
-	"${RO_DIR}/RenderObject.cpp")
+	"${SRC_DIR}/Light.cpp"
+	"${SRC_DIR}/Mesh.cpp"
+	"${SRC_DIR}/Shader.cpp"
+	"${SRC_DIR}/Texture.cpp"
+	"${SRC_DIR}/RenderObject.cpp")
 
 include_directories(
 	${SRC_DIR}
 	${INCLUDE_DIR}
-	${RO_INCLUDE_DIR}
 	${PROJECT_BINARY_DIR})
 
 # System OpenGL and GLEW

@@ -74,6 +74,15 @@ private:
 
 } // namespace Pneumatic
 
+#define PNEU_EXCEPT_TO_METHRES(func) \
+  do { \
+    try { \
+      func; \
+    } catch(const std::exception& e) { \
+      return Pneumatic::Graphics::MethResult::error(e.what()); \
+    } \
+  }
+
 #define PNEU_TRY_METH(func) \
   do { \
     auto err = func; \

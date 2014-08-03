@@ -56,6 +56,17 @@ public:
     fContents(std::unique_ptr<T>(other.fContents.get())),
     fDescription(other.fDescription) { }
 
+  auto resetOk(const T& val) -> void
+  {
+    fContents.reset(&val);
+  }
+
+  auto resetError(const std::string& description) -> void
+  {
+    fContents.release();
+    fDescription = description;
+  }
+
   auto isOk(void) const -> bool
   {
     return fContents != nullptr;

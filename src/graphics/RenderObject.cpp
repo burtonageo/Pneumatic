@@ -114,12 +114,6 @@ Pneumatic::Graphics::RenderObject::getMesh()  const -> std::shared_ptr<Pneumatic
 }
 
 auto
-Pneumatic::Graphics::RenderObject::setMesh(std::shared_ptr<Pneumatic::Graphics::Mesh> mesh)  -> void
-{
-  fMesh = mesh;
-}
-
-auto
 Pneumatic::Graphics::RenderObject::getShader() const  -> std::shared_ptr<Pneumatic::Graphics::Shader>
 {
   return fShaders.at(fCurrentShaderIndex);
@@ -144,3 +138,10 @@ Pneumatic::Graphics::RenderObject::setModelMatrix(const glm::mat4& matrix)  -> v
 {
   fModelMatrix = matrix;
 }
+
+auto
+Pneumatic::Graphics::RenderObject::_setMesh(std::shared_ptr<Pneumatic::Graphics::Mesh> mesh)  -> void
+{
+  fMesh = mesh;
+}
+

@@ -176,7 +176,7 @@ Pneumatic::Graphics::Shader::_compileShader(GLuint shader_id,
     return MethResult::error(source_result.getError());
   }
   
-  const auto source_str = source_result.getContents();
+  const auto source_str = source_result.get();
   const auto* k_source_ptr = source_str.c_str();
 
   glShaderSource(shader_id, 1, &k_source_ptr , NULL);

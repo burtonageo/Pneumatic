@@ -74,6 +74,15 @@ public:
     return FuncResult(f(*fContents), fDescription);
   }
 
+  template<typename U>
+  auto mapOrElse(const std::function<U (T)>& f, const U& val) -> FuncResult<U>
+  {
+    if (!isOk()) {
+      return FuncResult::ok(val);
+    }
+    return FuncResult(f(*fContents), fDescription);
+  }
+
   auto voidMap(const std::function<void (T)>& f) -> void
   {
     if (isOk()) {
@@ -81,7 +90,7 @@ public:
     }
   }
 
-  auto getContents(void) const -> T
+  auto get(void) const -> T
   {
     assert(isOk());
     return *fContents;

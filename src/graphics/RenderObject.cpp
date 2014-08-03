@@ -26,15 +26,13 @@
 
 #include "graphics/RenderObject.hpp"
 
-#include "graphics/Mesh.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
 
 using namespace std;
 
-Pneumatic::Graphics::RenderObject::RenderObject(std::shared_ptr<Pneumatic::Graphics::Mesh> mesh)
+Pneumatic::Graphics::RenderObject::RenderObject()
   :
-  fMesh(mesh),
   fModelMatrix(glm::mat4(1.0)),
   fShaders(),
   fTextures(),
@@ -45,37 +43,6 @@ Pneumatic::Graphics::RenderObject::RenderObject(std::shared_ptr<Pneumatic::Graph
 }
 
 Pneumatic::Graphics::RenderObject::~RenderObject() = default;
-
-auto
-Pneumatic::Graphics::RenderObject::update(double delta_time) -> void
-{
-  fShaderUpdaters.at(fCurrentShaderIndex)->update(delta_time);
-}
-
-auto
-Pneumatic::Graphics::RenderObject::draw()  -> void
-{
-  const auto k_curr_shader = fShaders.size() > 0
-                           ? fShaders.at(fCurrentShaderIndex)
-                           : nullptr;
-
-  const auto k_curr_texture = fTextures.size() > 0
-                            ? fTextures.at(fCurrentShaderIndex)
-                            : nullptr;
-
-  if (k_curr_shader != nullptr && k_curr_texture != nullptr) {
-    glUseProgram(k_curr_shader->getShaderProgram());
-    k_curr_texture->bind(k_curr_shader);
-  }
-
-  fMesh->draw();
-
-  if (k_curr_texture != nullptr) {
-    k_curr_texture->unbind();
-  }
-
-  //glUseProgram(0);
-}
 
 auto
 Pneumatic::Graphics::RenderObject::changeShaders()  -> void
@@ -108,12 +75,6 @@ Pneumatic::Graphics::RenderObject::addTexture(const std::string& tex_file) -> vo
 }
 
 auto
-Pneumatic::Graphics::RenderObject::getMesh()  const -> std::shared_ptr<Pneumatic::Graphics::Mesh>
-{
-  return fMesh;
-}
-
-auto
 Pneumatic::Graphics::RenderObject::getShader() const  -> std::shared_ptr<Pneumatic::Graphics::Shader>
 {
   return fShaders.at(fCurrentShaderIndex);
@@ -140,8 +101,51 @@ Pneumatic::Graphics::RenderObject::setModelMatrix(const glm::mat4& matrix)  -> v
 }
 
 auto
-Pneumatic::Graphics::RenderObject::_setMesh(std::shared_ptr<Pneumatic::Graphics::Mesh> mesh)  -> void
+Pneumatic::Graphics::RenderObject::bindCurrentShader() -> void
 {
-  fMesh = mesh;
+  auto k_curr_shader = _getCurrentShader();
+  if (k_curr_shader != nullptr) {
+    glUseProgram(k_curr_shader->getShaderProgram());
+  }                  
+}
+
+auto
+Pneumatic::Graphics::RenderObject::bindCurrentTexture() -> void
+{
+  const auto k_curr_shader = _getCurrentShader();
+  const auto k_curr_tex = _getCurrentTexture();
+  
+  if (k_curr_shader != nullptr && k_curr_tex != nullptr) {
+    k_curr_tex->bind(k_curr_shader);
+  }
+}
+
+auto
+Pneumatic::Graphics::RenderObject::unBindCurrentShader() -> void
+{
+  glUseProgram(0);
+}
+
+auto
+Pneumatic::Graphics::RenderObject::unBindCurrentTexture() -> void
+{
+  const auto k_curr_tex = _getCurrentTexture();
+  if (k_curr_tex != nullptr) {
+    k_curr_tex->unbind();
+  }
+}
+
+auto
+Pneumatic::Graphics::RenderObject::_getCurrentShader() -> std::shared_ptr<Shader>
+{
+  return fShaders.size() > 0 ? fShaders.at(fCurrentShaderIndex)
+                             : nullptr;
+}
+
+auto
+Pneumatic::Graphics::RenderObject::_getCurrentTexture() -> std::shared_ptr<Texture>
+{
+  return fTextures.size() > 0 ? fTextures.at(fCurrentShaderIndex)
+                              : nullptr;
 }
 

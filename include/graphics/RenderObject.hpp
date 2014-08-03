@@ -54,20 +54,16 @@ class Texture;
 
 class RenderObject {
 public:
-  explicit RenderObject(std::shared_ptr<Mesh> mesh = nullptr);
-  RenderObject(const RenderObject&) = delete;
-  RenderObject(RenderObject&&)      = delete;
-  ~RenderObject(void);
+  RenderObject(void);
+  virtual ~RenderObject(void);
 
-  virtual auto update(double delta_time)         -> void;
-  virtual auto draw(void)                        -> void;
+  virtual auto update(double delta_time)         -> void = 0;
+  virtual auto draw(void)                        -> void = 0;
 
   auto changeShaders(void)                       -> void;
   auto setShaderLight(const Light& light)        -> void;
 
   auto addTexture(const std::string& tex_file)   -> void;
-
-  auto getMesh(void) const                       -> std::shared_ptr<Mesh>;
 
   auto getShader(void) const                     -> std::shared_ptr<Shader>;
   auto addShader(std::shared_ptr<Shader> shader) -> void;
@@ -76,9 +72,12 @@ public:
   auto setModelMatrix(const glm::mat4& matrix)   -> void;
 
 protected:
-  auto _setMesh(std::shared_ptr<Mesh> mesh)      -> void;
+  auto bindCurrentShader(void)                   -> void;
+  auto bindCurrentTexture(void)                  -> void;
 
-  std::shared_ptr<Mesh> fMesh;
+  auto unBindCurrentShader(void)                 -> void;
+  auto unBindCurrentTexture(void)                -> void;
+
   glm::mat4 fModelMatrix;
 
   std::vector<std::shared_ptr<Shader>> fShaders;
@@ -86,6 +85,9 @@ protected:
   std::vector<std::shared_ptr<ShaderUpdateMixin>> fShaderUpdaters;
 
 private:
+  auto _getCurrentShader(void)                   -> std::shared_ptr<Shader>;
+  auto _getCurrentTexture(void)                  -> std::shared_ptr<Texture>;
+
   unsigned int fCurrentShaderIndex;
 };
 

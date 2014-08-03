@@ -59,7 +59,7 @@ public:
   RenderObject(RenderObject&&)      = delete;
   ~RenderObject(void);
 
-  auto update(double delta_time)                 -> void;
+  virtual auto update(double delta_time)         -> void;
   virtual auto draw(void)                        -> void;
 
   auto changeShaders(void)                       -> void;
@@ -68,7 +68,6 @@ public:
   auto addTexture(const std::string& tex_file)   -> void;
 
   auto getMesh(void) const                       -> std::shared_ptr<Mesh>;
-  auto setMesh(std::shared_ptr<Mesh> mesh)       -> void;
 
   auto getShader(void) const                     -> std::shared_ptr<Shader>;
   auto addShader(std::shared_ptr<Shader> shader) -> void;
@@ -77,6 +76,8 @@ public:
   auto setModelMatrix(const glm::mat4& matrix)   -> void;
 
 protected:
+  auto _setMesh(std::shared_ptr<Mesh> mesh)      -> void;
+
   std::shared_ptr<Mesh> fMesh;
   glm::mat4 fModelMatrix;
 

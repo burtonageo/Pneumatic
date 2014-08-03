@@ -30,6 +30,7 @@
 #define PNEUMATIC_FUNCRESULT_HPP
 
 #include <cassert>
+#include <functional>
 #include <memory>
 #include <string>
 
@@ -65,10 +66,30 @@ public:
     return fDescription;
   }
 
+  auto map(const std::function<T (T)>& f) -> FuncResult<T>
+  {
+    if (!isOk()) {
+      return *this;
+    }
+    return FuncResult(f(*fContents), fDescription);
+  }
+
+  auto voidMap(const std::function<void (T)>& f) -> void
+  {
+    if (isOk()) {
+      f(*fContents);
+    }
+  }
+
   auto getContents(void) const -> T
   {
     assert(isOk());
     return *fContents;
+  }
+
+  auto getOrElse(const T& val) -> T
+  {
+    return isOk() ? *fContents : val;
   }
 
 private:

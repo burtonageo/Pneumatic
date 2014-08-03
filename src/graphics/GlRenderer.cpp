@@ -36,7 +36,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "core/MethResult.hpp"
+#include "core/MethodResult.hpp"
 #include "core/ResourceLoader.hpp"
 
 #include "graphics/Camera.hpp"
@@ -83,7 +83,7 @@ Pneumatic::Graphics::GlRenderer::GlRenderer()
 Pneumatic::Graphics::GlRenderer::~GlRenderer() = default;
 
 auto
-Pneumatic::Graphics::GlRenderer::init(GLFWwindow* win_ptr) -> Pneumatic::Core::MethResult
+Pneumatic::Graphics::GlRenderer::init(GLFWwindow* win_ptr) -> Pneumatic::Core::MethodResult
 {
   glfwMakeContextCurrent(win_ptr);
 
@@ -96,7 +96,7 @@ Pneumatic::Graphics::GlRenderer::init(GLFWwindow* win_ptr) -> Pneumatic::Core::M
       char err_buf[max_buf_len];
       snprintf(err_buf, max_buf_len, "GLEW not initialized: %s", glewGetErrorString(err));
 
-      return MethResult::error(string(err_buf));
+      return MethodResult::error(string(err_buf));
     }
     sGlewInitialized = true;
     glGetError(); // clear out errors
@@ -119,7 +119,7 @@ Pneumatic::Graphics::GlRenderer::init(GLFWwindow* win_ptr) -> Pneumatic::Core::M
   fRenImpl->camera.setPosition(glm::vec3(4.0f, 0.0f, 4.0f));
   fRenImpl->camera._setTargetPosition(glm::vec3(0.0f));
 
-  return MethResult::ok();
+  return MethodResult::ok();
 }
 
 auto

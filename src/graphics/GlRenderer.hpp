@@ -46,7 +46,7 @@ namespace Pneumatic {
 
 namespace Core {
 
-class MethResult;
+class MethodResult;
 
 } // namespace Core
 
@@ -64,7 +64,7 @@ public:
 
   ~GlRenderer(void);
 
-  auto init(GLFWwindow*)                               -> Pneumatic::Core::MethResult;
+  auto init(GLFWwindow*)                               -> Pneumatic::Core::MethodResult;
 
   auto addRenderObject(std::weak_ptr<RenderObject>)    -> void;
 

@@ -43,7 +43,7 @@
 #define GLFW_NO_GLU
 #include <GLFW/glfw3.h>
 
-#include "core/MethResult.hpp"
+#include "core/MethodResult.hpp"
 
 namespace Pneumatic {
 
@@ -59,7 +59,7 @@ public:
             const std::string& frag_file,
             const std::string& geom_file = "",
             const std::string& tcs_file  = "",
-            const std::string& tes_file  = "")               -> Pneumatic::Core::MethResult;
+            const std::string& tes_file  = "")               -> Pneumatic::Core::MethodResult;
 
   auto getShaderProgram(void) const                          -> GLuint;
   auto update(double ms)                                     -> void;
@@ -68,8 +68,8 @@ private:
   auto _setDefaultAttributes(void)                           -> void;
 
   auto _createShader(GLenum, const std::string&)             -> std::pair<GLuint, std::string>;
-  auto _compileShader(GLuint, const std::string& file_path)  -> Pneumatic::Core::MethResult;
-  auto _linkShaderProgram(void)                              -> Pneumatic::Core::MethResult;
+  auto _compileShader(GLuint, const std::string& file_path)  -> Pneumatic::Core::MethodResult;
+  auto _linkShaderProgram(void)                              -> Pneumatic::Core::MethodResult;
 
   GLuint fProgramID;
 };

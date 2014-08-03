@@ -46,7 +46,7 @@ Pneumatic::Graphics::Texture::~Texture()
 }
 
 auto
-Pneumatic::Graphics::Texture::init(const std::string& file_name) -> Pneumatic::Core::MethResult
+Pneumatic::Graphics::Texture::init(const std::string& file_name) -> Pneumatic::Core::MethodResult
 {
   const std::string k_file_path = file_name;
   int width, height, channels;
@@ -54,7 +54,7 @@ Pneumatic::Graphics::Texture::init(const std::string& file_name) -> Pneumatic::C
   unsigned char* tex_data = SOIL_load_image(k_file_path.c_str(),
                                             &width, &height, &channels, 0);
   if (tex_data == NULL) {
-    return MethResult::error(string("Could not load texture data from file: ")
+    return MethodResult::error(string("Could not load texture data from file: ")
                                .append(k_file_path));
   }
 
@@ -73,7 +73,7 @@ Pneumatic::Graphics::Texture::init(const std::string& file_name) -> Pneumatic::C
   glBindTexture(GL_TEXTURE_2D, 0);
   SOIL_free_image_data(tex_data);
 
-  return MethResult::ok();
+  return MethodResult::ok();
 }
 
 auto

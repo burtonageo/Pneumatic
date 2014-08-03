@@ -43,7 +43,7 @@ namespace Pneumatic {
 
 namespace Core {
 
-class MethResult;
+class MethodResult;
 
 } // namespace Core
 
@@ -58,7 +58,7 @@ public:
   auto operator=(const Window&)                                  -> Window& = delete;
   ~Window(void);
 
-  auto init(void)                                                -> Pneumatic::Core::MethResult;
+  auto init(void)                                                -> Pneumatic::Core::MethodResult;
 
   auto updateWindow(void)                                        -> void;
   auto pollEvents(void)                                          -> void;
@@ -67,7 +67,7 @@ public:
   auto addRenderObject(std::weak_ptr<RenderObject> object)       -> void;
 
 private:  
-  auto _initGlfw(const std::string&)                             -> Pneumatic::Core::MethResult;
+  auto _initGlfw(const std::string&)                             -> Pneumatic::Core::MethodResult;
 
   auto _handleKeypress(int, int, int, int)                       -> void;
   auto _handleRefresh(void)                                      -> void;

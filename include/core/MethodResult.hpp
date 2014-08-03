@@ -35,20 +35,20 @@ namespace Pneumatic {
 
 namespace Core {
 
-class MethResult final {
+class MethodResult final {
 public:
-  static auto ok(void) -> MethResult
+  static auto ok(void) -> MethodResult
   {
-    return MethResult(true, "");
+    return MethodResult(true, "");
   }
 
-  static auto error(const std::string& desc) -> MethResult
+  static auto error(const std::string& desc) -> MethodResult
   {
-    return MethResult(false, desc);
+    return MethodResult(false, desc);
   }
 
-  MethResult(const MethResult&) = default;
-  ~MethResult(void)         = default;
+  MethodResult(const MethodResult&) = default;
+  ~MethodResult(void)               = default;
 
   inline auto isOk(void) const -> bool
   {
@@ -61,7 +61,7 @@ public:
   }
 
 private:
-  MethResult(bool ok, const std::string& desc)
+  MethodResult(bool ok, const std::string& desc)
     :
     fOk(ok),
     fDescription(desc) { }
@@ -74,16 +74,16 @@ private:
 
 } // namespace Pneumatic
 
-#define PNEU_EXCEPT_TO_METHRES(func) \
+#define PNEU_EXCEPT_TO_METHODRES(func) \
   do { \
     try { \
       func; \
     } catch(const std::exception& e) { \
-      return Pneumatic::Graphics::MethResult::error(e.what()); \
+      return Pneumatic::Graphics::MethodResult::error(e.what()); \
     } \
   }
 
-#define PNEU_TRY_METH(func) \
+#define PNEU_TRY_METHOD(func) \
   do { \
     auto err = func; \
     if (!err.isOk()) { \

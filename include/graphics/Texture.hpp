@@ -40,7 +40,7 @@
 #define GLFW_NO_GLU
 #include <GLFW/glfw3.h>
 
-#include "core/MethResult.hpp"
+#include "core/MethodResult.hpp"
 
 namespace Pneumatic {
 
@@ -54,7 +54,7 @@ public:
   Texture(const Texture& other) = delete;
   ~Texture(void);
 
-  auto init(const std::string& file)        -> Pneumatic::Core::MethResult;
+  auto init(const std::string& file)        -> Pneumatic::Core::MethodResult;
 
   auto bind(std::shared_ptr<Shader> shader) -> void;
   auto unbind(void)                         -> void;

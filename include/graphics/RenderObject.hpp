@@ -77,8 +77,6 @@ protected:
   auto unBindCurrentShader(void)                 -> void;
   auto unBindCurrentTexture(void)                -> void;
 
-  glm::mat4 fModelMatrix;
-
   std::vector<std::shared_ptr<Shader>> fShaders;
   std::vector<std::shared_ptr<Texture>> fTextures;
   std::vector<std::shared_ptr<ShaderUpdateMixin>> fShaderUpdaters;
@@ -87,6 +85,7 @@ private:
   auto _getCurrentShader(void)                   -> std::shared_ptr<Shader>;
   auto _getCurrentTexture(void)                  -> std::shared_ptr<Texture>;
 
+  glm::mat4 fModelMatrix;
   unsigned int fCurrentShaderIndex;
 };
 

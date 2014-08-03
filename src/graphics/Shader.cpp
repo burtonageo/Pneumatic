@@ -56,7 +56,7 @@ Pneumatic::Graphics::Shader::init(const std::string& vert_file,
                                   const std::string& frag_file,
                                   const std::string& geom_file,
                                   const std::string& tcs_file,
-                                  const std::string& tes_file) -> Pneumatic::Core::MethResult
+                                  const std::string& tes_file) -> Pneumatic::Core::MethodResult
 {
   fProgramID = glCreateProgram();
 
@@ -69,7 +69,7 @@ Pneumatic::Graphics::Shader::init(const std::string& vert_file,
       file_path = get<1>(tup); \
       \
       if (file != "" && id == 0) { \
-        return MethResult::error(string("Could not create shader from file: ") \
+        return MethodResult::error(string("Could not create shader from file: ") \
                                    .append(file_path)); \
       } \
     } while(0)
@@ -83,18 +83,18 @@ Pneumatic::Graphics::Shader::init(const std::string& vert_file,
   #define TRY_COMPILE(file, func) \
     do { \
       if (file != "") { \
-        PNEU_TRY_METH(func); \
+        PNEU_TRY_METHOD(func); \
       } \
     } while(0)
 
-  PNEU_TRY_METH(_compileShader(vert_shader_id, vert_path));
-  PNEU_TRY_METH(_compileShader(frag_shader_id, frag_path));
+  PNEU_TRY_METHOD(_compileShader(vert_shader_id, vert_path));
+  PNEU_TRY_METHOD(_compileShader(frag_shader_id, frag_path));
   
   TRY_COMPILE(geom_file, _compileShader(geom_shader_id, geom_path));
   TRY_COMPILE(tcs_file,  _compileShader(tcs_shader_id,  tcs_path));
   TRY_COMPILE(tes_file,  _compileShader(tes_shader_id,  tes_path));
 
-  PNEU_TRY_METH(_linkShaderProgram());
+  PNEU_TRY_METHOD(_linkShaderProgram());
 
   _setDefaultAttributes();
 
@@ -104,7 +104,7 @@ Pneumatic::Graphics::Shader::init(const std::string& vert_file,
   glDeleteShader(tcs_shader_id);
   glDeleteShader(tes_shader_id);
 
-  return MethResult::ok();
+  return MethodResult::ok();
 }
 
 auto
@@ -168,12 +168,12 @@ Pneumatic::Graphics::Shader::_createShader(GLenum shader_type,
 
 auto
 Pneumatic::Graphics::Shader::_compileShader(GLuint shader_id,
-                                            const std::string& shader_path) -> Pneumatic::Core::MethResult
+                                            const std::string& shader_path) -> Pneumatic::Core::MethodResult
 {
   auto source_result = ResourceLoader::loadTextFile(shader_path);
 
   if (!source_result.isOk()) {
-    return MethResult::error(source_result.getError());
+    return MethodResult::error(source_result.getError());
   }
   
   const auto source_str = source_result.get();
@@ -192,16 +192,16 @@ Pneumatic::Graphics::Shader::_compileShader(GLuint shader_id,
     std::vector<char> error_msg_vec(info_log_length);
     glGetShaderInfoLog(shader_id, info_log_length, NULL, error_msg_vec.data());
 
-    return MethResult::error(string(error_msg_vec.begin(),
+    return MethodResult::error(string(error_msg_vec.begin(),
                                     error_msg_vec.end()));
   }
 
   glAttachShader(fProgramID, shader_id);
-  return MethResult::ok();
+  return MethodResult::ok();
 }
 
 auto
-Pneumatic::Graphics::Shader::_linkShaderProgram() -> Pneumatic::Core::MethResult
+Pneumatic::Graphics::Shader::_linkShaderProgram() -> Pneumatic::Core::MethodResult
 {
   glLinkProgram(fProgramID);
 
@@ -215,8 +215,8 @@ Pneumatic::Graphics::Shader::_linkShaderProgram() -> Pneumatic::Core::MethResult
     std::vector<char> error_msg_vec(max(info_log_length, 1));
     glGetProgramInfoLog(fProgramID, info_log_length, NULL, error_msg_vec.data());
 
-    return MethResult::error(string(error_msg_vec.begin(),
+    return MethodResult::error(string(error_msg_vec.begin(),
                                     error_msg_vec.end()));
   }
-  return MethResult::ok();
+  return MethodResult::ok();
 }

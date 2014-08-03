@@ -33,10 +33,10 @@ using namespace std;
 
 Pneumatic::Graphics::RenderObject::RenderObject()
   :
-  fModelMatrix(glm::mat4(1.0)),
   fShaders(),
   fTextures(),
   fShaderUpdaters(),
+  fModelMatrix(glm::mat4(1.0)),
   fCurrentShaderIndex(0)
 {
 

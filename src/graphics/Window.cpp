@@ -30,7 +30,7 @@
 #define GLFW_NO_GLU
 #include <GLFW/glfw3.h>
 
-#include "core/MethResult.hpp"
+#include "core/MethodResult.hpp"
 #include "graphics/RenderObject.hpp"
 
 #include "GlRenderer.hpp"
@@ -60,7 +60,7 @@ public:
 
     ~WindowImpl() = default;
 
-  auto init(void) -> Pneumatic::Core::MethResult
+  auto init(void) -> Pneumatic::Core::MethodResult
   {
     renderer = std::make_shared<GlRenderer>();
     return renderer->init(glWindow.get());
@@ -93,12 +93,12 @@ Pneumatic::Graphics::Window::Window(const std::string& title, int w, int h, int 
 Pneumatic::Graphics::Window::~Window() = default;
 
 auto
-Pneumatic::Graphics::Window::init() -> Pneumatic::Core::MethResult
+Pneumatic::Graphics::Window::init() -> Pneumatic::Core::MethodResult
 {
-  PNEU_TRY_METH(_initGlfw(fWinTitle));
-  PNEU_TRY_METH(fWinImpl->init());
+  PNEU_TRY_METHOD(_initGlfw(fWinTitle));
+  PNEU_TRY_METHOD(fWinImpl->init());
 
-  return Pneumatic::Core::MethResult::ok();
+  return Pneumatic::Core::MethodResult::ok();
 }
 
 auto
@@ -131,11 +131,11 @@ Pneumatic::Graphics::Window::addRenderObject(std::weak_ptr<RenderObject> object)
 }
 
 auto
-Pneumatic::Graphics::Window::_initGlfw(const std::string& title) -> Pneumatic::Core::MethResult
+Pneumatic::Graphics::Window::_initGlfw(const std::string& title) -> Pneumatic::Core::MethodResult
 {
   bool glfw_success = glfwInit();
   if (!glfw_success) {
-    return MethResult::error("Failed to initialise GLFW");
+    return MethodResult::error("Failed to initialise GLFW");
   }
 
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -150,7 +150,7 @@ Pneumatic::Graphics::Window::_initGlfw(const std::string& title) -> Pneumatic::C
                                    NULL);
 
   if (!win_ptr) {
-    return MethResult::error("Could not create GLFW window");
+    return MethodResult::error("Could not create GLFW window");
   }
 
   glfwSetWindowUserPointer(win_ptr, this);
@@ -165,7 +165,7 @@ Pneumatic::Graphics::Window::_initGlfw(const std::string& title) -> Pneumatic::C
   glfwSetWindowFocusCallback(win_ptr, _windowFocusChangeCallback);
 
   fWinImpl->glWindow = std::unique_ptr<GLFWwindow, WindowImpl::WindowDeleter>(win_ptr);
-  return MethResult::ok();
+  return MethodResult::ok();
 }
 
 auto

@@ -47,7 +47,6 @@ namespace Pneumatic {
 namespace Graphics {
 
 class Light;
-class Mesh;
 class Shader;
 class ShaderUpdateMixin;
 class Texture;

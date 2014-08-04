@@ -78,10 +78,6 @@ public:
   auto quitWasRequested(void)                          -> bool;
 
 private:
-  auto _updateShaderMatrices(GLuint, const glm::mat4&,
-                                     const glm::mat4&,
-                                     const glm::mat4&) -> void;
-
   static bool sGlewInitialized;
   struct GlRendererImpl;
   std::unique_ptr<GlRendererImpl> fRenImpl;

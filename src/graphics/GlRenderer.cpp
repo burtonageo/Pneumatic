@@ -71,6 +71,18 @@ public:
 using namespace std;
 using namespace Pneumatic::Core;
 
+static auto _updateShaderMatrices(GLuint program,
+                                  const glm::mat4& model_matrix,
+                                  const glm::mat4& projection_matrix,
+                                  const glm::mat4& view_matrix) -> void
+{
+  glm::mat4 mvp = model_matrix *
+                  projection_matrix *
+                  view_matrix;
+  GLuint mvp_uniform = glGetUniformLocation(program, "MVP");
+  glUniformMatrix4fv(mvp_uniform, 1, GL_FALSE, &mvp[0][0]);
+}
+
 bool Pneumatic::Graphics::GlRenderer::sGlewInitialized = false;
 
 Pneumatic::Graphics::GlRenderer::GlRenderer()
@@ -128,19 +140,6 @@ Pneumatic::Graphics::GlRenderer::addRenderObject(std::weak_ptr<RenderObject> obj
   if (auto owned = object.lock()) {
     fRenImpl->objects.push_back(owned);
   }
-}
-
-auto
-Pneumatic::Graphics::GlRenderer::_updateShaderMatrices(GLuint program,
-                                                     const glm::mat4& model_matrix,
-                                                     const glm::mat4& projection_matrix,
-                                                     const glm::mat4& view_matrix) -> void
-{
-  glm::mat4 mvp = model_matrix *
-                  projection_matrix *
-                  view_matrix;
-  GLuint mvp_uniform = glGetUniformLocation(program, "MVP");
-  glUniformMatrix4fv(mvp_uniform, 1, GL_FALSE, &mvp[0][0]);
 }
 
 auto

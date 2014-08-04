@@ -83,14 +83,28 @@ static auto _updateShaderMatrices(GLuint program,
   glUniformMatrix4fv(mvp_uniform, 1, GL_FALSE, &mvp[0][0]);
 }
 
+static auto _initGlew(void) -> Pneumatic::Core::MethodResult
+{
+   glewExperimental = GL_TRUE;
+ 
+   GLenum err = glewInit();
+   if (err != GLEW_OK) {
+     const size_t max_buf_len = 80;
+     char err_buf[max_buf_len];
+     snprintf(err_buf, max_buf_len, "GLEW not initialized: %s", glewGetErrorString(err));
+
+     return MethodResult::error(string(err_buf));
+   }
+
+   glGetError(); // clear out errors
+   return MethodResult::ok();  
+}
+
 bool Pneumatic::Graphics::GlRenderer::sGlewInitialized = false;
 
 Pneumatic::Graphics::GlRenderer::GlRenderer()
   :
-  fRenImpl(make_unique<Pneumatic::Graphics::GlRenderer::GlRendererImpl>(0, 0))
-{
-
-}
+  fRenImpl(make_unique<Pneumatic::Graphics::GlRenderer::GlRendererImpl>(0, 0)) { }
 
 Pneumatic::Graphics::GlRenderer::~GlRenderer() = default;
 
@@ -100,18 +114,8 @@ Pneumatic::Graphics::GlRenderer::init(GLFWwindow* win_ptr) -> Pneumatic::Core::M
   glfwMakeContextCurrent(win_ptr);
 
   if (!sGlewInitialized) {
-    glewExperimental = GL_TRUE;
-
-    GLenum err = glewInit();
-    if (err != GLEW_OK) {
-      const size_t max_buf_len = 80;
-      char err_buf[max_buf_len];
-      snprintf(err_buf, max_buf_len, "GLEW not initialized: %s", glewGetErrorString(err));
-
-      return MethodResult::error(string(err_buf));
-    }
+    PNEU_TRY_METHOD(_initGlew());
     sGlewInitialized = true;
-    glGetError(); // clear out errors
   }
 
   glEnable(GL_MULTISAMPLE);

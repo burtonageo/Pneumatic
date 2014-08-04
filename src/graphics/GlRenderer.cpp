@@ -200,28 +200,6 @@ Pneumatic::Graphics::GlRenderer::viewportDidResize(int width, int height) -> voi
 }
 
 auto
-Pneumatic::Graphics::GlRenderer::keyWasPressed(int key,
-                                               int scanCode,
-                                               int action,
-                                               int mods) -> void
-{
-  switch(key) {
-    case GLFW_KEY_X:
-      if (action == GLFW_RELEASE) {
-        std::for_each(fRenImpl->objects.begin(),
-                      fRenImpl->objects.end(),
-                      [&](shared_ptr<Pneumatic::Graphics::RenderObject> r) {
-                        r->changeShaders();
-                      });
-      }
-      break;
-
-    default:
-      break;
-  }
-}
-
-auto
 Pneumatic::Graphics::GlRenderer::quitWasRequested() -> bool
 {
   return false;

@@ -71,10 +71,6 @@ public:
   auto updateScene(double delta_time)                  -> void;
   auto renderScene(void)                               -> void;
   auto viewportDidResize(int w, int h)                 -> void;
-  auto keyWasPressed(int key,
-                     int scan_code,
-                     int action,
-                     int mods)                         -> void;
   auto quitWasRequested(void)                          -> bool;
 
 private:

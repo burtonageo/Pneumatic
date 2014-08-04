@@ -171,7 +171,7 @@ Pneumatic::Graphics::Window::_initGlfw(const std::string& title) -> Pneumatic::C
 auto
 Pneumatic::Graphics::Window::_handleKeypress(int key, int scan_code, int action, int mods)  -> void
 {
-  fWinImpl->renderer->keyWasPressed(key, scan_code, action, mods);
+
 }
 
 auto

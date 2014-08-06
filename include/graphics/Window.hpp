@@ -55,8 +55,10 @@ public:
 
   auto init(void)                                                -> Pneumatic::Core::MethodResult;
 
-  auto updateWindow(void)                                        -> void;
+  auto update(void)                                              -> void;
   auto pollEvents(void)                                          -> void;
+  auto renderFrame(void)                                         -> void;
+
   auto isRunning(void)                                           -> bool;
 
   auto addRenderObject(std::weak_ptr<RenderObject> object)       -> void;

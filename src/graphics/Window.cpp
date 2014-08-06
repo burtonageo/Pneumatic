@@ -105,20 +105,24 @@ Pneumatic::Graphics::Window::init() -> Pneumatic::Core::MethodResult
 }
 
 auto
-Pneumatic::Graphics::Window::updateWindow() -> void
+Pneumatic::Graphics::Window::update() -> void
 {
   double delta = glfwGetTime();
 
-  auto* ren_ptr = fWinImpl->renderer.get();
-  ren_ptr->updateScene(delta);
-  ren_ptr->renderScene();
-  glfwSwapBuffers(fWinImpl->glWindow.get());
+  fWinImpl->renderer->updateScene(delta);
 }
 
 auto
 Pneumatic::Graphics::Window::pollEvents() -> void
 {
   glfwPollEvents();
+}
+
+auto
+Pneumatic::Graphics::Window::renderFrame() -> void
+{
+  fWinImpl->renderer->renderScene();
+  glfwSwapBuffers(fWinImpl->glWindow.get());
 }
 
 auto

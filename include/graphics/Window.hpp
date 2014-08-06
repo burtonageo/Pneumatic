@@ -47,7 +47,10 @@ namespace Graphics {
 class RenderObject;
 class Window final {
 public:
-  Window(const std::string&, int, int, int, int);
+  Window(const std::string& title, int width,
+                                   int height,
+                                   int min_width = 0,
+                                   int min_height = 0);
   Window(const Window&)                                                     = delete;
   Window(Window&&)                                                          = delete;
   auto operator=(const Window&)                                  -> Window& = delete;

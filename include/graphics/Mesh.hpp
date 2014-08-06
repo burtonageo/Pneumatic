@@ -35,13 +35,6 @@
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 
-#define GLEW_STATIC
-#include <GL/glew.h>
-
-#define GLFW_INCLUDE_GL3
-#define GLFW_NO_GLU
-#include <GLFW/glfw3.h>
-
 namespace Pneumatic {
 
 namespace Graphics {
@@ -74,13 +67,8 @@ private:
 
   static auto _loadFromFile(const std::string&)             -> std::shared_ptr<Mesh>;
 
-  std::vector<glm::vec3> fVertices, fNormals;
-  std::vector<glm::vec4> fColors;
-  std::vector<glm::vec2> fTexCoords;
-
-  int fNumVertices;
-
-  GLuint fVao, fType;
+  struct GlMeshImpl;
+  std::unique_ptr<GlMeshImpl> fGlMeshImpl;
 };
 
 } // namespace Graphics

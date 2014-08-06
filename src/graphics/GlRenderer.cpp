@@ -51,7 +51,7 @@ namespace Graphics {
 struct GlRenderer::GlRendererImpl final {
 public:
   GlRendererImpl(int w,
-               int h)
+                 int h)
     :
     width(w),
     height(h),

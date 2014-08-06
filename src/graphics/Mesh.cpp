@@ -30,21 +30,51 @@
 #include <iostream>
 #include <fstream>
 
+#define GLEW_STATIC
+#include <GL/glew.h>
+
+#define GLFW_INCLUDE_GL3
+#define GLFW_NO_GLU
+#include <GLFW/glfw3.h>
+
 #include "core/ResourceLoader.hpp"
 #include "graphics/Shader.hpp"
 
 using namespace glm;
 using namespace std;
 
+namespace Pneumatic {
+
+namespace Graphics {
+
+struct Mesh::GlMeshImpl {
+  GlMeshImpl(int num_verts, GLuint type)
+    :
+    fNumVertices(num_verts),
+    fVao(0),
+    fType(type),
+    fVertices(),
+    fNormals(),
+    fColors(),
+    fTexCoords() { }
+
+  int fNumVertices;
+
+  GLuint fVao, fType;
+
+  std::vector<glm::vec3> fVertices, fNormals;
+  std::vector<glm::vec4> fColors;
+  std::vector<glm::vec2> fTexCoords;
+
+};
+
+} // namespace Graphics
+
+} // namespace Pneumatic
+
 Pneumatic::Graphics::Mesh::Mesh(int num_verts)
   :
-  fVertices(),
-  fNormals(),
-  fColors(),
-  fTexCoords(),
-  fNumVertices(num_verts),
-  fVao(0),
-  fType(GL_TRIANGLES)
+  fGlMeshImpl(make_unique<GlMeshImpl>(num_verts, GL_TRIANGLES))
 {
 
 }
@@ -57,19 +87,19 @@ Pneumatic::Graphics::Mesh::generateTriangle() -> std::shared_ptr<Mesh>
   auto mesh = make_shared<Mesh>(3);
   mesh->_reserveArrays();
 
-  mesh->fVertices = {
+  mesh->fGlMeshImpl->fVertices = {
     vec3(-1.0f, -1.0f, 0.0f),
     vec3( 1.0f, -1.0f, 0.0f),
     vec3( 0.0f,  1.0f, 0.0f),
   };
 
-  mesh->fColors = {
+  mesh->fGlMeshImpl->fColors = {
     vec4(1.0f, 0.0f, 0.0f, 1.0f),
     vec4(0.0f, 1.0f, 0.0f, 1.0f),
     vec4(0.0f, 0.0f, 1.0f, 1.0f),
   };
 
-  mesh->fTexCoords = {
+  mesh->fGlMeshImpl->fTexCoords = {
     vec2(1.0f, 1.0f),
     vec2(0.0f, 1.0f),
     vec2(1.0f, 0.0f),
@@ -112,8 +142,7 @@ Pneumatic::Graphics::Mesh::_loadFromFile(const std::string& file_name) -> std::s
   }
 
   auto mesh = make_shared<Mesh>();
-  mesh->fType = GL_TRIANGLES;
-  fs >> mesh->fNumVertices;
+  fs >> mesh->fGlMeshImpl->fNumVertices;
 
   mesh->_reserveArrays();
 
@@ -121,30 +150,30 @@ Pneumatic::Graphics::Mesh::_loadFromFile(const std::string& file_name) -> std::s
   fs >> has_tex;
   fs >> has_color;
 
-  for (int i = 0; i < mesh->fNumVertices; i++) {
-    fs >> mesh->fVertices[i].x;
-    fs >> mesh->fVertices[i].y;
-    fs >> mesh->fVertices[i].z;
+  for (int i = 0; i < mesh->fGlMeshImpl->fNumVertices; i++) {
+    fs >> mesh->fGlMeshImpl->fVertices[i].x;
+    fs >> mesh->fGlMeshImpl->fVertices[i].y;
+    fs >> mesh->fGlMeshImpl->fVertices[i].z;
   }
-  mesh->fVertices.shrink_to_fit();
+  mesh->fGlMeshImpl->fVertices.shrink_to_fit();
 
   if (has_color) {
-    for (int i = 0; i < mesh->fNumVertices; i++) {
-      fs >> mesh->fColors[i].r;
-      fs >> mesh->fColors[i].g;
-      fs >> mesh->fColors[i].b;
-      fs >> mesh->fColors[i].a;
+    for (int i = 0; i < mesh->fGlMeshImpl->fNumVertices; i++) {
+      fs >> mesh->fGlMeshImpl->fColors[i].r;
+      fs >> mesh->fGlMeshImpl->fColors[i].g;
+      fs >> mesh->fGlMeshImpl->fColors[i].b;
+      fs >> mesh->fGlMeshImpl->fColors[i].a;
     }
   }
-  mesh->fColors.shrink_to_fit();
+  mesh->fGlMeshImpl->fColors.shrink_to_fit();
 
   if (has_tex) {
-    for (int i = 0; i < mesh->fNumVertices; i++) {
-      fs >> mesh->fTexCoords[i].x;
-      fs >> mesh->fTexCoords[i].y;
+    for (int i = 0; i < mesh->fGlMeshImpl->fNumVertices; i++) {
+      fs >> mesh->fGlMeshImpl->fTexCoords[i].x;
+      fs >> mesh->fGlMeshImpl->fTexCoords[i].y;
     }
   }
-  mesh->fTexCoords.shrink_to_fit();
+  mesh->fGlMeshImpl->fTexCoords.shrink_to_fit();
 
   return mesh;
 }
@@ -152,35 +181,35 @@ Pneumatic::Graphics::Mesh::_loadFromFile(const std::string& file_name) -> std::s
 auto
 Pneumatic::Graphics::Mesh::draw() -> void
 {
-  glBindVertexArray(fVao);
-  glDrawElements(fType, fNumVertices, GL_UNSIGNED_INT, 0);
-  glDrawArrays(fType, 0, fNumVertices * sizeof(glm::vec3));
+  glBindVertexArray(fGlMeshImpl->fVao);
+  glDrawElements(fGlMeshImpl->fType, fGlMeshImpl->fNumVertices, GL_UNSIGNED_INT, 0);
+  glDrawArrays(fGlMeshImpl->fType, 0, fGlMeshImpl->fNumVertices * sizeof(glm::vec3));
   glBindVertexArray(0);
 }
 
 auto
 Pneumatic::Graphics::Mesh::_generateNormals() -> void
 {
-  for (int i = 0; i < fNumVertices; i+=3) {
-    vec3& a = fVertices[i];
-    vec3& b = fVertices[i+1];
-    vec3& c = fVertices[i+2];
+  for (int i = 0; i < fGlMeshImpl->fNumVertices; i+=3) {
+    vec3& a = fGlMeshImpl->fVertices[i];
+    vec3& b = fGlMeshImpl->fVertices[i+1];
+    vec3& c = fGlMeshImpl->fVertices[i+2];
 
     vec3 normal = glm::cross(b - a, c - a);
     glm::normalize(normal);
 
-    fNormals[i]   = normal;
-    fNormals[i+1] = normal;
-    fNormals[i+2] = normal;
+    fGlMeshImpl->fNormals[i]   = normal;
+    fGlMeshImpl->fNormals[i+1] = normal;
+    fGlMeshImpl->fNormals[i+2] = normal;
   }
-  fNormals.shrink_to_fit();
+  fGlMeshImpl->fNormals.shrink_to_fit();
 }
 
 auto
 Pneumatic::Graphics::Mesh::_bufferData() -> void
 {
-  glGenVertexArrays(1, &fVao);
-  glBindVertexArray(fVao);
+  glGenVertexArrays(1, &fGlMeshImpl->fVao);
+  glBindVertexArray(fGlMeshImpl->fVao);
 
   _bufferVertices();
   _bufferColors();
@@ -193,17 +222,17 @@ Pneumatic::Graphics::Mesh::_bufferData() -> void
 auto
 Pneumatic::Graphics::Mesh::_reserveArrays() -> void
 {
-  fVertices  = std::vector<glm::vec3>(fNumVertices, glm::vec3());
-  fNormals   = std::vector<glm::vec3>(fNumVertices, glm::vec3());
-  fColors    = std::vector<glm::vec4>(fNumVertices, glm::vec4());
-  fTexCoords = std::vector<glm::vec2>(fNumVertices, glm::vec2());
+  fGlMeshImpl->fVertices  = std::vector<glm::vec3>(fGlMeshImpl->fNumVertices, glm::vec3());
+  fGlMeshImpl->fNormals   = std::vector<glm::vec3>(fGlMeshImpl->fNumVertices, glm::vec3());
+  fGlMeshImpl->fColors    = std::vector<glm::vec4>(fGlMeshImpl->fNumVertices, glm::vec4());
+  fGlMeshImpl->fTexCoords = std::vector<glm::vec2>(fGlMeshImpl->fNumVertices, glm::vec2());
 }
 
 #define MESH_BUFFER_DATA_METH_DECL(meth_name, member_arr, idx, vec_tp, vec_num_elems) \
   auto \
   Pneumatic::Graphics::Mesh::meth_name() -> void \
   { \
-    if (member_arr.empty()) { \
+    if (fGlMeshImpl->member_arr.empty()) { \
       return; \
     } \
     \
@@ -213,8 +242,8 @@ Pneumatic::Graphics::Mesh::_reserveArrays() -> void
     glBindBuffer(GL_ARRAY_BUFFER, vbo); \
     \
     glBufferData(GL_ARRAY_BUFFER, \
-                 fNumVertices * sizeof(vec_tp), \
-                 member_arr.data(),  GL_STATIC_DRAW); \
+                 fGlMeshImpl->fNumVertices * sizeof(vec_tp), \
+                 fGlMeshImpl->member_arr.data(),  GL_STATIC_DRAW); \
     glVertexAttribPointer(idx, vec_num_elems, GL_FLOAT, GL_FALSE, 0, 0); \
     glEnableVertexAttribArray(idx); \
   }

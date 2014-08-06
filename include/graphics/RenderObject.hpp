@@ -35,13 +35,6 @@
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 
-#define GLEW_STATIC
-#include <GL/glew.h>
-
-#define GLFW_INCLUDE_GL3
-#define GLFW_NO_GLU
-#include <GLFW/glfw3.h>
-
 namespace Pneumatic {
 
 namespace Graphics {

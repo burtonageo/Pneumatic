@@ -112,6 +112,19 @@ public:
     return isOk() ? *fContents : val;
   }
 
+  auto getOrElse(const std::function<T (const std::string&)>& f) -> T
+  {
+    return isOk() ? *fContents : f(getError());
+  }
+
+  auto getOrThrow(const std::exception& e) -> T
+  {
+    if (!isOk()) {
+      throw e;
+    }
+    return *fContents;
+  }
+
 private:
   FuncResult(std::unique_ptr<T> data,
              const std::string& desc)

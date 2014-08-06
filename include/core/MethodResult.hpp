@@ -26,9 +26,10 @@
 
 #pragma once
 
-#ifndef PNEUMATIC_OPRESULT_HPP
-#define PNEUMATIC_OPRESULT_HPP
+#ifndef PNEUMATIC_METHODRESULT_HPP
+#define PNEUMATIC_METHODRESULT_HPP
 
+#include <exception>
 #include <functional>
 #include <string>
 
@@ -56,6 +57,11 @@ public:
     return fOk;
   }
 
+  inline auto getError(void) const -> std::string
+  {
+    return fDescription;
+  }
+
   inline auto ifNotOk(const std::function<void (const std::string&)>& f) -> void
   {
     if (!isOk()) {
@@ -63,9 +69,11 @@ public:
     }
   }
 
-  inline auto getError(void) const -> std::string
+  inline auto throwIfNotOk(const std::exception& e) -> void
   {
-    return fDescription;
+    if (!isOk()) {
+      throw e;
+    }
   }
 
 private:
@@ -99,4 +107,4 @@ private:
     } \
   } while(0)
 
-#endif // PNEUMATIC_OPRESULT_HPP
+#endif // PNEUMATIC_METHODRESULT_HPP

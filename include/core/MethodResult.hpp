@@ -29,6 +29,7 @@
 #ifndef PNEUMATIC_OPRESULT_HPP
 #define PNEUMATIC_OPRESULT_HPP
 
+#include <functional>
 #include <string>
 
 namespace Pneumatic {
@@ -53,6 +54,13 @@ public:
   inline auto isOk(void) const -> bool
   {
     return fOk;
+  }
+
+  inline auto ifNotOk(const std::function<void (const std::string&)>& f) -> void
+  {
+    if (!isOk()) {
+      f(getError());
+    }
   }
 
   inline auto getError(void) const -> std::string

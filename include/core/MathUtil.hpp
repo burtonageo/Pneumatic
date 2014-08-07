@@ -34,13 +34,13 @@ namespace Core {
 template<typename T>
 inline auto degreesToRadians(T deg) -> T
 {
-  return T * 0.017
+  return deg * 0.017;
 }
 
 template<typename T>
 inline auto radiansToDegrees(T rad) -> T
 {
-  return T * 57.269;
+  return rad * 57.269;
 }
 
 } // namespace Core

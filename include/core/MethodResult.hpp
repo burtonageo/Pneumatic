@@ -62,14 +62,14 @@ public:
     return fDescription;
   }
 
-  inline auto ifNotOk(const std::function<void (const std::string&)>& f) -> void
+  inline auto onError(const std::function<void (const std::string&)>& f) -> void
   {
     if (!isOk()) {
       f(getError());
     }
   }
 
-  inline auto throwIfNotOk(const std::exception& e) -> void
+  inline auto throwOnError(const std::exception& e) -> void
   {
     if (!isOk()) {
       throw e;

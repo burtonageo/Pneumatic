@@ -75,9 +75,15 @@ Pneumatic::Graphics::Camera::getFieldOfView() const -> float
 }
 
 auto
-Pneumatic::Graphics::Camera::setFieldOfView(float fov) -> void
+Pneumatic::Graphics::Camera::setFieldOfViewDegrees(float fov_degrees) -> void
 {
-  fFov = fov;
+  fFov = Pneumatic::Core::degreesToRadians(fov_degrees);
+}
+
+auto
+Pneumatic::Graphics::Camera::setFieldOfViewRadians(float fov_radians) -> void
+{
+  fFov = fov_radians;
 }
 
 auto

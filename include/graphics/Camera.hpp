@@ -56,7 +56,8 @@ public:
   auto setPosition(const glm::vec3& new_pos)         -> void;
 
   auto getFieldOfView(void) const                    -> float;
-  auto setFieldOfView(float fov)                     -> void;
+  auto setFieldOfViewDegrees(float fov_degrees)      -> void;
+  auto setFieldOfViewRadians(float fov_radians)      -> void;
 
   auto getZoom(void) const                           -> float;
   auto setZoom(float zoom)                           -> void;

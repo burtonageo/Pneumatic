@@ -60,6 +60,12 @@ set(GLFW_DIR "${PROJECT_SOURCE_DIR}/thirdparty/glfw")
 set(GLFW_LINK "glfw")
 set(GLFW_INCLUDE_DIRS "${GLFW_DIR}/include")
 
+## disable GLFW tests, examples and docs
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_DOCS "Build the GLFW documentation" OFF CACHE BOOL "" FORCE)
+set(GLFW_INSTALL "Generate installation target" OFF CACHE BOOL "" FORCE)
+
 add_subdirectory(${GLFW_DIR})
 link_directories(${GLFW_DIR})
 include_directories(${GLFW_INCLUDE_DIRS})

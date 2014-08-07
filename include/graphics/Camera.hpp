@@ -29,7 +29,10 @@
 #ifndef PNEUMATIC_CAMERA_HPP
 #define PNEUMATIC_CAMERA_HPP
 
+#define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
+
+#include "core/MathUtil.hpp"
 
 namespace Pneumatic {
 
@@ -38,7 +41,7 @@ namespace Graphics {
 class GlRenderer;
 class Camera final {
 public:
-  Camera(float fov                      = 45.0f,
+  Camera(float fov                      = Pneumatic::Core::degreesToRadians(45.0f),
          float zoom                     = 1.0f,
          float near_clip                = 0.1f,
          float far_clip                 = 100.0f,

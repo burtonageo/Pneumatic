@@ -23,7 +23,7 @@ Creating a window
 #include "pneu/graphics/Window.hpp"
 #include "pneu/core/MethodResult.hpp"
 
-auto main(int argc, const char** argv) -> int {
+int main(int argc, const char** argv) {
   pneu::graphics::Window win("testing", 800, 600, 80, 60);
 
   win.init().onError([](const std::string& error) {

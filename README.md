@@ -25,19 +25,19 @@ Creating a window
 
 int main(int argc, const char** argv) {
   // declare window
-  pneu::graphics::Window win("hello-world", 800, 600, 80, 60);
+  pneu::graphics::Window window("hello-world", 800, 600, 80, 60);
 
   // initialise it, handling any errors
-  win.init().onError([](const std::string& error) {
-                       std::cout << error << std::endl;
-                       exit(1);
-                     });
+  window.init().onError([](const std::string& error) {
+                          std::cout << error << std::endl;
+                          exit(1);
+                        });
 
   // main event loop
-  while (win.isRunning()) {
-    win.pollEvents();
-    win.update();
-    win.renderFrame();
+  while (window.isRunning()) {
+    window.pollEvents();
+    window.update();
+    window.renderFrame();
   }
 
   return 0;

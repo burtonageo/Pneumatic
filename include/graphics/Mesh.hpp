@@ -1,5 +1,5 @@
 /**
- * This file is part of the Pneumatic game engine
+ * This file is part of the pneu game engine
  *
  * Copyright (c) 2014 George Burton
  * 
@@ -35,9 +35,9 @@
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 
-namespace Pneumatic {
+namespace pneu {
 
-namespace Graphics {
+namespace graphics {
 
 class Mesh final {
 public:
@@ -71,8 +71,8 @@ private:
   std::unique_ptr<GlMeshImpl> fGlMeshImpl;
 };
 
-} // namespace Graphics
+} // namespace graphics
 
-} // namespace Pneumatic
+} // namespace pneu
 
 #endif // PNEUMATIC_MESH_HPP

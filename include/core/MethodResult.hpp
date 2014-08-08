@@ -1,5 +1,5 @@
 /**
- * This file is part of the Pneumatic game engine
+ * This file is part of the pneu game engine
  *
  * Copyright (c) 2014 George Burton
  * 
@@ -33,9 +33,9 @@
 #include <functional>
 #include <string>
 
-namespace Pneumatic {
+namespace pneu {
 
-namespace Core {
+namespace core {
 
 class MethodResult final {
 public:
@@ -86,16 +86,16 @@ private:
   const std::string fDescription;
 };
 
-} // namespace Core
+} // namespace core
 
-} // namespace Pneumatic
+} // namespace pneu
 
 #define PNEU_EXCEPT_TO_METHODRES(func) \
   do { \
     try { \
       func; \
     } catch(const std::exception& e) { \
-      return Pneumatic::Graphics::MethodResult::error(e.what()); \
+      return pneu::Graphics::MethodResult::error(e.what()); \
     } \
   }
 

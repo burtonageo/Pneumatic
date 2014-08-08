@@ -1,5 +1,5 @@
 /**
- * This file is part of the Pneumatic game engine
+ * This file is part of the pneu game engine
  *
  * Copyright (c) 2014 George Burton
  * 
@@ -26,7 +26,7 @@
 
 #include "graphics/Light.hpp"
 
-Pneumatic::Graphics::Light::Light(const glm::vec3& position,
+pneu::graphics::Light::Light(const glm::vec3& position,
                                   const glm::vec4& color,
                                   float radius)
   :
@@ -37,7 +37,7 @@ Pneumatic::Graphics::Light::Light(const glm::vec3& position,
 
 }
 
-Pneumatic::Graphics::Light::Light(const Light& other)
+pneu::graphics::Light::Light(const Light& other)
   :
   fPosition(other.fPosition),
   fColor(other.fColor),
@@ -46,40 +46,40 @@ Pneumatic::Graphics::Light::Light(const Light& other)
 
 }
 
-Pneumatic::Graphics::Light::~Light() = default;
+pneu::graphics::Light::~Light() = default;
 
 auto
-Pneumatic::Graphics::Light::getPosition() const -> glm::vec3
+pneu::graphics::Light::getPosition() const -> glm::vec3
 {
   return fPosition;
 }
 
 auto
-Pneumatic::Graphics::Light::setPosition(const glm::vec3& new_pos) -> void
+pneu::graphics::Light::setPosition(const glm::vec3& new_pos) -> void
 {
   fPosition = new_pos;
 }
 
 auto
-Pneumatic::Graphics::Light::getColor() const -> glm::vec4
+pneu::graphics::Light::getColor() const -> glm::vec4
 {
   return fColor;
 }
 
 auto
-Pneumatic::Graphics::Light::setColor(const glm::vec4& new_col) -> void
+pneu::graphics::Light::setColor(const glm::vec4& new_col) -> void
 {
   fColor = new_col;
 }
 
 auto
-Pneumatic::Graphics::Light::getRadius() const -> float
+pneu::graphics::Light::getRadius() const -> float
 {
   return fRadius;
 }
 
 auto
-Pneumatic::Graphics::Light::setRadius(float new_radius) -> void
+pneu::graphics::Light::setRadius(float new_radius) -> void
 {
   fRadius = new_radius;
 }

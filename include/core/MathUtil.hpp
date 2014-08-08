@@ -1,5 +1,5 @@
 /**
- * This file is part of the Pneumatic game engine
+ * This file is part of the pneu game engine
  *
  * Copyright (c) 2014 George Burton
  * 
@@ -27,24 +27,24 @@
 #ifndef PNEUMATIC_MATHUTIL_HPP
 #define PNEUMATIC_MATHUTIL_HPP
 
-namespace Pneumatic {
+namespace pneu {
 
-namespace Core {
+namespace core {
 
 template<typename T>
 inline auto degreesToRadians(T deg) -> T
 {
-  return deg * 0.017;
+  return deg * static_cast<T>(0.017);
 }
 
 template<typename T>
 inline auto radiansToDegrees(T rad) -> T
 {
-  return rad * 57.269;
+  return rad * static_cast<T>(57.269);
 }
 
-} // namespace Core
+} // namespace core
 
-} // namespace Pneumatic
+} // namespace pneu
 
 #endif // PNEUMATIC_MATHUTIL_HPP

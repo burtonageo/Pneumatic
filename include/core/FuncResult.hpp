@@ -1,5 +1,5 @@
 /**
- * This file is part of the Pneumatic game engine
+ * This file is part of the pneu game engine
  *
  * Copyright (c) 2014 George Burton
  * 
@@ -34,9 +34,9 @@
 #include <memory>
 #include <string>
 
-namespace Pneumatic {
+namespace pneu {
 
-namespace Core {
+namespace core {
 
 template<typename T>
 class FuncResult final {
@@ -136,9 +136,9 @@ private:
   const std::string fDescription;
 };
 
-} // namespace Core
+} // namespace core
 
-} // namespace Pneumatic
+} // namespace pneu
 
 #define PNEU_TRY_FUNC(var, func) \
   auto var = func; \

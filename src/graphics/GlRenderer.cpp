@@ -1,5 +1,5 @@
 /**
- * This file is part of the Pneumatic game engine
+ * This file is part of the pneu game engine
  *
  * Copyright (c) 2014 George Burton
  *
@@ -44,9 +44,9 @@
 #include "graphics/Shader.hpp"
 #include "graphics/Window.hpp"
 
-namespace Pneumatic {
+namespace pneu {
 
-namespace Graphics {
+namespace graphics {
 
 struct GlRenderer::GlRendererImpl final {
 public:
@@ -60,16 +60,16 @@ public:
 
   int width, height;
 
-  Pneumatic::Graphics::Camera camera;
+  pneu::graphics::Camera camera;
   std::vector<std::shared_ptr<RenderObject>> objects;
 };
 
-} // namespace Graphics
+} // namespace graphics
 
-} // namespace Pneumatic
+} // namespace pneu
 
 using namespace std;
-using namespace Pneumatic::Core;
+using namespace pneu::core;
 
 static auto _updateShaderMatrices(GLuint program,
                                   const glm::mat4& model_matrix,
@@ -83,7 +83,7 @@ static auto _updateShaderMatrices(GLuint program,
   glUniformMatrix4fv(mvp_uniform, 1, GL_FALSE, &mvp[0][0]);
 }
 
-static auto _initGlew(void) -> Pneumatic::Core::MethodResult
+static auto _initGlew(void) -> pneu::core::MethodResult
 {
    glewExperimental = GL_TRUE;
  
@@ -100,16 +100,16 @@ static auto _initGlew(void) -> Pneumatic::Core::MethodResult
    return MethodResult::ok();  
 }
 
-bool Pneumatic::Graphics::GlRenderer::sGlewInitialized = false;
+bool pneu::graphics::GlRenderer::sGlewInitialized = false;
 
-Pneumatic::Graphics::GlRenderer::GlRenderer()
+pneu::graphics::GlRenderer::GlRenderer()
   :
-  fRenImpl(make_unique<Pneumatic::Graphics::GlRenderer::GlRendererImpl>(0, 0)) { }
+  fRenImpl(make_unique<pneu::graphics::GlRenderer::GlRendererImpl>(0, 0)) { }
 
-Pneumatic::Graphics::GlRenderer::~GlRenderer() = default;
+pneu::graphics::GlRenderer::~GlRenderer() = default;
 
 auto
-Pneumatic::Graphics::GlRenderer::init(GLFWwindow* win_ptr) -> Pneumatic::Core::MethodResult
+pneu::graphics::GlRenderer::init(GLFWwindow* win_ptr) -> pneu::core::MethodResult
 {
   glfwMakeContextCurrent(win_ptr);
 
@@ -139,7 +139,7 @@ Pneumatic::Graphics::GlRenderer::init(GLFWwindow* win_ptr) -> Pneumatic::Core::M
 }
 
 auto
-Pneumatic::Graphics::GlRenderer::addRenderObject(std::weak_ptr<RenderObject> object) -> void
+pneu::graphics::GlRenderer::addRenderObject(std::weak_ptr<RenderObject> object) -> void
 {
   if (auto owned = object.lock()) {
     fRenImpl->objects.push_back(owned);
@@ -147,7 +147,7 @@ Pneumatic::Graphics::GlRenderer::addRenderObject(std::weak_ptr<RenderObject> obj
 }
 
 auto
-Pneumatic::Graphics::GlRenderer::updateScene(double ms) -> void
+pneu::graphics::GlRenderer::updateScene(double ms) -> void
 {
   const auto& cam = fRenImpl->camera;
   const auto projection_matrix = glm::perspective(cam.getFieldOfView(),
@@ -161,7 +161,7 @@ Pneumatic::Graphics::GlRenderer::updateScene(double ms) -> void
 
   for_each(fRenImpl->objects.begin(),
            fRenImpl->objects.end(),
-           [&](shared_ptr<Pneumatic::Graphics::RenderObject> r) {
+           [&](shared_ptr<pneu::graphics::RenderObject> r) {
              r->update(ms);
              _updateShaderMatrices(r->getShader()->getShaderProgram(),
                                    r->getModelMatrix(),
@@ -171,19 +171,19 @@ Pneumatic::Graphics::GlRenderer::updateScene(double ms) -> void
 }
 
 auto
-Pneumatic::Graphics::GlRenderer::renderScene() -> void
+pneu::graphics::GlRenderer::renderScene() -> void
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
   for_each(fRenImpl->objects.begin(),
            fRenImpl->objects.end(),
-           [&](shared_ptr<Pneumatic::Graphics::RenderObject> r) {
+           [&](shared_ptr<pneu::graphics::RenderObject> r) {
              r->draw();
            });
 }
 
 auto
-Pneumatic::Graphics::GlRenderer::viewportDidResize(int width, int height) -> void
+pneu::graphics::GlRenderer::viewportDidResize(int width, int height) -> void
 {
   glMatrixMode(GL_PROJECTION);
   glViewport(0, 0, static_cast<GLsizei>(width),
@@ -200,7 +200,7 @@ Pneumatic::Graphics::GlRenderer::viewportDidResize(int width, int height) -> voi
 }
 
 auto
-Pneumatic::Graphics::GlRenderer::quitWasRequested() -> bool
+pneu::graphics::GlRenderer::quitWasRequested() -> bool
 {
   return false;
 }

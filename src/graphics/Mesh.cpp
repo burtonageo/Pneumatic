@@ -1,5 +1,5 @@
 /**
- * This file is part of the Pneumatic game engine
+ * This file is part of the pneu game engine
  *
  * Copyright (c) 2014 George Burton
  * 
@@ -43,9 +43,9 @@
 using namespace glm;
 using namespace std;
 
-namespace Pneumatic {
+namespace pneu {
 
-namespace Graphics {
+namespace graphics {
 
 struct Mesh::GlMeshImpl {
   GlMeshImpl(int num_verts, GLuint type)
@@ -68,21 +68,21 @@ struct Mesh::GlMeshImpl {
 
 };
 
-} // namespace Graphics
+} // namespace graphics
 
-} // namespace Pneumatic
+} // namespace pneu
 
-Pneumatic::Graphics::Mesh::Mesh(int num_verts)
+pneu::graphics::Mesh::Mesh(int num_verts)
   :
   fGlMeshImpl(make_unique<GlMeshImpl>(num_verts, GL_TRIANGLES))
 {
 
 }
 
-Pneumatic::Graphics::Mesh::~Mesh() = default;
+pneu::graphics::Mesh::~Mesh() = default;
 
 auto
-Pneumatic::Graphics::Mesh::generateTriangle() -> std::shared_ptr<Mesh>
+pneu::graphics::Mesh::generateTriangle() -> std::shared_ptr<Mesh>
 {
   auto mesh = make_shared<Mesh>(3);
   mesh->_reserveArrays();
@@ -110,7 +110,7 @@ Pneumatic::Graphics::Mesh::generateTriangle() -> std::shared_ptr<Mesh>
 }
 
 auto
-Pneumatic::Graphics::Mesh::generateCube() -> std::shared_ptr<Mesh>
+pneu::graphics::Mesh::generateCube() -> std::shared_ptr<Mesh>
 {
   auto mesh = _loadFromFile("cube");
   mesh->_generateNormals();
@@ -119,19 +119,19 @@ Pneumatic::Graphics::Mesh::generateCube() -> std::shared_ptr<Mesh>
 }
 
 auto
-Pneumatic::Graphics::Mesh::generateSphere() -> std::shared_ptr<Mesh>
+pneu::graphics::Mesh::generateSphere() -> std::shared_ptr<Mesh>
 {
   return nullptr;
 }
 
 auto
-Pneumatic::Graphics::Mesh::loadFromObjFile(const std::string& file_name) -> std::shared_ptr<Mesh>
+pneu::graphics::Mesh::loadFromObjFile(const std::string& file_name) -> std::shared_ptr<Mesh>
 {
   return nullptr;
 }
 
 auto
-Pneumatic::Graphics::Mesh::_loadFromFile(const std::string& file_name) -> std::shared_ptr<Mesh>
+pneu::graphics::Mesh::_loadFromFile(const std::string& file_name) -> std::shared_ptr<Mesh>
 {
   // TODO: make asset directories
   string file_path = file_name + ".mesh";
@@ -179,7 +179,7 @@ Pneumatic::Graphics::Mesh::_loadFromFile(const std::string& file_name) -> std::s
 }
 
 auto
-Pneumatic::Graphics::Mesh::draw() -> void
+pneu::graphics::Mesh::draw() -> void
 {
   glBindVertexArray(fGlMeshImpl->fVao);
   glDrawElements(fGlMeshImpl->fType, fGlMeshImpl->fNumVertices, GL_UNSIGNED_INT, 0);
@@ -188,7 +188,7 @@ Pneumatic::Graphics::Mesh::draw() -> void
 }
 
 auto
-Pneumatic::Graphics::Mesh::_generateNormals() -> void
+pneu::graphics::Mesh::_generateNormals() -> void
 {
   for (int i = 0; i < fGlMeshImpl->fNumVertices; i+=3) {
     vec3& a = fGlMeshImpl->fVertices[i];
@@ -206,7 +206,7 @@ Pneumatic::Graphics::Mesh::_generateNormals() -> void
 }
 
 auto
-Pneumatic::Graphics::Mesh::_bufferData() -> void
+pneu::graphics::Mesh::_bufferData() -> void
 {
   glGenVertexArrays(1, &fGlMeshImpl->fVao);
   glBindVertexArray(fGlMeshImpl->fVao);
@@ -220,7 +220,7 @@ Pneumatic::Graphics::Mesh::_bufferData() -> void
 }
 
 auto
-Pneumatic::Graphics::Mesh::_reserveArrays() -> void
+pneu::graphics::Mesh::_reserveArrays() -> void
 {
   fGlMeshImpl->fVertices  = std::vector<glm::vec3>(fGlMeshImpl->fNumVertices, glm::vec3());
   fGlMeshImpl->fNormals   = std::vector<glm::vec3>(fGlMeshImpl->fNumVertices, glm::vec3());
@@ -230,7 +230,7 @@ Pneumatic::Graphics::Mesh::_reserveArrays() -> void
 
 #define MESH_BUFFER_DATA_METH_DECL(meth_name, member_arr, idx, vec_tp, vec_num_elems) \
   auto \
-  Pneumatic::Graphics::Mesh::meth_name() -> void \
+  pneu::graphics::Mesh::meth_name() -> void \
   { \
     if (fGlMeshImpl->member_arr.empty()) { \
       return; \

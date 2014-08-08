@@ -1,5 +1,5 @@
 /**
- * This file is part of the Pneumatic game engine
+ * This file is part of the pneu game engine
  *
  * Copyright (c) 2014 George Burton
  *
@@ -31,7 +31,7 @@
 
 using namespace std;
 
-Pneumatic::Graphics::RenderObject::RenderObject()
+pneu::graphics::RenderObject::RenderObject()
   :
   fShaders(),
   fTextures(),
@@ -42,10 +42,10 @@ Pneumatic::Graphics::RenderObject::RenderObject()
 
 }
 
-Pneumatic::Graphics::RenderObject::~RenderObject() = default;
+pneu::graphics::RenderObject::~RenderObject() = default;
 
 auto
-Pneumatic::Graphics::RenderObject::changeShaders()  -> void
+pneu::graphics::RenderObject::changeShaders()  -> void
 {
   fCurrentShaderIndex++;
 
@@ -55,15 +55,15 @@ Pneumatic::Graphics::RenderObject::changeShaders()  -> void
 }
 
 auto
-Pneumatic::Graphics::RenderObject::setShaderLight(const Pneumatic::Graphics::Light& light)  -> void
+pneu::graphics::RenderObject::setShaderLight(const pneu::graphics::Light& light)  -> void
 {
   // TODO: shader light
 }
 
 auto
-Pneumatic::Graphics::RenderObject::addTexture(const std::string& tex_file) -> void
+pneu::graphics::RenderObject::addTexture(const std::string& tex_file) -> void
 {
-  auto tex = make_shared<Pneumatic::Graphics::Texture>();
+  auto tex = make_shared<pneu::graphics::Texture>();
   auto tex_init_res = tex->init(tex_file);
 
   if (!tex_init_res.isOk()) {
@@ -75,13 +75,13 @@ Pneumatic::Graphics::RenderObject::addTexture(const std::string& tex_file) -> vo
 }
 
 auto
-Pneumatic::Graphics::RenderObject::getShader() const  -> std::shared_ptr<Pneumatic::Graphics::Shader>
+pneu::graphics::RenderObject::getShader() const  -> std::shared_ptr<pneu::graphics::Shader>
 {
   return fShaders.at(fCurrentShaderIndex);
 }
 
 auto
-Pneumatic::Graphics::RenderObject::addShader(std::shared_ptr<Pneumatic::Graphics::Shader> shader)  -> void
+pneu::graphics::RenderObject::addShader(std::shared_ptr<pneu::graphics::Shader> shader)  -> void
 {
   if (shader != nullptr) {
     fShaders.push_back(shader);
@@ -89,19 +89,19 @@ Pneumatic::Graphics::RenderObject::addShader(std::shared_ptr<Pneumatic::Graphics
 }
 
 auto
-Pneumatic::Graphics::RenderObject::getModelMatrix() const -> glm::mat4
+pneu::graphics::RenderObject::getModelMatrix() const -> glm::mat4
 {
   return fModelMatrix;
 }
 
 auto
-Pneumatic::Graphics::RenderObject::setModelMatrix(const glm::mat4& matrix)  -> void
+pneu::graphics::RenderObject::setModelMatrix(const glm::mat4& matrix)  -> void
 {
   fModelMatrix = matrix;
 }
 
 auto
-Pneumatic::Graphics::RenderObject::bindCurrentShader() -> void
+pneu::graphics::RenderObject::bindCurrentShader() -> void
 {
   auto k_curr_shader = _getCurrentShader();
   if (k_curr_shader != nullptr) {
@@ -110,7 +110,7 @@ Pneumatic::Graphics::RenderObject::bindCurrentShader() -> void
 }
 
 auto
-Pneumatic::Graphics::RenderObject::bindCurrentTexture() -> void
+pneu::graphics::RenderObject::bindCurrentTexture() -> void
 {
   const auto k_curr_shader = _getCurrentShader();
   const auto k_curr_tex = _getCurrentTexture();
@@ -121,13 +121,13 @@ Pneumatic::Graphics::RenderObject::bindCurrentTexture() -> void
 }
 
 auto
-Pneumatic::Graphics::RenderObject::unBindCurrentShader() -> void
+pneu::graphics::RenderObject::unBindCurrentShader() -> void
 {
   glUseProgram(0);
 }
 
 auto
-Pneumatic::Graphics::RenderObject::unBindCurrentTexture() -> void
+pneu::graphics::RenderObject::unBindCurrentTexture() -> void
 {
   const auto k_curr_tex = _getCurrentTexture();
   if (k_curr_tex != nullptr) {
@@ -136,14 +136,14 @@ Pneumatic::Graphics::RenderObject::unBindCurrentTexture() -> void
 }
 
 auto
-Pneumatic::Graphics::RenderObject::_getCurrentShader() -> std::shared_ptr<Shader>
+pneu::graphics::RenderObject::_getCurrentShader() -> std::shared_ptr<Shader>
 {
   return fShaders.size() > 0 ? fShaders.at(fCurrentShaderIndex)
                              : nullptr;
 }
 
 auto
-Pneumatic::Graphics::RenderObject::_getCurrentTexture() -> std::shared_ptr<Texture>
+pneu::graphics::RenderObject::_getCurrentTexture() -> std::shared_ptr<Texture>
 {
   return fTextures.size() > 0 ? fTextures.at(fCurrentShaderIndex)
                               : nullptr;

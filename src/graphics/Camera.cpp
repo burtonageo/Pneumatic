@@ -1,5 +1,5 @@
 /**
- * This file is part of the Pneumatic game engine
+ * This file is part of the pneu game engine
  *
  * Copyright (c) 2014 George Burton
  *
@@ -26,7 +26,7 @@
 
 #include "graphics/Camera.hpp"
 
-Pneumatic::Graphics::Camera::Camera(float fov,
+pneu::graphics::Camera::Camera(float fov,
                                     float zoom,
                                     float near_clip,
                                     float far_clip,
@@ -45,103 +45,103 @@ Pneumatic::Graphics::Camera::Camera(float fov,
 }
 
 auto
-Pneumatic::Graphics::Camera::getWidth() const -> int
+pneu::graphics::Camera::getWidth() const -> int
 {
   return fCameraSize.x;
 }
 
 auto
-Pneumatic::Graphics::Camera::getHeight() const -> int
+pneu::graphics::Camera::getHeight() const -> int
 {
   return fCameraSize.y;
 }
 
 auto
-Pneumatic::Graphics::Camera::getPosition() const -> glm::vec2
+pneu::graphics::Camera::getPosition() const -> glm::vec2
 {
   return glm::vec2(fCameraPosition.x, fCameraPosition.y);
 }
 
 auto
-Pneumatic::Graphics::Camera::setPosition(const glm::vec3& new_pos) -> void
+pneu::graphics::Camera::setPosition(const glm::vec3& new_pos) -> void
 {
   fCameraPosition = new_pos;
 }
 
 auto
-Pneumatic::Graphics::Camera::getFieldOfView() const -> float
+pneu::graphics::Camera::getFieldOfView() const -> float
 {
   return fFov;
 }
 
 auto
-Pneumatic::Graphics::Camera::setFieldOfViewDegrees(float fov_degrees) -> void
+pneu::graphics::Camera::setFieldOfViewDegrees(float fov_degrees) -> void
 {
-  fFov = Pneumatic::Core::degreesToRadians(fov_degrees);
+  fFov = pneu::core::degreesToRadians(fov_degrees);
 }
 
 auto
-Pneumatic::Graphics::Camera::setFieldOfViewRadians(float fov_radians) -> void
+pneu::graphics::Camera::setFieldOfViewRadians(float fov_radians) -> void
 {
   fFov = fov_radians;
 }
 
 auto
-Pneumatic::Graphics::Camera::getZoom() const -> float
+pneu::graphics::Camera::getZoom() const -> float
 {
   return fZoom;
 }
 
 auto
-Pneumatic::Graphics::Camera::setZoom(float zoom) -> void
+pneu::graphics::Camera::setZoom(float zoom) -> void
 {
   fZoom = zoom;
 }
 
 auto
-Pneumatic::Graphics::Camera::zoomInBy(float zoom) -> void
+pneu::graphics::Camera::zoomInBy(float zoom) -> void
 {
   fZoom -= zoom;
 }
 
 auto
-Pneumatic::Graphics::Camera::zoomOutBy(float zoom) -> void
+pneu::graphics::Camera::zoomOutBy(float zoom) -> void
 {
   fZoom += zoom;
 }
 
 auto
-Pneumatic::Graphics::Camera::getNearClip() const -> float
+pneu::graphics::Camera::getNearClip() const -> float
 {
   return fNearClip;
 }
 
 auto
-Pneumatic::Graphics::Camera::setNearClip(float near_clip) -> void
+pneu::graphics::Camera::setNearClip(float near_clip) -> void
 {
   fNearClip = near_clip;
 }
 
 auto
-Pneumatic::Graphics::Camera::getFarClip() const -> float
+pneu::graphics::Camera::getFarClip() const -> float
 {
   return fFarClip;
 }
 
 auto
-Pneumatic::Graphics::Camera::setFarClip(float far_clip) -> void
+pneu::graphics::Camera::setFarClip(float far_clip) -> void
 {
   fFarClip = far_clip;
 }
 
 auto
-Pneumatic::Graphics::Camera::getRenderSize(void) const -> glm::uvec2
+pneu::graphics::Camera::getRenderSize(void) const -> glm::uvec2
 {
   return fCameraSize;
 }
 
 auto
-Pneumatic::Graphics::Camera::getAspectRatio() const -> float
+pneu::graphics::Camera::getAspectRatio() const -> float
 {
   if (fCameraSize.y == 0.0f) {
     return 0.0f;
@@ -151,38 +151,38 @@ Pneumatic::Graphics::Camera::getAspectRatio() const -> float
 }
 
 auto
-Pneumatic::Graphics::Camera::getZoomedFieldOfView() const -> float
+pneu::graphics::Camera::getZoomedFieldOfView() const -> float
 {
   return fFov * fZoom;
 }
 
 auto
-Pneumatic::Graphics::Camera::pan(const glm::vec2& direction) -> void
+pneu::graphics::Camera::pan(const glm::vec2& direction) -> void
 {
   // TODO: implement
 }
 
 auto
-Pneumatic::Graphics::Camera::_getPosition3d() const -> glm::vec3
+pneu::graphics::Camera::_getPosition3d() const -> glm::vec3
 {
   return fCameraPosition;
 }
 
 auto
-Pneumatic::Graphics::Camera::_getDirection() const -> glm::vec3
+pneu::graphics::Camera::_getDirection() const -> glm::vec3
 {
   return fCameraTarget - fCameraPosition;
 }
 
 
 auto
-Pneumatic::Graphics::Camera::_getTargetPosition() const -> glm::vec3
+pneu::graphics::Camera::_getTargetPosition() const -> glm::vec3
 {
   return fCameraTarget;
 }
 
 auto
-Pneumatic::Graphics::Camera::_setTargetPosition(const glm::vec3& new_targ) -> void
+pneu::graphics::Camera::_setTargetPosition(const glm::vec3& new_targ) -> void
 {
   fCameraTarget = new_targ;
 }

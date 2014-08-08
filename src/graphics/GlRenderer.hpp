@@ -1,5 +1,5 @@
 /**
- * This file is part of the Pneumatic game engine
+ * This file is part of the pneu game engine
  *
  * Copyright (c) 2014 George Burton
  *
@@ -42,15 +42,15 @@
 #define GLFW_NO_GLU
 #include <GLFW/glfw3.h>
 
-namespace Pneumatic {
+namespace pneu {
 
-namespace Core {
+namespace core {
 
 class MethodResult;
 
-} // namespace Core
+} // namespace core
 
-namespace Graphics {
+namespace graphics {
 
 class RenderObject;
 
@@ -64,7 +64,7 @@ public:
 
   ~GlRenderer(void);
 
-  auto init(GLFWwindow*)                               -> Pneumatic::Core::MethodResult;
+  auto init(GLFWwindow*)                               -> pneu::core::MethodResult;
 
   auto addRenderObject(std::weak_ptr<RenderObject>)    -> void;
 
@@ -79,8 +79,8 @@ private:
   std::unique_ptr<GlRendererImpl> fRenImpl;
 };
 
-} // namespace Graphics
+} // namespace graphics
 
-} // namespace Pneumatic
+} // namespace pneu
 
 #endif // PNEUMATIC_GL_GlRenderer_HPP

@@ -1,5 +1,5 @@
 /**
- * This file is part of the Pneumatic game engine
+ * This file is part of the pneu game engine
  *
  * Copyright (c) 2014 George Burton
  *
@@ -31,22 +31,22 @@
 #include "graphics/Shader.hpp"
 
 using namespace std;
-using namespace Pneumatic::Core;
+using namespace pneu::core;
 
-Pneumatic::Graphics::Texture::Texture()
+pneu::graphics::Texture::Texture()
   :
   fObject(0)
 {
 
 }
 
-Pneumatic::Graphics::Texture::~Texture()
+pneu::graphics::Texture::~Texture()
 {
   glDeleteTextures(1, &fObject);
 }
 
 auto
-Pneumatic::Graphics::Texture::init(const std::string& file_name) -> Pneumatic::Core::MethodResult
+pneu::graphics::Texture::init(const std::string& file_name) -> pneu::core::MethodResult
 {
   const std::string k_file_path = file_name;
   int width, height, channels;
@@ -77,7 +77,7 @@ Pneumatic::Graphics::Texture::init(const std::string& file_name) -> Pneumatic::C
 }
 
 auto
-Pneumatic::Graphics::Texture::bind(std::shared_ptr<Shader> shader) -> void
+pneu::graphics::Texture::bind(std::shared_ptr<Shader> shader) -> void
 {
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, fObject);
@@ -86,7 +86,7 @@ Pneumatic::Graphics::Texture::bind(std::shared_ptr<Shader> shader) -> void
 }
 
 auto
-Pneumatic::Graphics::Texture::unbind() -> void
+pneu::graphics::Texture::unbind() -> void
 {
   glBindTexture(GL_TEXTURE_2D, 0);
 }

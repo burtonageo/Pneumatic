@@ -1,5 +1,5 @@
 /**
- * This file is part of the Pneumatic game engine
+ * This file is part of the pneu game engine
  *
  * Copyright (c) 2014 George Burton
  *
@@ -42,9 +42,9 @@
 
 #include "core/MethodResult.hpp"
 
-namespace Pneumatic {
+namespace pneu {
 
-namespace Graphics {
+namespace graphics {
 
 class Shader;
 
@@ -54,7 +54,7 @@ public:
   Texture(const Texture& other) = delete;
   ~Texture(void);
 
-  auto init(const std::string& file)        -> Pneumatic::Core::MethodResult;
+  auto init(const std::string& file)        -> pneu::core::MethodResult;
 
   auto bind(std::shared_ptr<Shader> shader) -> void;
   auto unbind(void)                         -> void;
@@ -64,8 +64,8 @@ private:
   GLuint fObject;
 };
 
-} // namespace Graphics
+} // namespace graphics
 
-} // namespace Pneumatic
+} // namespace pneu
 
 #endif // PNEUMATIC_TEXTURE_HPP

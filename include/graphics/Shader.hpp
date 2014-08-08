@@ -1,5 +1,5 @@
 /**
- * This file is part of the Pneumatic game engine
+ * This file is part of the pneu game engine
  *
  * Copyright (c) 2014 George Burton
  * 
@@ -45,9 +45,9 @@
 
 #include "core/MethodResult.hpp"
 
-namespace Pneumatic {
+namespace pneu {
 
-namespace Graphics {
+namespace graphics {
 
 class Shader final {
 public:
@@ -59,7 +59,7 @@ public:
             const std::string& frag_file,
             const std::string& geom_file = "",
             const std::string& tcs_file  = "",
-            const std::string& tes_file  = "")               -> Pneumatic::Core::MethodResult;
+            const std::string& tes_file  = "")               -> pneu::core::MethodResult;
 
   auto getShaderProgram(void) const                          -> GLuint;
   auto update(double ms)                                     -> void;
@@ -68,8 +68,8 @@ private:
   auto _setDefaultAttributes(void)                           -> void;
 
   auto _createShader(GLenum, const std::string&)             -> std::pair<GLuint, std::string>;
-  auto _compileShader(GLuint, const std::string& file_path)  -> Pneumatic::Core::MethodResult;
-  auto _linkShaderProgram(void)                              -> Pneumatic::Core::MethodResult;
+  auto _compileShader(GLuint, const std::string& file_path)  -> pneu::core::MethodResult;
+  auto _linkShaderProgram(void)                              -> pneu::core::MethodResult;
 
   GLuint fProgramID;
 };
@@ -77,17 +77,17 @@ private:
 // Used to update shaders
 class ShaderUpdateMixin {
 public:
-  ShaderUpdateMixin(std::shared_ptr<Pneumatic::Graphics::Shader> shader)
+  ShaderUpdateMixin(std::shared_ptr<pneu::graphics::Shader> shader)
     :
     fShader(shader) { }
   virtual ~ShaderUpdateMixin(void) = default;
 
   virtual auto update(double delta_time) -> void = 0;
-  std::shared_ptr<Pneumatic::Graphics::Shader> fShader;
+  std::shared_ptr<pneu::graphics::Shader> fShader;
 };
 
-} // namespace Graphics
+} // namespace graphics
 
-} // namespace Pneumatic
+} // namespace pneu
 
 #endif // PNEUMATIC_SHADER_HPP

@@ -1,5 +1,5 @@
 /**
- * This file is part of the Pneumatic game engine
+ * This file is part of the pneu game engine
  *
  * Copyright (c) 2014 George Burton
  * 
@@ -34,14 +34,14 @@
 
 #include "core/MathUtil.hpp"
 
-namespace Pneumatic {
+namespace pneu {
 
-namespace Graphics {
+namespace graphics {
 
 class GlRenderer;
 class Camera final {
 public:
-  Camera(float fov                      = Pneumatic::Core::degreesToRadians(45.0f),
+  Camera(float fov                      = pneu::core::degreesToRadians(45.0f),
          float zoom                     = 1.0f,
          float near_clip                = 0.1f,
          float far_clip                 = 100.0f,
@@ -83,15 +83,15 @@ private:
   auto _getTargetPosition(void) const                -> glm::vec3;
   auto _setTargetPosition(const glm::vec3& new_targ) -> void;
 
-  friend class Pneumatic::Graphics::GlRenderer;
+  friend class pneu::graphics::GlRenderer;
 
   float fFov, fZoom, fNearClip, fFarClip;
   glm::uvec2 fCameraSize;
   glm::vec3 fCameraPosition, fCameraTarget;
 };
 
-} // namespace Graphics
+} // namespace graphics
 
-} // namespace Pneumatic
+} // namespace pneu
 
 #endif // PNEUMATIC_CAMERA_HPP

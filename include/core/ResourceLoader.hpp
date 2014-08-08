@@ -1,5 +1,5 @@
 /**
- * This file is part of the Pneumatic game engine
+ * This file is part of the pneu game engine
  *
  * Copyright (c) 2014 George Burton
  *
@@ -33,12 +33,16 @@
 
 #include "core/FuncResult.hpp"
 
-namespace Pneumatic {
+namespace pneu {
+
+namespace core {
 
 namespace ResourceLoader {
-  auto loadTextFile(const std::string&) -> Pneumatic::Core::FuncResult<std::string>;
+  auto loadTextFile(const std::string&) -> pneu::core::FuncResult<std::string>;
 }
 
-} // namespace Pneumatic
+} // namespace core
+
+} // namespace pneu
 
 #endif // PNEUMATIC_RESOURCE_LOADER_HPP

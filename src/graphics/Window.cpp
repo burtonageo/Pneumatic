@@ -1,5 +1,5 @@
 /**
- * This file is part of the Pneumatic game engine
+ * This file is part of the pneu game engine
  *
  * Copyright (c) 2014 George Burton
  * 
@@ -38,9 +38,9 @@
 
 #include "GlRenderer.hpp"
 
-namespace Pneumatic {
+namespace pneu {
 
-namespace Graphics {
+namespace graphics {
 
 struct Window::WindowImpl final {
 private:
@@ -63,13 +63,13 @@ public:
 
     ~WindowImpl() = default;
 
-  auto init(void) -> Pneumatic::Core::MethodResult
+  auto init(void) -> pneu::core::MethodResult
   {
     renderer = std::make_shared<GlRenderer>();
     return renderer->init(glWindow.get());
   }
 
-  friend class Pneumatic::Graphics::Window;
+  friend class pneu::graphics::Window;
 
   int width, height;
   const int min_width, min_height;
@@ -78,34 +78,34 @@ public:
   std::shared_ptr<GlRenderer> renderer;
 };
 
-} // namespace Graphics
+} // namespace graphics
 
-} // namespace Pneumatic
+} // namespace pneu
 
 using namespace std;
-using namespace Pneumatic::Core;
+using namespace pneu::core;
 
-Pneumatic::Graphics::Window::Window(const std::string& title, int w, int h, int mw, int mh)
+pneu::graphics::Window::Window(const std::string& title, int w, int h, int mw, int mh)
   :
-  fWinImpl(make_unique<Pneumatic::Graphics::Window::WindowImpl>(w, h, mw, mh)),
+  fWinImpl(make_unique<pneu::graphics::Window::WindowImpl>(w, h, mw, mh)),
   fWinTitle(title)
 {
 
 }
 
-Pneumatic::Graphics::Window::~Window() = default;
+pneu::graphics::Window::~Window() = default;
 
 auto
-Pneumatic::Graphics::Window::init() -> Pneumatic::Core::MethodResult
+pneu::graphics::Window::init() -> pneu::core::MethodResult
 {
   PNEU_TRY_METHOD(_initGlfw(fWinTitle));
   PNEU_TRY_METHOD(fWinImpl->init());
 
-  return Pneumatic::Core::MethodResult::ok();
+  return pneu::core::MethodResult::ok();
 }
 
 auto
-Pneumatic::Graphics::Window::update() -> void
+pneu::graphics::Window::update() -> void
 {
   double delta = glfwGetTime();
 
@@ -113,32 +113,32 @@ Pneumatic::Graphics::Window::update() -> void
 }
 
 auto
-Pneumatic::Graphics::Window::pollEvents() -> void
+pneu::graphics::Window::pollEvents() -> void
 {
   glfwPollEvents();
 }
 
 auto
-Pneumatic::Graphics::Window::renderFrame() -> void
+pneu::graphics::Window::renderFrame() -> void
 {
   fWinImpl->renderer->renderScene();
   glfwSwapBuffers(fWinImpl->glWindow.get());
 }
 
 auto
-Pneumatic::Graphics::Window::isRunning() -> bool
+pneu::graphics::Window::isRunning() -> bool
 {
   return !glfwWindowShouldClose(fWinImpl->glWindow.get());
 }
 
 auto
-Pneumatic::Graphics::Window::addRenderObject(std::weak_ptr<RenderObject> object) -> void
+pneu::graphics::Window::addRenderObject(std::weak_ptr<RenderObject> object) -> void
 {
   fWinImpl->renderer->addRenderObject(object);
 }
 
 auto
-Pneumatic::Graphics::Window::_initGlfw(const std::string& title) -> Pneumatic::Core::MethodResult
+pneu::graphics::Window::_initGlfw(const std::string& title) -> pneu::core::MethodResult
 {
   bool glfw_success = glfwInit();
   if (!glfw_success) {
@@ -176,25 +176,25 @@ Pneumatic::Graphics::Window::_initGlfw(const std::string& title) -> Pneumatic::C
 }
 
 auto
-Pneumatic::Graphics::Window::_handleKeypress(int key, int scan_code, int action, int mods)  -> void
+pneu::graphics::Window::_handleKeypress(int key, int scan_code, int action, int mods)  -> void
 {
 
 }
 
 auto
-Pneumatic::Graphics::Window::_handleRefresh() -> void
+pneu::graphics::Window::_handleRefresh() -> void
 {
   fWinImpl->renderer->renderScene();
 }
 
 auto
-Pneumatic::Graphics::Window::_handleQuitRequested() -> void
+pneu::graphics::Window::_handleQuitRequested() -> void
 {
   
 }
 
 auto
-Pneumatic::Graphics::Window::_handleWindowResize(int w, int h) -> void
+pneu::graphics::Window::_handleWindowResize(int w, int h) -> void
 {
   int resize_width = max(w, fWinImpl->min_width);
   int resize_height = max(h, fWinImpl->min_height);
@@ -203,81 +203,81 @@ Pneumatic::Graphics::Window::_handleWindowResize(int w, int h) -> void
 }
 
 auto
-Pneumatic::Graphics::Window::_handleWindowMove(int new_x_pos, int new_y_pos) -> void
+pneu::graphics::Window::_handleWindowMove(int new_x_pos, int new_y_pos) -> void
 {
 
 }
 
 auto
-Pneumatic::Graphics::Window::_handleViewportResize(int w, int h) -> void
+pneu::graphics::Window::_handleViewportResize(int w, int h) -> void
 {
   fWinImpl->renderer->viewportDidResize(w, h);
 }
 
 auto
-Pneumatic::Graphics::Window::_handleFocusLost() -> void
+pneu::graphics::Window::_handleFocusLost() -> void
 {
   
 }
 
 auto
-Pneumatic::Graphics::Window::_handleFocusGained() -> void
+pneu::graphics::Window::_handleFocusGained() -> void
 {
   
 }
 
 auto
-Pneumatic::Graphics::Window::_windowResizeCallback(GLFWwindow* win,
+pneu::graphics::Window::_windowResizeCallback(GLFWwindow* win,
                                          int w,
                                          int h) -> void
 {
-  auto* pneu_win = static_cast<Pneumatic::Graphics::Window*>(glfwGetWindowUserPointer(win));
+  auto* pneu_win = static_cast<pneu::graphics::Window*>(glfwGetWindowUserPointer(win));
   pneu_win->_handleWindowResize(w, h);
 }
 
 auto
-Pneumatic::Graphics::Window::_viewportResizeCallback(GLFWwindow* win, int w, int h) -> void
+pneu::graphics::Window::_viewportResizeCallback(GLFWwindow* win, int w, int h) -> void
 {
-  auto* pneu_win = static_cast<Pneumatic::Graphics::Window*>(glfwGetWindowUserPointer(win));
+  auto* pneu_win = static_cast<pneu::graphics::Window*>(glfwGetWindowUserPointer(win));
   pneu_win->_handleViewportResize(w, h);
 }
 
 auto
-Pneumatic::Graphics::Window::_windowMoveCallback(GLFWwindow* win, int x, int y) -> void
+pneu::graphics::Window::_windowMoveCallback(GLFWwindow* win, int x, int y) -> void
 {
-  auto* pneu_win = static_cast<Pneumatic::Graphics::Window*>(glfwGetWindowUserPointer(win));
+  auto* pneu_win = static_cast<pneu::graphics::Window*>(glfwGetWindowUserPointer(win));
   pneu_win->_handleWindowMove(x, y);
 }
 
 auto
-Pneumatic::Graphics::Window::_refreshCallback(GLFWwindow* win) -> void
+pneu::graphics::Window::_refreshCallback(GLFWwindow* win) -> void
 {
-  auto* pneu_win = static_cast<Pneumatic::Graphics::Window*>(glfwGetWindowUserPointer(win));
+  auto* pneu_win = static_cast<pneu::graphics::Window*>(glfwGetWindowUserPointer(win));
   pneu_win->_handleRefresh();
 }
 
 auto
-Pneumatic::Graphics::Window::_keypressCallback(GLFWwindow* win,
+pneu::graphics::Window::_keypressCallback(GLFWwindow* win,
                                                int key,
                                                int scan_code,
                                                int action,
                                                int mods) -> void
 {
-  auto* pneu_win = static_cast<Pneumatic::Graphics::Window*>(glfwGetWindowUserPointer(win));
+  auto* pneu_win = static_cast<pneu::graphics::Window*>(glfwGetWindowUserPointer(win));
   pneu_win->_handleKeypress(key, scan_code, action, mods);
 }
 
 auto
-Pneumatic::Graphics::Window::_quitRequestedCallback(GLFWwindow* win) -> void
+pneu::graphics::Window::_quitRequestedCallback(GLFWwindow* win) -> void
 {
-  auto* pneu_win = static_cast<Pneumatic::Graphics::Window*>(glfwGetWindowUserPointer(win));
+  auto* pneu_win = static_cast<pneu::graphics::Window*>(glfwGetWindowUserPointer(win));
   return pneu_win->_handleQuitRequested();
 }
 
 auto
-Pneumatic::Graphics::Window::_windowFocusChangeCallback(GLFWwindow* win, int focus) -> void
+pneu::graphics::Window::_windowFocusChangeCallback(GLFWwindow* win, int focus) -> void
 {
-  auto* pneu_win = static_cast<Pneumatic::Graphics::Window*>(glfwGetWindowUserPointer(win));
+  auto* pneu_win = static_cast<pneu::graphics::Window*>(glfwGetWindowUserPointer(win));
   if (focus == GL_TRUE) {
     pneu_win->_handleFocusGained();
   } else {

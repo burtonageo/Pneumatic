@@ -1,5 +1,5 @@
 /**
- * This file is part of the Pneumatic game engine
+ * This file is part of the pneu game engine
  *
  * Copyright (c) 2014 George Burton
  * 
@@ -37,26 +37,26 @@
 #include "core/ResourceLoader.hpp"
 
 using namespace std;
-using namespace Pneumatic::Core;
+using namespace pneu::core;
 
-Pneumatic::Graphics::Shader::Shader()
+pneu::graphics::Shader::Shader()
   :
   fProgramID(0)
 {
 
 }
 
-Pneumatic::Graphics::Shader::~Shader()
+pneu::graphics::Shader::~Shader()
 {
   glDeleteProgram(fProgramID);
 }
 
 auto
-Pneumatic::Graphics::Shader::init(const std::string& vert_file,
+pneu::graphics::Shader::init(const std::string& vert_file,
                                   const std::string& frag_file,
                                   const std::string& geom_file,
                                   const std::string& tcs_file,
-                                  const std::string& tes_file) -> Pneumatic::Core::MethodResult
+                                  const std::string& tes_file) -> pneu::core::MethodResult
 {
   fProgramID = glCreateProgram();
 
@@ -108,13 +108,13 @@ Pneumatic::Graphics::Shader::init(const std::string& vert_file,
 }
 
 auto
-Pneumatic::Graphics::Shader::getShaderProgram() const -> GLuint
+pneu::graphics::Shader::getShaderProgram() const -> GLuint
 {
   return fProgramID;
 }
 
 auto
-Pneumatic::Graphics::Shader::_setDefaultAttributes() -> void
+pneu::graphics::Shader::_setDefaultAttributes() -> void
 {
   const GLuint k_vertex_buffer  = 0;
   const GLuint k_color_buffer   = 1;
@@ -128,7 +128,7 @@ Pneumatic::Graphics::Shader::_setDefaultAttributes() -> void
 }
 
 auto
-Pneumatic::Graphics::Shader::_createShader(GLenum shader_type,
+pneu::graphics::Shader::_createShader(GLenum shader_type,
                                            const std::string& shader_file) -> std::pair<GLuint, std::string>
 {
   if (shader_file == "") {
@@ -167,8 +167,8 @@ Pneumatic::Graphics::Shader::_createShader(GLenum shader_type,
 }
 
 auto
-Pneumatic::Graphics::Shader::_compileShader(GLuint shader_id,
-                                            const std::string& shader_path) -> Pneumatic::Core::MethodResult
+pneu::graphics::Shader::_compileShader(GLuint shader_id,
+                                            const std::string& shader_path) -> pneu::core::MethodResult
 {
   auto source_result = ResourceLoader::loadTextFile(shader_path);
 
@@ -201,7 +201,7 @@ Pneumatic::Graphics::Shader::_compileShader(GLuint shader_id,
 }
 
 auto
-Pneumatic::Graphics::Shader::_linkShaderProgram() -> Pneumatic::Core::MethodResult
+pneu::graphics::Shader::_linkShaderProgram() -> pneu::core::MethodResult
 {
   glLinkProgram(fProgramID);
 

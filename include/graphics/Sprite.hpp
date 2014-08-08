@@ -2,11 +2,11 @@
 
 #include "core/MethResult.hpp"
 
-namespace Pneumatic {
+namespace pneu {
 
-namespace Graphics {
+namespace graphics {
 
-class Sprite : public Pneumatic::Graphics::RenderObject {
+class Sprite : public pneu::graphics::RenderObject {
 public:
 	Sprite(void);
 	~Sprite(void) = default;
@@ -14,6 +14,6 @@ public:
 	auto load(const std::string& file_name) -> MethResult;
 };
 
-} // namespace Graphics
+} // namespace graphics
 
-} // namespace Pneumatic
+} // namespace pneu

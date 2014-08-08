@@ -1,5 +1,5 @@
 /**
- * This file is part of the Pneumatic game engine
+ * This file is part of the pneu game engine
  *
  * Copyright (c) 2014 George Burton
  *
@@ -35,9 +35,9 @@
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 
-namespace Pneumatic {
+namespace pneu {
 
-namespace Graphics {
+namespace graphics {
 
 class Light;
 class Shader;
@@ -82,8 +82,8 @@ private:
   unsigned int fCurrentShaderIndex;
 };
 
-} // namespace Graphics
+} // namespace graphics
 
-} // namespace Pneumatic
+} // namespace pneu
 
 #endif // PNEUMATIC_RENDEROBJECT_HPP

@@ -1,5 +1,5 @@
 /**
- * This file is part of the Pneumatic game engine
+ * This file is part of the pneu game engine
  *
  * Copyright (c) 2014 George Burton
  * 
@@ -31,10 +31,10 @@
 #include <string>
 
 using namespace std;
-using namespace Pneumatic::Core;
+using namespace pneu::core;
 
 auto
-Pneumatic::ResourceLoader::loadTextFile(const std::string& path) -> Pneumatic::Core::FuncResult<std::string>
+pneu::core::ResourceLoader::loadTextFile(const std::string& path) -> pneu::core::FuncResult<std::string>
 {
   string file_contents;
   ifstream file_stream(path, ios::in);

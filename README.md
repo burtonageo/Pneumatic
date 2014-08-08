@@ -24,13 +24,16 @@ Creating a window
 #include "pneu/core/MethodResult.hpp"
 
 int main(int argc, const char** argv) {
+  // declare window
   pneu::graphics::Window win("testing", 800, 600, 80, 60);
 
+  // initialise it, handling any errors
   win.init().onError([](const std::string& error) {
                        std::cout << error << std::endl;
                        exit(1);
                      });
 
+  // main event loop
   while (win.isRunning()) {
     win.pollEvents();
     win.update();

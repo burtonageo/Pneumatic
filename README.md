@@ -25,7 +25,7 @@ Creating a window
 
 int main(int argc, const char** argv) {
   // declare window
-  pneu::graphics::Window win("testing", 800, 600, 80, 60);
+  pneu::graphics::Window win("hello-world", 800, 600, 80, 60);
 
   // initialise it, handling any errors
   win.init().onError([](const std::string& error) {

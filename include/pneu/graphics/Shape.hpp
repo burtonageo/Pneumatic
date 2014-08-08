@@ -26,46 +26,21 @@
 
 #pragma once
 
-#ifndef PNEUMATIC_TEXTURE_HPP
-#define PNEUMATIC_TEXTURE_HPP
+#ifndef PNEUMATIC_SHAPE_HPP
+#define PNEUMATIC_SHAPE_HPP
 
-#include <memory>
-#include <string>
-#include <utility>
-
-#define GLEW_STATIC
-#include <GL/glew.h>
-
-#define GLFW_INCLUDE_GL3
-#define GLFW_NO_GLU
-#include <GLFW/glfw3.h>
-
-#include "core/MethodResult.hpp"
+#include "pneu/graphics/RenderObject.hpp"
 
 namespace pneu {
 
 namespace graphics {
 
-class Shader;
-
-class Texture final {
-public:
-  Texture(void);
-  Texture(const Texture& other) = delete;
-  ~Texture(void);
-
-  auto init(const std::string& file)        -> pneu::core::MethodResult;
-
-  auto bind(std::shared_ptr<Shader> shader) -> void;
-  auto unbind(void)                         -> void;
-  inline auto getObject(void) const         -> GLuint {return fObject;}
-
-private:
-  GLuint fObject;
-};
+class Shape final : public pneu::graphics::RenderObject {
+  
+}
 
 } // namespace graphics
 
 } // namespace pneu
 
-#endif // PNEUMATIC_TEXTURE_HPP
+#endif // PNEUMATIC_SHAPE_HPP

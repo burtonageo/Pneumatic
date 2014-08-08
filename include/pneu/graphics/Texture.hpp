@@ -26,23 +26,46 @@
 
 #pragma once
 
-#ifndef PNEUMATIC_RESOURCE_LOADER_HPP
-#define PNEUMATIC_RESOURCE_LOADER_HPP
+#ifndef PNEUMATIC_TEXTURE_HPP
+#define PNEUMATIC_TEXTURE_HPP
 
+#include <memory>
 #include <string>
+#include <utility>
 
-#include "core/FuncResult.hpp"
+#define GLEW_STATIC
+#include <GL/glew.h>
+
+#define GLFW_INCLUDE_GL3
+#define GLFW_NO_GLU
+#include <GLFW/glfw3.h>
+
+#include "pneu/core/MethodResult.hpp"
 
 namespace pneu {
 
-namespace core {
+namespace graphics {
 
-namespace ResourceLoader {
-  auto loadTextFile(const std::string&) -> pneu::core::FuncResult<std::string>;
-}
+class Shader;
 
-} // namespace core
+class Texture final {
+public:
+  Texture(void);
+  Texture(const Texture& other) = delete;
+  ~Texture(void);
+
+  auto init(const std::string& file)        -> pneu::core::MethodResult;
+
+  auto bind(std::shared_ptr<Shader> shader) -> void;
+  auto unbind(void)                         -> void;
+  inline auto getObject(void) const         -> GLuint {return fObject;}
+
+private:
+  GLuint fObject;
+};
+
+} // namespace graphics
 
 } // namespace pneu
 
-#endif // PNEUMATIC_RESOURCE_LOADER_HPP
+#endif // PNEUMATIC_TEXTURE_HPP

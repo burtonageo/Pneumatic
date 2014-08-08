@@ -32,7 +32,7 @@
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 
-#include "core/MathUtil.hpp"
+#include "pneu/core/MathUtil.hpp"
 
 namespace pneu {
 

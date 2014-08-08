@@ -24,7 +24,7 @@
  *
  **/
 
-#include "graphics/Mesh.hpp"
+#include "pneu/graphics/Mesh.hpp"
 
 #include <algorithm>
 #include <iostream>
@@ -37,8 +37,8 @@
 #define GLFW_NO_GLU
 #include <GLFW/glfw3.h>
 
-#include "core/ResourceLoader.hpp"
-#include "graphics/Shader.hpp"
+#include "pneu/core/ResourceLoader.hpp"
+#include "pneu/graphics/Shader.hpp"
 
 using namespace glm;
 using namespace std;

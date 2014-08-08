@@ -24,10 +24,10 @@
  *
  **/
 
-#include "graphics/RenderObject.hpp"
+#include "pneu/graphics/RenderObject.hpp"
 
-#include "graphics/Shader.hpp"
-#include "graphics/Texture.hpp"
+#include "pneu/graphics/Shader.hpp"
+#include "pneu/graphics/Texture.hpp"
 
 using namespace std;
 

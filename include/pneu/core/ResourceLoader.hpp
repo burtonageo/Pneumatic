@@ -26,21 +26,23 @@
 
 #pragma once
 
-#ifndef PNEUMATIC_SHAPE_HPP
-#define PNEUMATIC_SHAPE_HPP
+#ifndef PNEUMATIC_RESOURCE_LOADER_HPP
+#define PNEUMATIC_RESOURCE_LOADER_HPP
 
-#include "graphics/RenderObject.hpp"
+#include <string>
+
+#include "pneu/core/FuncResult.hpp"
 
 namespace pneu {
 
-namespace graphics {
+namespace core {
 
-class Shape final : public pneu::graphics::RenderObject {
-  
+namespace ResourceLoader {
+  auto loadTextFile(const std::string&) -> pneu::core::FuncResult<std::string>;
 }
 
-} // namespace graphics
+} // namespace core
 
 } // namespace pneu
 
-#endif // PNEUMATIC_SHAPE_HPP
+#endif // PNEUMATIC_RESOURCE_LOADER_HPP

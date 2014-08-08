@@ -24,7 +24,7 @@
  *
  **/
 
-#include "core/ResourceLoader.hpp"
+#include "pneu/core/ResourceLoader.hpp"
 
 #include <fstream>
 #include <iostream>

@@ -29,9 +29,9 @@
 #ifndef PNEUMATIC_SPRITE_HPP
 #define PNEUMATIC_SPRITE_HPP
 
-#include "graphics/RenderObject.hpp"
+#include "pneu/graphics/RenderObject.hpp"
 
-#include "core/MethResult.hpp"
+#include "pneu/core/MethResult.hpp"
 
 namespace pneu {
 

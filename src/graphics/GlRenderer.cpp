@@ -36,13 +36,13 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "core/MethodResult.hpp"
-#include "core/ResourceLoader.hpp"
+#include "pneu/core/MethodResult.hpp"
+#include "pneu/core/ResourceLoader.hpp"
 
-#include "graphics/Camera.hpp"
-#include "graphics/RenderObject.hpp"
-#include "graphics/Shader.hpp"
-#include "graphics/Window.hpp"
+#include "pneu/graphics/Camera.hpp"
+#include "pneu/graphics/RenderObject.hpp"
+#include "pneu/graphics/Shader.hpp"
+#include "pneu/graphics/Window.hpp"
 
 namespace pneu {
 

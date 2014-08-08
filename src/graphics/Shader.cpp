@@ -24,7 +24,7 @@
  *
  **/
 
-#include "graphics/Shader.hpp"
+#include "pneu/graphics/Shader.hpp"
 
 #include <iostream>
 #include <string>
@@ -34,7 +34,7 @@
 #define GLFW_NO_GLU
 #include <GLFW/glfw3.h>
 
-#include "core/ResourceLoader.hpp"
+#include "pneu/core/ResourceLoader.hpp"
 
 using namespace std;
 using namespace pneu::core;

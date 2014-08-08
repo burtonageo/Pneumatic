@@ -24,7 +24,7 @@
  *
  **/
 
-#include "graphics/Light.hpp"
+#include "pneu/graphics/Light.hpp"
 
 pneu::graphics::Light::Light(const glm::vec3& position,
                                   const glm::vec4& color,

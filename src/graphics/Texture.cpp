@@ -24,11 +24,11 @@
  *
  **/
 
-#include "graphics/Texture.hpp"
+#include "pneu/graphics/Texture.hpp"
 
 #include <SOIL.h>
 
-#include "graphics/Shader.hpp"
+#include "pneu/graphics/Shader.hpp"
 
 using namespace std;
 using namespace pneu::core;

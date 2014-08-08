@@ -24,7 +24,7 @@
  *
  **/
 
-#include "graphics/Camera.hpp"
+#include "pneu/graphics/Camera.hpp"
 
 pneu::graphics::Camera::Camera(float fov,
                                     float zoom,

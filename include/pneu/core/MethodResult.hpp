@@ -51,9 +51,6 @@ public:
     return {false, desc};
   }
 
-  MethodResult(const MethodResult&) = default;
-  ~MethodResult()               = default;
-
   inline auto isOk() const
     -> bool
   {

@@ -50,15 +50,15 @@ class Shader;
 
 class Texture final {
 public:
-  Texture(void);
+  Texture()    ;
   Texture(const Texture& other) = delete;
-  ~Texture(void);
+  ~Texture()    ;
 
   auto init(const std::string& file)        -> pneu::core::MethodResult;
 
   auto bind(std::shared_ptr<Shader> shader) -> void;
-  auto unbind(void)                         -> void;
-  inline auto getObject(void) const         -> GLuint {return fObject;}
+  auto unbind()                             -> void;
+  inline auto getObject() const             -> GLuint {return fObject;}
 
 private:
   GLuint fObject;

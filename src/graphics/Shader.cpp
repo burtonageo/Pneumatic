@@ -26,6 +26,8 @@
 
 #include "pneu/graphics/Shader.hpp"
 
+#include "pneu/core/ResourceLoader.hpp"
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -33,8 +35,6 @@
 #define GLFW_INCLUDE_GL3
 #define GLFW_NO_GLU
 #include <GLFW/glfw3.h>
-
-#include "pneu/core/ResourceLoader.hpp"
 
 using namespace std;
 using namespace pneu::core;
@@ -168,7 +168,7 @@ pneu::graphics::Shader::_createShader(GLenum shader_type,
 
 auto
 pneu::graphics::Shader::_compileShader(GLuint shader_id,
-                                            const std::string& shader_path) -> pneu::core::MethodResult
+                                       const std::string& shader_path) -> pneu::core::MethodResult
 {
   auto source_result = ResourceLoader::loadTextFile(shader_path);
 

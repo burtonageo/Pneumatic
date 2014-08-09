@@ -51,9 +51,9 @@ namespace graphics {
 
 class Shader final {
 public:
-  Shader(void);
+  Shader()    ;
   Shader(const Shader&);
-  ~Shader(void);
+  ~Shader()    ;
 
   auto init(const std::string& vert_file,
             const std::string& frag_file,
@@ -61,15 +61,15 @@ public:
             const std::string& tcs_file  = "",
             const std::string& tes_file  = "")               -> pneu::core::MethodResult;
 
-  auto getShaderProgram(void) const                          -> GLuint;
+  auto getShaderProgram() const                              -> GLuint;
   auto update(double ms)                                     -> void;
 
 private:
-  auto _setDefaultAttributes(void)                           -> void;
+  auto _setDefaultAttributes()                               -> void;
 
   auto _createShader(GLenum, const std::string&)             -> std::pair<GLuint, std::string>;
   auto _compileShader(GLuint, const std::string& file_path)  -> pneu::core::MethodResult;
-  auto _linkShaderProgram(void)                              -> pneu::core::MethodResult;
+  auto _linkShaderProgram()                                  -> pneu::core::MethodResult;
 
   GLuint fProgramID;
 };
@@ -80,7 +80,7 @@ public:
   ShaderUpdateMixin(std::shared_ptr<pneu::graphics::Shader> shader)
     :
     fShader(shader) { }
-  virtual ~ShaderUpdateMixin(void) = default;
+  virtual ~ShaderUpdateMixin()     = default;
 
   virtual auto update(double delta_time) -> void = 0;
   std::shared_ptr<pneu::graphics::Shader> fShader;

@@ -38,7 +38,7 @@ namespace pneu {
 namespace core {
 
 namespace ResourceLoader {
-  auto loadTextFile(const std::string&) -> pneu::core::FuncResult<std::string>;
+  auto loadTextFile(const std::string&)    -> pneu::core::FuncResult<std::string>;
 }
 
 } // namespace core

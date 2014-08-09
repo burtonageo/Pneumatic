@@ -39,37 +39,43 @@ namespace core {
 
 class MethodResult final {
 public:
-  static auto ok(void) -> MethodResult
+  static inline auto ok()
+    -> MethodResult
   {
-    return MethodResult(true, "");
+    return {true, ""};
   }
 
-  static auto error(const std::string& desc) -> MethodResult
+  static inline auto error(const std::string& desc)
+    -> MethodResult
   {
-    return MethodResult(false, desc);
+    return {false, desc};
   }
 
   MethodResult(const MethodResult&) = default;
-  ~MethodResult(void)               = default;
+  ~MethodResult()               = default;
 
-  inline auto isOk(void) const -> bool
+  inline auto isOk() const
+    -> bool
   {
     return fOk;
   }
 
-  inline auto getError(void) const -> std::string
+  inline auto getError() const
+    -> std::string
   {
     return fDescription;
   }
 
-  inline auto onError(const std::function<void (const std::string&)>& f) -> void
+  inline auto onError(const std::function<void (const std::string&)>& f)
+    -> void
   {
     if (!isOk()) {
       f(getError());
     }
   }
 
-  inline auto throwOnError(const std::exception& e) -> void
+  inline auto throwOnError(const std::exception& e)
+    -> void
   {
     if (!isOk()) {
       throw e;

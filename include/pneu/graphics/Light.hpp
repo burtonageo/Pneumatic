@@ -40,15 +40,15 @@ public:
         const glm::vec4& color,
         float radius);
   Light(const Light& other);
-  ~Light(void);
+  ~Light();
 
-  auto getPosition(void) const               -> glm::vec3;
+  auto getPosition() const                   -> glm::vec3;
   auto setPosition(const glm::vec3& new_pos) -> void;
 
-  auto getColor(void) const                  -> glm::vec4;
+  auto getColor() const                      -> glm::vec4;
   auto setColor(const glm::vec4& new_col)    -> void;
 
-  auto getRadius(void) const                 -> float;
+  auto getRadius() const                     -> float;
   auto setRadius(float new_radius)           -> void;
 
 private:

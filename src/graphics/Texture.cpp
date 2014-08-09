@@ -26,9 +26,9 @@
 
 #include "pneu/graphics/Texture.hpp"
 
-#include <SOIL.h>
-
 #include "pneu/graphics/Shader.hpp"
+
+#include <SOIL.h>
 
 using namespace std;
 using namespace pneu::core;

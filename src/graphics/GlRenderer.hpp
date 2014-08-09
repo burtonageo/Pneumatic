@@ -59,13 +59,13 @@ class RenderObject;
 
 class GlRenderer final : public pneu::graphics::Renderer {
 public:
-  explicit GlRenderer(void);
+  GlRenderer();
 
   GlRenderer(const GlRenderer&)                                               = delete;
   GlRenderer(GlRenderer&&)                                                    = delete;
   auto operator=(const GlRenderer&)                            -> GlRenderer& = delete;
 
-  virtual ~GlRenderer(void);
+  virtual ~GlRenderer();
 
   auto init(GLFWwindow*)                                       -> pneu::core::MethodResult;
 
@@ -73,9 +73,9 @@ public:
   virtual auto setBackgroundColor(const glm::vec3& color)      -> void;
 
   virtual auto updateScene(double delta_time)                  -> void;
-  virtual auto renderScene(void)                               -> void;
+  virtual auto renderScene()                                   -> void;
   virtual auto viewportDidResize(int w, int h)                 -> void;
-  virtual auto quitWasRequested(void)                          -> bool;
+  virtual auto quitWasRequested()                              -> bool;
 
 private:
   static bool sGlewInitialized;

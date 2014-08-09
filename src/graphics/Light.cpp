@@ -27,8 +27,8 @@
 #include "pneu/graphics/Light.hpp"
 
 pneu::graphics::Light::Light(const glm::vec3& position,
-                                  const glm::vec4& color,
-                                  float radius)
+                             const glm::vec4& color,
+                             float radius)
   :
   fPosition(position),
   fColor(color),

@@ -67,12 +67,12 @@ public:
     fDescription = description;
   }
 
-  auto isOk(void) const -> bool
+  auto isOk() const -> bool
   {
     return fContents != nullptr;
   }
 
-  auto getError(void) const -> std::string
+  auto getError() const -> std::string
   {
     return fDescription;
   }
@@ -101,7 +101,7 @@ public:
     }
   }
 
-  auto get(void) const -> T
+  auto get() const -> T
   {
     assert(isOk());
     return *fContents;

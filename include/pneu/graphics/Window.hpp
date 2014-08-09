@@ -59,31 +59,31 @@ public:
   Window(const Window&)                                                     = delete;
   Window(Window&&)                                                          = delete;
   auto operator=(const Window&)                                  -> Window& = delete;
-  ~Window(void);
+  ~Window();
 
-  auto init(void)                                                -> pneu::core::MethodResult;
+  auto init()                                                    -> pneu::core::MethodResult;
 
-  auto update(void)                                              -> void;
-  auto pollEvents(void)                                          -> void;
-  auto renderFrame(void)                                         -> void;
+  auto update()                                                  -> void;
+  auto pollEvents()                                              -> void;
+  auto renderFrame()                                             -> void;
 
-  auto isRunning(void)                                           -> bool;
+  auto isRunning()                                               -> bool;
 
-  auto getRenderer(void) const                                   -> Renderer&;
+  auto getRenderer() const                                       -> Renderer&;
 
 private:  
   auto _initGlfw(const std::string&)                             -> pneu::core::MethodResult;
 
   auto _handleKeypress(int, int, int, int)                       -> void;
-  auto _handleRefresh(void)                                      -> void;
-  auto _handleQuitRequested(void)                                -> void;
+  auto _handleRefresh()                                          -> void;
+  auto _handleQuitRequested()                                    -> void;
 
   auto _handleWindowResize(int, int)                             -> void;
   auto _handleWindowMove(int, int)                               -> void;
   auto _handleViewportResize(int, int)                           -> void;
 
-  auto _handleFocusLost(void)                                    -> void;
-  auto _handleFocusGained(void)                                  -> void;
+  auto _handleFocusLost()                                        -> void;
+  auto _handleFocusGained()                                      -> void;
 
   static auto _windowResizeCallback(GLFWwindow*, int, int)       -> void;
   static auto _viewportResizeCallback(GLFWwindow*, int, int)     -> void;

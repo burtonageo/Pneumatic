@@ -26,15 +26,15 @@
 
 #include "pneu/graphics/Window.hpp"
 
+#include "pneu/graphics/RenderObject.hpp"
+#include "pneu/core/MethodResult.hpp"
+
 #define GLEW_STATIC
 #include <GL/glew.h>
 
 #define GLFW_INCLUDE_GL3
 #define GLFW_NO_GLU
 #include <GLFW/glfw3.h>
-
-#include "pneu/core/MethodResult.hpp"
-#include "pneu/graphics/RenderObject.hpp"
 
 #include "GlRenderer.hpp"
 

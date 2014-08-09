@@ -38,18 +38,18 @@ namespace graphics {
 class RenderObject;
 class Renderer {
 public:
-  virtual ~Renderer(void) = 0;  
+  virtual ~Renderer()     = 0;  
 
   virtual auto addRenderObject(std::weak_ptr<RenderObject>) -> void = 0;
   virtual auto setBackgroundColor(const glm::vec3& color)   -> void = 0;
 
   virtual auto updateScene(double delta_time)               -> void = 0;
-  virtual auto renderScene(void)                            -> void = 0;
+  virtual auto renderScene()                                -> void = 0;
   virtual auto viewportDidResize(int width, int height)     -> void = 0;
-  virtual auto quitWasRequested(void)                       -> bool = 0;
+  virtual auto quitWasRequested()                           -> bool = 0;
 };
 
-inline Renderer::~Renderer(void) { }
+inline Renderer::~Renderer() { }
 
 } // namespace graphics 
 

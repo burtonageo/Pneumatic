@@ -47,40 +47,40 @@ public:
          float far_clip                 = 100.0f,
          const glm::vec3& cam_position  = glm::vec3(1.0f),
          const glm::vec3& targ_position = glm::vec3(0.0f));
-  ~Camera(void) = default;
+  ~Camera() = default;
 
-  auto getWidth(void) const                          -> int;
-  auto getHeight(void) const                         -> int;
+  auto getWidth() const                              -> int;
+  auto getHeight() const                             -> int;
 
-  auto getPosition(void) const                       -> glm::vec2;
+  auto getPosition() const                           -> glm::vec2;
   auto setPosition(const glm::vec3& new_pos)         -> void;
 
-  auto getFieldOfView(void) const                    -> float;
+  auto getFieldOfView() const                        -> float;
   auto setFieldOfViewDegrees(float fov_degrees)      -> void;
   auto setFieldOfViewRadians(float fov_radians)      -> void;
 
-  auto getZoom(void) const                           -> float;
+  auto getZoom() const                               -> float;
   auto setZoom(float zoom)                           -> void;
   auto zoomInBy(float zoom)                          -> void;
   auto zoomOutBy(float zoom)                         -> void;
 
-  auto getNearClip(void) const                       -> float;
+  auto getNearClip() const                           -> float;
   auto setNearClip(float near_clip)                  -> void;
 
-  auto getFarClip(void) const                        -> float;
+  auto getFarClip() const                            -> float;
   auto setFarClip(float far_clip)                    -> void;
 
-  auto getRenderSize(void) const                     -> glm::uvec2;
-  auto getAspectRatio(void) const                    -> float;
-  auto getZoomedFieldOfView(void) const              -> float;
+  auto getRenderSize() const                         -> glm::uvec2;
+  auto getAspectRatio() const                        -> float;
+  auto getZoomedFieldOfView() const                  -> float;
 
   auto pan(const glm::vec2& direction)               -> void;
 
 private:
-  auto _getPosition3d(void) const                    -> glm::vec3;
-  auto _getDirection(void) const                     -> glm::vec3;
+  auto _getPosition3d() const                        -> glm::vec3;
+  auto _getDirection() const                         -> glm::vec3;
 
-  auto _getTargetPosition(void) const                -> glm::vec3;
+  auto _getTargetPosition() const                    -> glm::vec3;
   auto _setTargetPosition(const glm::vec3& new_targ) -> void;
 
   friend class pneu::graphics::GlRenderer;

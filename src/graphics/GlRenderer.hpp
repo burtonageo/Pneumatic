@@ -43,6 +43,8 @@
 #define GLFW_NO_GLU
 #include <GLFW/glfw3.h>
 
+#include "pneu/graphics/Renderer.hpp"
+
 namespace pneu {
 
 namespace core {
@@ -55,25 +57,25 @@ namespace graphics {
 
 class RenderObject;
 
-class GlRenderer final {
+class GlRenderer final : public pneu::graphics::Renderer {
 public:
   explicit GlRenderer(void);
 
-  GlRenderer(const GlRenderer&)                                       = delete;
-  GlRenderer(GlRenderer&&)                                            = delete;
-  auto operator=(const GlRenderer&)                    -> GlRenderer& = delete;
+  GlRenderer(const GlRenderer&)                                               = delete;
+  GlRenderer(GlRenderer&&)                                                    = delete;
+  auto operator=(const GlRenderer&)                            -> GlRenderer& = delete;
 
-  ~GlRenderer(void);
+  virtual ~GlRenderer(void);
 
-  auto init(GLFWwindow*)                               -> pneu::core::MethodResult;
+  auto init(GLFWwindow*)                                       -> pneu::core::MethodResult;
 
-  auto addRenderObject(std::weak_ptr<RenderObject>)    -> void;
-  auto setBackgroundColor(const glm::vec3& color)      -> void;
+  virtual auto addRenderObject(std::weak_ptr<RenderObject>)    -> void;
+  virtual auto setBackgroundColor(const glm::vec3& color)      -> void;
 
-  auto updateScene(double delta_time)                  -> void;
-  auto renderScene(void)                               -> void;
-  auto viewportDidResize(int w, int h)                 -> void;
-  auto quitWasRequested(void)                          -> bool;
+  virtual auto updateScene(double delta_time)                  -> void;
+  virtual auto renderScene(void)                               -> void;
+  virtual auto viewportDidResize(int w, int h)                 -> void;
+  virtual auto quitWasRequested(void)                          -> bool;
 
 private:
   static bool sGlewInitialized;

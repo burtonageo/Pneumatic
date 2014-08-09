@@ -39,8 +39,6 @@ public:
   Light(const glm::vec3& position,
         const glm::vec4& color,
         float radius);
-  Light(const Light& other);
-  ~Light();
 
   auto getPosition() const                   -> glm::vec3;
   auto setPosition(const glm::vec3& new_pos) -> void;

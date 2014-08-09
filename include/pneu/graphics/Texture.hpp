@@ -50,9 +50,9 @@ class Shader;
 
 class Texture final {
 public:
-  Texture()    ;
+  Texture();
   Texture(const Texture& other) = delete;
-  ~Texture()    ;
+  ~Texture();
 
   auto init(const std::string& file)        -> pneu::core::MethodResult;
 

@@ -47,7 +47,6 @@ public:
          float far_clip                 = 100.0f,
          const glm::vec3& cam_position  = glm::vec3(1.0f),
          const glm::vec3& targ_position = glm::vec3(0.0f));
-  ~Camera() = default;
 
   auto getWidth() const                              -> int;
   auto getHeight() const                             -> int;

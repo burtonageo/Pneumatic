@@ -79,8 +79,6 @@ pneu::graphics::Mesh::Mesh(int num_verts)
 
 }
 
-pneu::graphics::Mesh::~Mesh() = default;
-
 auto
 pneu::graphics::Mesh::generateTriangle() -> std::shared_ptr<Mesh>
 {

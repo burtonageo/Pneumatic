@@ -37,17 +37,6 @@ pneu::graphics::Light::Light(const glm::vec3& position,
 
 }
 
-pneu::graphics::Light::Light(const Light& other)
-  :
-  fPosition(other.fPosition),
-  fColor(other.fColor),
-  fRadius(other.fRadius)
-{
-
-}
-
-pneu::graphics::Light::~Light() = default;
-
 auto
 pneu::graphics::Light::getPosition() const -> glm::vec3
 {

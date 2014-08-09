@@ -42,7 +42,6 @@ namespace graphics {
 class Mesh final {
 public:
   explicit Mesh(int num_verts = 0);
-  ~Mesh()    ;
 
   // Constructor methods
   static auto generateTriangle()                            -> std::shared_ptr<Mesh>;

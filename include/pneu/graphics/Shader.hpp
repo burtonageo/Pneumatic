@@ -51,9 +51,8 @@ namespace graphics {
 
 class Shader final {
 public:
-  Shader()    ;
-  Shader(const Shader&);
-  ~Shader()    ;
+  Shader();
+  ~Shader();
 
   auto init(const std::string& vert_file,
             const std::string& frag_file,

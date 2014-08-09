@@ -40,13 +40,13 @@ class Renderer {
 public:
   virtual ~Renderer(void) = 0;  
 
-  virtual auto addRenderObject(std::weak_ptr<RenderObject>) -> void;
-  virtual auto setBackgroundColor(const glm::vec3& color)   -> void;
+  virtual auto addRenderObject(std::weak_ptr<RenderObject>) -> void = 0;
+  virtual auto setBackgroundColor(const glm::vec3& color)   -> void = 0;
 
-  virtual auto updateScene(double delta_time)               -> void;
-  virtual auto renderScene(void)                            -> void;
-  virtual auto viewportDidResize(int width, int height)     -> void;
-  virtual auto quitWasRequested(void)                       -> bool;
+  virtual auto updateScene(double delta_time)               -> void = 0;
+  virtual auto renderScene(void)                            -> void = 0;
+  virtual auto viewportDidResize(int width, int height)     -> void = 0;
+  virtual auto quitWasRequested(void)                       -> bool = 0;
 };
 
 } // namespace graphics 

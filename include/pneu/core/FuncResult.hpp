@@ -41,12 +41,14 @@ namespace core {
 template<typename T>
 class FuncResult final {
 public:
-  static auto ok(const T& val) -> FuncResult<T>
+  static inline auto ok(const T& val)
+    -> FuncResult<T>
   {
     return {std::make_unique<T>(val), ""};
   }
 
-  static auto error(const std::string& desc) -> FuncResult<T>
+  static inline auto error(const std::string& desc)
+    -> FuncResult<T>
   {
     return {nullptr, desc};
   }
@@ -56,28 +58,33 @@ public:
     fContents(std::unique_ptr<T>(other.fContents.get())),
     fDescription(other.fDescription) { }
 
-  auto resetOk(const T& val) -> void
+  inline auto resetOk(const T& val)
+    -> void
   {
     fContents.reset(&val);
   }
 
-  auto resetError(const std::string& description) -> void
+  inline auto resetError(const std::string& description)
+    -> void
   {
     fContents.release();
     fDescription = description;
   }
 
-  auto isOk() const -> bool
+  inline auto isOk() const
+    -> bool
   {
     return fContents != nullptr;
   }
 
-  auto getError() const -> std::string
+  inline auto getError() const
+    -> std::string
   {
     return fDescription;
   }
 
-  auto map(const std::function<T (T)>& f) -> FuncResult<T>
+  inline auto map(const std::function<T (T)>& f)
+    -> FuncResult<T>
   {
     if (!isOk()) {
       return *this;
@@ -86,7 +93,8 @@ public:
   }
 
   template<typename U>
-  auto mapOrElse(const std::function<U (T)>& f, const U& val) -> FuncResult<U>
+  inline auto mapOrElse(const std::function<U (T)>& f, const U& val)
+    -> FuncResult<U>
   {
     if (!isOk()) {
       return FuncResult::ok(val);
@@ -94,30 +102,35 @@ public:
     return FuncResult(f(*fContents), fDescription);
   }
 
-  auto voidMap(const std::function<void (T)>& f) -> void
+  inline auto voidMap(const std::function<void (T)>& f)
+    -> void
   {
     if (isOk()) {
       f(*fContents);
     }
   }
 
-  auto get() const -> T
+  inline auto get() const
+    -> T
   {
     assert(isOk());
     return *fContents;
   }
 
-  auto getOrElse(const T& val) -> T
+  inline auto getOrElse(const T& val)
+    -> T
   {
     return isOk() ? *fContents : val;
   }
 
-  auto getOrElse(const std::function<T (const std::string&)>& f) -> T
+  inline auto getOrElse(const std::function<T (const std::string&)>& f)
+    -> T
   {
     return isOk() ? *fContents : f(getError());
   }
 
-  auto getOrThrow(const std::exception& e) -> T
+  inline auto getOrThrow(const std::exception& e)
+    -> T
   {
     if (!isOk()) {
       throw e;

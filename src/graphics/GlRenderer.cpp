@@ -55,11 +55,13 @@ public:
     :
     width(w),
     height(h),
+    backgroundColor(0.0f),
     camera(),
     objects() { }
 
   int width, height;
 
+  glm::vec4 backgroundColor;
   pneu::graphics::Camera camera;
   std::vector<std::shared_ptr<RenderObject>> objects;
 };
@@ -147,6 +149,12 @@ pneu::graphics::GlRenderer::addRenderObject(std::weak_ptr<RenderObject> object) 
 }
 
 auto
+pneu::graphics::GlRenderer::setBackgroundColor(const glm::vec3& color) -> void
+{
+  fRenImpl->backgroundColor = glm::vec4(color.r, color.g, color.b, 1.0f);
+}
+
+auto
 pneu::graphics::GlRenderer::updateScene(double ms) -> void
 {
   const auto& cam = fRenImpl->camera;
@@ -173,8 +181,10 @@ pneu::graphics::GlRenderer::updateScene(double ms) -> void
 auto
 pneu::graphics::GlRenderer::renderScene() -> void
 {
+  const auto bg_color = fRenImpl->backgroundColor;
+
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+  glClearColor(bg_color.r, bg_color.g, bg_color.b, bg_color.a);
   for_each(fRenImpl->objects.begin(),
            fRenImpl->objects.end(),
            [&](shared_ptr<pneu::graphics::RenderObject> r) {

@@ -36,6 +36,7 @@
 #include <GL/glew.h>
 
 #define GLM_FORCE_RADIANS
+#define GLM_FORCE_CXX11
 #include <glm/fwd.hpp>
 
 #define GLFW_INCLUDE_GL3
@@ -67,6 +68,7 @@ public:
   auto init(GLFWwindow*)                               -> pneu::core::MethodResult;
 
   auto addRenderObject(std::weak_ptr<RenderObject>)    -> void;
+  auto setBackgroundColor(const glm::vec3& color)      -> void;
 
   auto updateScene(double delta_time)                  -> void;
   auto renderScene(void)                               -> void;

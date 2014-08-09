@@ -32,6 +32,10 @@
 #include <memory>
 #include <string>
 
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_CXX11
+#include <glm/fwd.hpp>
+
 struct GLFWwindow;
 
 namespace pneu {
@@ -65,6 +69,7 @@ public:
   auto isRunning(void)                                           -> bool;
 
   auto addRenderObject(std::weak_ptr<RenderObject> object)       -> void;
+  auto setBackgroundColor(const glm::vec3& color)                -> void;
 
 private:  
   auto _initGlfw(const std::string&)                             -> pneu::core::MethodResult;

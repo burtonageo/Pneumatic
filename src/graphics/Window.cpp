@@ -138,6 +138,12 @@ pneu::graphics::Window::addRenderObject(std::weak_ptr<RenderObject> object) -> v
 }
 
 auto
+pneu::graphics::Window::setBackgroundColor(const glm::vec3& color) -> void
+{
+  fWinImpl->renderer->setBackgroundColor(color);
+}
+
+auto
 pneu::graphics::Window::_initGlfw(const std::string& title) -> pneu::core::MethodResult
 {
   bool glfw_success = glfwInit();

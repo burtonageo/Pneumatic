@@ -49,6 +49,8 @@ public:
   virtual auto quitWasRequested(void)                       -> bool = 0;
 };
 
+inline Renderer::~Renderer(void) { }
+
 } // namespace graphics 
 
 } // namespace pneu

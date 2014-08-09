@@ -43,12 +43,12 @@ class FuncResult final {
 public:
   static auto ok(const T& val) -> FuncResult<T>
   {
-    return FuncResult(std::make_unique<T>(val), "");
+    return {std::make_unique<T>(val), ""};
   }
 
   static auto error(const std::string& desc) -> FuncResult<T>
   {
-    return FuncResult(nullptr, desc);
+    return {nullptr, desc};
   }
 
   FuncResult(const FuncResult& other)

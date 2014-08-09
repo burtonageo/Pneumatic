@@ -132,18 +132,6 @@ pneu::graphics::Window::isRunning() -> bool
 }
 
 auto
-pneu::graphics::Window::addRenderObject(std::weak_ptr<RenderObject> object) -> void
-{
-  fWinImpl->renderer->addRenderObject(object);
-}
-
-auto
-pneu::graphics::Window::setBackgroundColor(const glm::vec3& color) -> void
-{
-  fWinImpl->renderer->setBackgroundColor(color);
-}
-
-auto
 pneu::graphics::Window::_initGlfw(const std::string& title) -> pneu::core::MethodResult
 {
   bool glfw_success = glfwInit();
@@ -179,6 +167,12 @@ pneu::graphics::Window::_initGlfw(const std::string& title) -> pneu::core::Metho
 
   fWinImpl->glWindow = std::unique_ptr<GLFWwindow, WindowImpl::WindowDeleter>(win_ptr);
   return MethodResult::ok();
+}
+
+auto
+pneu::graphics::Window::getRenderer(void) const -> Renderer&
+{
+  return *fWinImpl->renderer;
 }
 
 auto

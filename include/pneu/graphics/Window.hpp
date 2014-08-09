@@ -48,6 +48,7 @@ class MethodResult;
 
 namespace graphics {
 
+class Renderer;
 class RenderObject;
 class Window final {
 public:
@@ -68,8 +69,7 @@ public:
 
   auto isRunning(void)                                           -> bool;
 
-  auto addRenderObject(std::weak_ptr<RenderObject> object)       -> void;
-  auto setBackgroundColor(const glm::vec3& color)                -> void;
+  auto getRenderer(void) const                                   -> Renderer&;
 
 private:  
   auto _initGlfw(const std::string&)                             -> pneu::core::MethodResult;

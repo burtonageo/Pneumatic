@@ -171,7 +171,7 @@ pneu::graphics::GlRenderer::updateScene(double ms) -> void
            fRenImpl->objects.end(),
            [&](shared_ptr<pneu::graphics::RenderObject> r) {
              r->update(ms);
-             _updateShaderMatrices(r->getShader()->getShaderProgram(),
+             _updateShaderMatrices(r->getCurrentShader()->getShaderProgram(),
                                    r->getModelMatrix(),
                                    projection_matrix,
                                    view_matrix);

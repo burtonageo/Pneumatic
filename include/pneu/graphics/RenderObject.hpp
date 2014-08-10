@@ -55,9 +55,10 @@ public:
   auto changeShaders()                           -> void;
   auto setShaderLight(const Light& light)        -> void;
 
+  auto getCurrentTexture() const                 -> std::shared_ptr<Texture>;
   auto addTexture(const std::string& tex_file)   -> void;
 
-  auto getShader() const                         -> std::shared_ptr<Shader>;
+  auto getCurrentShader() const                  -> std::shared_ptr<Shader>;
   auto addShader(std::shared_ptr<Shader> shader) -> void;
 
   auto getModelMatrix() const                    -> glm::mat4;
@@ -70,16 +71,13 @@ protected:
   auto unBindCurrentShader()                     -> void;
   auto unBindCurrentTexture()                    -> void;
 
+private:
+  unsigned int fCurrentShaderIndex;
+  glm::mat4 fModelMatrix;
+
   std::vector<std::shared_ptr<Shader>> fShaders;
   std::vector<std::shared_ptr<Texture>> fTextures;
   std::vector<std::shared_ptr<ShaderUpdateMixin>> fShaderUpdaters;
-
-private:
-  auto _getCurrentShader()                       -> std::shared_ptr<Shader>;
-  auto _getCurrentTexture()                      -> std::shared_ptr<Texture>;
-
-  glm::mat4 fModelMatrix;
-  unsigned int fCurrentShaderIndex;
 };
 
 } // namespace graphics

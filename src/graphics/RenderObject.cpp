@@ -33,11 +33,11 @@ using namespace std;
 
 pneu::graphics::RenderObject::RenderObject()
   :
+  fCurrentShaderIndex(0),
+  fModelMatrix(glm::mat4(1.0)),
   fShaders(),
   fTextures(),
-  fShaderUpdaters(),
-  fModelMatrix(glm::mat4(1.0)),
-  fCurrentShaderIndex(0)
+  fShaderUpdaters()
 {
 
 }
@@ -61,6 +61,13 @@ pneu::graphics::RenderObject::setShaderLight(const pneu::graphics::Light& light)
 }
 
 auto
+pneu::graphics::RenderObject::getCurrentTexture() const -> std::shared_ptr<Texture>
+{
+  return fTextures.size() > 0 ? fTextures.at(fCurrentShaderIndex)
+                              : nullptr;
+}
+
+auto
 pneu::graphics::RenderObject::addTexture(const std::string& tex_file) -> void
 {
   auto tex = make_shared<pneu::graphics::Texture>();
@@ -75,9 +82,10 @@ pneu::graphics::RenderObject::addTexture(const std::string& tex_file) -> void
 }
 
 auto
-pneu::graphics::RenderObject::getShader() const  -> std::shared_ptr<pneu::graphics::Shader>
+pneu::graphics::RenderObject::getCurrentShader() const  -> std::shared_ptr<pneu::graphics::Shader>
 {
-  return fShaders.at(fCurrentShaderIndex);
+  return fShaders.size() > 0 ? fShaders.at(fCurrentShaderIndex)
+                             : nullptr;
 }
 
 auto
@@ -103,7 +111,7 @@ pneu::graphics::RenderObject::setModelMatrix(const glm::mat4& matrix)  -> void
 auto
 pneu::graphics::RenderObject::bindCurrentShader() -> void
 {
-  auto k_curr_shader = _getCurrentShader();
+  auto k_curr_shader = getCurrentShader();
   if (k_curr_shader != nullptr) {
     glUseProgram(k_curr_shader->getShaderProgram());
   }
@@ -112,8 +120,8 @@ pneu::graphics::RenderObject::bindCurrentShader() -> void
 auto
 pneu::graphics::RenderObject::bindCurrentTexture() -> void
 {
-  const auto k_curr_shader = _getCurrentShader();
-  const auto k_curr_tex = _getCurrentTexture();
+  const auto k_curr_shader = getCurrentShader();
+  const auto k_curr_tex = getCurrentTexture();
 
   if (k_curr_shader != nullptr && k_curr_tex != nullptr) {
     k_curr_tex->bind(k_curr_shader);
@@ -129,23 +137,8 @@ pneu::graphics::RenderObject::unBindCurrentShader() -> void
 auto
 pneu::graphics::RenderObject::unBindCurrentTexture() -> void
 {
-  const auto k_curr_tex = _getCurrentTexture();
+  const auto k_curr_tex = getCurrentTexture();
   if (k_curr_tex != nullptr) {
     k_curr_tex->unbind();
   }
 }
-
-auto
-pneu::graphics::RenderObject::_getCurrentShader() -> std::shared_ptr<Shader>
-{
-  return fShaders.size() > 0 ? fShaders.at(fCurrentShaderIndex)
-                             : nullptr;
-}
-
-auto
-pneu::graphics::RenderObject::_getCurrentTexture() -> std::shared_ptr<Texture>
-{
-  return fTextures.size() > 0 ? fTextures.at(fCurrentShaderIndex)
-                              : nullptr;
-}
-

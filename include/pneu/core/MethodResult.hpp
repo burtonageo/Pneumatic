@@ -104,9 +104,19 @@ private:
 
 #define PNEU_TRY_METHOD(func) \
   do { \
-    auto err = func; \
-    if (!err.isOk()) { \
-      return err; \
+    MethodResult result = func; \
+    if (!result.isOk()) { \
+      return result; \
+    } \
+  } while(0)
+
+#define PNEU_TRY_METHOD_ASYNC(func) \
+  do { \
+    std::future<MethodResult> future = std::async(std::launch::async, func); \
+    future.wait(); \
+    MethodResult result = future.get(); \
+    if (!result.isOk()) { \
+      return result; \
     } \
   } while(0)
 

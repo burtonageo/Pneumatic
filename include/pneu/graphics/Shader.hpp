@@ -72,7 +72,7 @@ private:
   auto _compileShader(GLuint, const std::string& file_path) -> pneu::core::MethodResult;
   auto _linkShaderProgram()                                 -> pneu::core::MethodResult;
 
-  GLuint fProgramID;
+  ShaderId fProgramID;
 };
 
 // Used to update shaders

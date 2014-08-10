@@ -66,7 +66,7 @@ public:
   auto init(void) -> pneu::core::MethodResult
   {
     renderer = std::make_shared<GlRenderer>();
-    return renderer->init(glWindow.get());
+    return renderer->init(width, height);
   }
 
   friend class pneu::graphics::Window;
@@ -156,6 +156,9 @@ pneu::graphics::Window::_initGlfw(const std::string& title) -> pneu::core::Metho
 
   glfwSetWindowUserPointer(win_ptr, this);
 
+  glfwSwapInterval(1);
+  glfwSetTime(0.0);
+
   glfwSetWindowSizeCallback(win_ptr, _windowResizeCallback);
   glfwSetFramebufferSizeCallback(win_ptr, _viewportResizeCallback);
 
@@ -164,6 +167,8 @@ pneu::graphics::Window::_initGlfw(const std::string& title) -> pneu::core::Metho
   glfwSetKeyCallback(win_ptr, _keypressCallback);
   glfwSetWindowCloseCallback(win_ptr, _quitRequestedCallback);
   glfwSetWindowFocusCallback(win_ptr, _windowFocusChangeCallback);
+
+  glfwMakeContextCurrent(win_ptr);
 
   fWinImpl->glWindow = std::unique_ptr<GLFWwindow, WindowImpl::WindowDeleter>(win_ptr);
   return MethodResult::ok();

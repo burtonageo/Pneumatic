@@ -27,6 +27,8 @@
 #include "pneu/graphics/Window.hpp"
 
 #include "pneu/graphics/RenderObject.hpp"
+
+#include <future>
 #include "pneu/core/MethodResult.hpp"
 
 #define GLEW_STATIC
@@ -98,8 +100,8 @@ pneu::graphics::Window::~Window() = default;
 auto
 pneu::graphics::Window::init() -> pneu::core::MethodResult
 {
-  PNEU_TRY_METHOD(_initGlfw(fWinTitle));
-  PNEU_TRY_METHOD(fWinImpl->init());
+  PNEU_TRY_METHOD_ASYNC([&](){return _initGlfw(fWinTitle);});
+  PNEU_TRY_METHOD_ASYNC([&](){return fWinImpl->init();});
 
   return pneu::core::MethodResult::ok();
 }

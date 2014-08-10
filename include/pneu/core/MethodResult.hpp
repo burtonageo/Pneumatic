@@ -112,7 +112,7 @@ private:
 
 #define PNEU_TRY_METHOD_ASYNC(func) \
   do { \
-    std::future<MethodResult> future = std::async(std::launch::async, func); \
+    auto future = std::async(std::launch::async, func); \
     future.wait(); \
     MethodResult result = future.get(); \
     if (!result.isOk()) { \

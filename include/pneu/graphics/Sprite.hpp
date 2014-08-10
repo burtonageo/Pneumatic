@@ -39,8 +39,7 @@ namespace graphics {
 
 class Sprite : public pneu::graphics::RenderObject {
 public:
-	Sprite(void);
-	~Sprite(void) = default;
+	Sprite();
 
 	auto load(const std::string& file_name) -> MethResult;
 };

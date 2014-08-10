@@ -14,7 +14,6 @@ functionality. Features currently in development:
   - Input keymap
   - ...
 
-
 Building
 ========
 

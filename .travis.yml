@@ -3,4 +3,5 @@ compiler:
   - gcc
   - clang
 
+install: git submodule init && git submodule update;
 script: cmake . && make

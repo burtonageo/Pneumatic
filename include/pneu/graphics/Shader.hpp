@@ -45,6 +45,8 @@
 
 #include "pneu/core/MethodResult.hpp"
 
+typedef GLuint ShaderId;
+
 namespace pneu {
 
 namespace graphics {
@@ -60,13 +62,13 @@ public:
             const std::string& tcs_file  = "",
             const std::string& tes_file  = "")               -> pneu::core::MethodResult;
 
-  auto getShaderProgram() const                              -> GLuint;
+  auto getShaderProgram() const                              -> ShaderId;
   auto update(double ms)                                     -> void;
 
 private:
   auto _setDefaultAttributes()                               -> void;
 
-  auto _createShader(GLenum, const std::string&)             -> std::pair<GLuint, std::string>;
+  auto _createShader(GLenum, const std::string&)             -> std::pair<ShaderId, std::string>;
   auto _compileShader(GLuint, const std::string& file_path)  -> pneu::core::MethodResult;
   auto _linkShaderProgram()                                  -> pneu::core::MethodResult;
 

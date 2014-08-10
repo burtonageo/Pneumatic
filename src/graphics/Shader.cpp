@@ -61,7 +61,7 @@ pneu::graphics::Shader::init(const std::string& vert_file,
   fProgramID = glCreateProgram();
 
   #define CREATE(file, file_path, id, shader_type) \
-    GLuint id; \
+    ShaderId id; \
     std::string file_path; \
     do { \
       auto tup  = _createShader(shader_type, file); \
@@ -108,7 +108,7 @@ pneu::graphics::Shader::init(const std::string& vert_file,
 }
 
 auto
-pneu::graphics::Shader::getShaderProgram() const -> GLuint
+pneu::graphics::Shader::getShaderProgram() const -> ShaderId
 {
   return fProgramID;
 }
@@ -116,10 +116,10 @@ pneu::graphics::Shader::getShaderProgram() const -> GLuint
 auto
 pneu::graphics::Shader::_setDefaultAttributes() -> void
 {
-  const GLuint k_vertex_buffer  = 0;
-  const GLuint k_color_buffer   = 1;
-  const GLuint k_texture_buffer = 2;
-  const GLuint k_normals_buffer = 3;
+  const ShaderId k_vertex_buffer  = 0;
+  const ShaderId k_color_buffer   = 1;
+  const ShaderId k_texture_buffer = 2;
+  const ShaderId k_normals_buffer = 3;
 
   glBindAttribLocation(fProgramID, k_vertex_buffer,  "position");
   glBindAttribLocation(fProgramID, k_color_buffer,   "color");
@@ -129,7 +129,7 @@ pneu::graphics::Shader::_setDefaultAttributes() -> void
 
 auto
 pneu::graphics::Shader::_createShader(GLenum shader_type,
-                                           const std::string& shader_file) -> std::pair<GLuint, std::string>
+                                           const std::string& shader_file) -> std::pair<ShaderId, std::string>
 {
   if (shader_file == "") {
     return make_pair(0, "");
@@ -161,13 +161,13 @@ pneu::graphics::Shader::_createShader(GLenum shader_type,
       return make_pair(0, "");
   }
 
-  GLuint shader_id = glCreateShader(shader_type);
+  ShaderId shader_id = glCreateShader(shader_type);
 
   return make_pair(shader_id, path + shader_file + suffix);
 }
 
 auto
-pneu::graphics::Shader::_compileShader(GLuint shader_id,
+pneu::graphics::Shader::_compileShader(ShaderId shader_id,
                                        const std::string& shader_path) -> pneu::core::MethodResult
 {
   auto source_result = ResourceLoader::loadTextFile(shader_path);

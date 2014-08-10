@@ -60,17 +60,17 @@ public:
             const std::string& frag_file,
             const std::string& geom_file = "",
             const std::string& tcs_file  = "",
-            const std::string& tes_file  = "")               -> pneu::core::MethodResult;
+            const std::string& tes_file  = "")              -> pneu::core::MethodResult;
 
-  auto getShaderProgram() const                              -> ShaderId;
-  auto update(double ms)                                     -> void;
+  auto getShaderProgram() const                             -> ShaderId;
+  auto update(double ms)                                    -> void;
 
 private:
-  auto _setDefaultAttributes()                               -> void;
+  auto _setDefaultAttributes()                              -> void;
 
-  auto _createShader(GLenum, const std::string&)             -> std::pair<ShaderId, std::string>;
-  auto _compileShader(GLuint, const std::string& file_path)  -> pneu::core::MethodResult;
-  auto _linkShaderProgram()                                  -> pneu::core::MethodResult;
+  auto _createShader(GLenum, const std::string&)            -> std::pair<ShaderId, std::string>;
+  auto _compileShader(GLuint, const std::string& file_path) -> pneu::core::MethodResult;
+  auto _linkShaderProgram()                                 -> pneu::core::MethodResult;
 
   GLuint fProgramID;
 };

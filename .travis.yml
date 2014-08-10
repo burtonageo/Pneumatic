@@ -8,6 +8,7 @@ install:
   - git submodule update
 
 before_script:
+  - ls
   - mkdir build
   - cd build
   - cmake ..

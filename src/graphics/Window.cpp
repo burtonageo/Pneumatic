@@ -93,6 +93,8 @@ pneu::graphics::Window::Window(const std::string& title, int w, int h, int mw, i
 
 }
 
+pneu::graphics::Window::~Window() = default;
+
 auto
 pneu::graphics::Window::init() -> pneu::core::MethodResult
 {

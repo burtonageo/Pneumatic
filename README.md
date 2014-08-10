@@ -1,8 +1,9 @@
 Pneumatic
 =========
 
-  This is my computer science graphics project which will eventually become
-a full-featured 2D game engine. Right now, it is very basic, and has virtually no
+  This is an in-progress 2D game engine written in C++. The only external dependencies
+to use it is the [glm](http://glm.g-truc.net/0.9.5/index.html) library; everything else
+is submoduled in the `thirdparty` directory. Right now, it is very basic, and has virtually no
 functionality. Features currently in development:
 
   - Reorganisation of project to modularise everything
@@ -12,6 +13,16 @@ functionality. Features currently in development:
   - Audio
   - Input keymap
   - ...
+
+
+Building
+========
+
+```
+git submodule init && git submodule update;
+mkdir -p build && cd build;
+cmake .. && make
+```
 
 Creating a window
 =================

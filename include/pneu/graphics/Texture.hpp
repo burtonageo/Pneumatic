@@ -42,6 +42,8 @@
 
 #include "pneu/core/MethodResult.hpp"
 
+typedef GLuint TextureId;
+
 namespace pneu {
 
 namespace graphics {
@@ -58,10 +60,10 @@ public:
 
   auto bind(std::shared_ptr<Shader> shader) -> void;
   auto unbind()                             -> void;
-  inline auto getObject() const             -> GLuint {return fObject;}
+  inline auto getObject() const             -> TextureId {return fObject;}
 
 private:
-  GLuint fObject;
+  TextureId fObject;
 };
 
 } // namespace graphics

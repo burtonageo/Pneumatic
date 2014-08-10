@@ -27,6 +27,8 @@
 #ifndef PNEUMATIC_RENDERER_HPP
 #define PNEUMATIC_RENDERER_HPP
 
+#include <memory>
+
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_CXX11
 #include <glm/fwd.hpp>
@@ -38,7 +40,7 @@ namespace graphics {
 class RenderObject;
 class Renderer {
 public:
-  virtual ~Renderer()     = 0;  
+  virtual ~Renderer() = 0;  
 
   virtual auto addRenderObject(std::weak_ptr<RenderObject>) -> void = 0;
   virtual auto setBackgroundColor(const glm::vec3& color)   -> void = 0;
@@ -49,7 +51,7 @@ public:
   virtual auto quitWasRequested()                           -> bool = 0;
 };
 
-inline Renderer::~Renderer() { }
+inline Renderer::~Renderer() = default;
 
 } // namespace graphics 
 

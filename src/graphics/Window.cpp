@@ -27,8 +27,6 @@
 #include "pneu/graphics/Window.hpp"
 
 #include "pneu/graphics/RenderObject.hpp"
-
-#include <future>
 #include "pneu/core/MethodResult.hpp"
 
 #define GLEW_STATIC
@@ -37,6 +35,8 @@
 #define GLFW_INCLUDE_GL3
 #define GLFW_NO_GLU
 #include <GLFW/glfw3.h>
+
+#include <future>
 
 #include "GlRenderer.hpp"
 

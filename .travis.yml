@@ -3,4 +3,4 @@ compiler:
   - gcc
   - clang
 
-script: mkdir -p build && cmake .. && make
+script: mkdir -p build && cd build && cmake .. && make

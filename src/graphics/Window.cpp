@@ -175,7 +175,7 @@ pneu::graphics::Window::_initGlfw(const std::string& title) -> pneu::core::Metho
 }
 
 auto
-pneu::graphics::Window::getRenderer(void) const -> Renderer&
+pneu::graphics::Window::getRenderer() const -> Renderer&
 {
   return *fWinImpl->renderer;
 }

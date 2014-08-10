@@ -66,7 +66,7 @@ public:
   auto init(void) -> pneu::core::MethodResult
   {
     renderer = std::make_shared<GlRenderer>();
-    return renderer->init(width, height);
+    return renderer->init(glWindow.get());
   }
 
   friend class pneu::graphics::Window;

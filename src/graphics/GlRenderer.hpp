@@ -67,7 +67,7 @@ public:
 
   virtual ~GlRenderer();
 
-  auto init(int width, int height)                             -> pneu::core::MethodResult;
+  auto init(GLFWwindow*)                                       -> pneu::core::MethodResult;
 
   virtual auto addRenderObject(std::weak_ptr<RenderObject>)    -> void;
   virtual auto setBackgroundColor(const glm::vec3& color)      -> void;

@@ -111,8 +111,10 @@ pneu::graphics::GlRenderer::GlRenderer()
 pneu::graphics::GlRenderer::~GlRenderer() = default;
 
 auto
-pneu::graphics::GlRenderer::init(int width, int height) -> pneu::core::MethodResult
+pneu::graphics::GlRenderer::init(GLFWwindow* win_ptr) -> pneu::core::MethodResult
 {
+  glfwMakeContextCurrent(win_ptr);
+
   if (!sGlewInitialized) {
     PNEU_TRY_METHOD(_initGlew());
     sGlewInitialized = true;
@@ -125,6 +127,10 @@ pneu::graphics::GlRenderer::init(int width, int height) -> pneu::core::MethodRes
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
 
+  glfwSwapInterval(1);
+  glfwSetTime(0.0);
+
+  glfwGetFramebufferSize(win_ptr, &fRenImpl->width, &fRenImpl->height);
   fRenImpl->camera.fCameraSize = glm::uvec2(fRenImpl->width,
                                             fRenImpl->height);
 

@@ -3,5 +3,13 @@ compiler:
   - gcc
   - clang
 
-install: git submodule init && git submodule update;
-script: cmake . && make
+install:
+  - git submodule init
+  - git submodule update
+
+before_script:
+  - mkdir build
+  - cd build
+  - cmake ..
+
+script: make

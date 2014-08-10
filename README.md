@@ -35,7 +35,7 @@ int main(int argc, const char** argv) {
   // initialise it, handling any errors
   window.init().onError([](const std::string& error) {
                           std::cout << error << std::endl;
-                          exit(1);
+                          exit(EXIT_FAILURE);
                         });
 
   // set window background to a nice shade of blue
@@ -48,6 +48,6 @@ int main(int argc, const char** argv) {
     window.renderFrame();
   }
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 ```

@@ -59,7 +59,6 @@ public:
   Window(const Window&)                                                     = delete;
   Window(Window&&)                                                          = delete;
   auto operator=(const Window&)                                  -> Window& = delete;
-  ~Window();
 
   auto init()                                                    -> pneu::core::MethodResult;
 

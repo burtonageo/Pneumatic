@@ -61,21 +61,21 @@ class GlRenderer final : public pneu::graphics::Renderer {
 public:
   GlRenderer();
 
-  GlRenderer(const GlRenderer&)                                               = delete;
-  GlRenderer(GlRenderer&&)                                                    = delete;
-  auto operator=(const GlRenderer&)                            -> GlRenderer& = delete;
+  GlRenderer(const GlRenderer&)                                            = delete;
+  GlRenderer(GlRenderer&&)                                                 = delete;
+  auto operator=(const GlRenderer&)                         -> GlRenderer& = delete;
 
   virtual ~GlRenderer();
 
-  auto init(GLFWwindow*)                                       -> pneu::core::MethodResult;
+  auto init(GLFWwindow*)                                    -> pneu::core::MethodResult;
 
-  virtual auto addRenderObject(std::weak_ptr<RenderObject>)    -> void;
-  virtual auto setBackgroundColor(const glm::vec3& color)      -> void;
+  virtual auto addRenderObject(std::weak_ptr<RenderObject>) -> void;
+  virtual auto setBackgroundColor(const glm::vec3& color)   -> void;
 
-  virtual auto updateScene(double delta_time)                  -> void;
-  virtual auto renderScene()                                   -> void;
-  virtual auto viewportDidResize(int w, int h)                 -> void;
-  virtual auto quitWasRequested()                              -> bool;
+  virtual auto updateScene(double delta_time)               -> void;
+  virtual auto renderScene()                                -> void;
+  virtual auto viewportDidResize(int w, int h)              -> void;
+  virtual auto quitWasRequested()                           -> bool;
 
 private:
   static bool sGlewInitialized;

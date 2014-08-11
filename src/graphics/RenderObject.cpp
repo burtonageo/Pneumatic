@@ -66,17 +66,13 @@ pneu::graphics::RenderObject::getCurrentTexture() const -> std::shared_ptr<Textu
 }
 
 auto
-pneu::graphics::RenderObject::addTexture(const std::string& tex_file) -> void
+pneu::graphics::RenderObject::addTexture(const std::string& tex_file) -> pneu::core::MethodResult
 {
   auto tex = std::make_shared<pneu::graphics::Texture>();
-  auto tex_init_res = tex->init(tex_file);
-
-  if (!tex_init_res.isOk()) {
-    std::cout << tex_init_res.getError() << std::endl;
-    return;
-  }
+  PNEU_TRY_METHOD(tex->init(tex_file));
 
   fTextures.push_back(tex);
+  return pneu::core::MethodResult::ok();
 }
 
 auto
@@ -87,11 +83,15 @@ pneu::graphics::RenderObject::getCurrentShader() const  -> std::shared_ptr<pneu:
 }
 
 auto
-pneu::graphics::RenderObject::addShader(std::shared_ptr<pneu::graphics::Shader> shader)  -> void
+pneu::graphics::RenderObject::addShader(std::shared_ptr<pneu::graphics::Shader> shader)  -> pneu::core::MethodResult
 {
   if (shader != nullptr) {
     fShaders.push_back(shader);
+    return pneu::core::MethodResult::ok();
+  } else {
+    return pneu::core::MethodResult::error("Shader pointer is null");
   }
+  
 }
 
 auto

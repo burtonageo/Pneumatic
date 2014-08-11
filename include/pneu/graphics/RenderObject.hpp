@@ -37,6 +37,12 @@
 
 namespace pneu {
 
+namespace core {
+
+class MethodResult;
+
+} // namespace core
+
 namespace graphics {
 
 class Light;
@@ -56,10 +62,10 @@ public:
   auto setShaderLight(const Light& light)        -> void;
 
   auto getCurrentTexture() const                 -> std::shared_ptr<Texture>;
-  auto addTexture(const std::string& tex_file)   -> void;
+  auto addTexture(const std::string& tex_file)   -> pneu::core::MethodResult;
 
   auto getCurrentShader() const                  -> std::shared_ptr<Shader>;
-  auto addShader(std::shared_ptr<Shader> shader) -> void;
+  auto addShader(std::shared_ptr<Shader> shader) -> pneu::core::MethodResult;
 
   auto getModelMatrix() const                    -> glm::mat4;
   auto setModelMatrix(const glm::mat4& matrix)   -> void;

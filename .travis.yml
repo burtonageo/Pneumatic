@@ -8,7 +8,7 @@ install:
   - git submodule update
 
 before_script:
-  - ls
+  - mv CmakeLists.txt CMakeLists.txt
   - mkdir build
   - cd build
   - cmake ..

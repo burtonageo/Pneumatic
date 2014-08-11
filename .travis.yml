@@ -3,6 +3,10 @@ compiler:
   - gcc
   - clang
 
+before-install:
+  - sudo apt-get update -qq
+  - sudo apt-get install cmake=3.0
+
 install:
   - git submodule init
   - git submodule update

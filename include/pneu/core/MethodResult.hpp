@@ -104,7 +104,7 @@ private:
 
 #define PNEU_TRY_METHOD(func) \
   do { \
-    MethodResult result = func; \
+    pneu::core::MethodResult result = func; \
     if (!result.isOk()) { \
       return result; \
     } \
@@ -114,7 +114,7 @@ private:
   do { \
     auto future = std::async(std::launch::async, func); \
     future.wait(); \
-    MethodResult result = future.get(); \
+    pneu::core::MethodResult result = future.get(); \
     if (!result.isOk()) { \
       return result; \
     } \

@@ -31,12 +31,25 @@
 
 #include "pneu/graphics/RenderObject.hpp"
 
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_CXX11
+#include <glm/glm.hpp>
+
 namespace pneu {
 
 namespace graphics {
 
 class Shape final : public pneu::graphics::RenderObject {
-  
+public:
+  static auto generateRect(const glm::vec2& position     = glm::vec2(0.0f, 0.0f),
+                           const glm::vec2& scale        = glm::vec2(1.0f, 1.0f)  -> Shape;
+  static auto generateTri(const glm::vec2& position      = glm::vec2(0.0f, 0.0f),
+                          const glm::vec2& scale         = glm::vec2(1.0f, 1.0f)  -> Shape;
+  static auto generateEllipse(const glm::vec2& position  = glm::vec2(0.0f, 0.0f),
+                              const glm::vec2& scale     = glm::vec2(1.0f, 1.0f)  -> Shape;
+
+private:
+
 }
 
 } // namespace graphics

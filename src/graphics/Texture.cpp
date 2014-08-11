@@ -30,9 +30,6 @@
 
 #include <SOIL.h>
 
-using namespace std;
-using namespace pneu::core;
-
 pneu::graphics::Texture::Texture()
   :
   fObject(0)
@@ -54,8 +51,9 @@ pneu::graphics::Texture::init(const std::string& file_name) -> pneu::core::Metho
   unsigned char* tex_data = SOIL_load_image(k_file_path.c_str(),
                                             &width, &height, &channels, 0);
   if (tex_data == NULL) {
-    return MethodResult::error(string("Could not load texture data from file: ")
-                               .append(k_file_path));
+    return pneu::core::MethodResult::error(
+             std::string("Could not load texture data from file: ")
+               .append(k_file_path));
   }
 
   glGenTextures(1, &fObject);
@@ -73,7 +71,7 @@ pneu::graphics::Texture::init(const std::string& file_name) -> pneu::core::Metho
   glBindTexture(GL_TEXTURE_2D, 0);
   SOIL_free_image_data(tex_data);
 
-  return MethodResult::ok();
+  return pneu::core::MethodResult::ok();
 }
 
 auto

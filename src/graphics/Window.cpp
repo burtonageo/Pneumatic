@@ -84,12 +84,9 @@ public:
 
 } // namespace pneu
 
-using namespace std;
-using namespace pneu::core;
-
 pneu::graphics::Window::Window(const std::string& title, int w, int h, int mw, int mh)
   :
-  fWinImpl(make_unique<pneu::graphics::Window::WindowImpl>(w, h, mw, mh)),
+  fWinImpl(std::make_unique<pneu::graphics::Window::WindowImpl>(w, h, mw, mh)),
   fWinTitle(title)
 {
 
@@ -138,7 +135,7 @@ pneu::graphics::Window::_initGlfw(const std::string& title) -> pneu::core::Metho
 {
   bool glfw_success = glfwInit();
   if (!glfw_success) {
-    return MethodResult::error("Failed to initialise GLFW");
+    return pneu::core::MethodResult::error("Failed to initialise GLFW");
   }
 
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -153,7 +150,7 @@ pneu::graphics::Window::_initGlfw(const std::string& title) -> pneu::core::Metho
                                    NULL);
 
   if (!win_ptr) {
-    return MethodResult::error("Could not create GLFW window");
+    return pneu::core::MethodResult::error("Could not create GLFW window");
   }
 
   glfwSetWindowUserPointer(win_ptr, this);
@@ -173,7 +170,7 @@ pneu::graphics::Window::_initGlfw(const std::string& title) -> pneu::core::Metho
   glfwMakeContextCurrent(win_ptr);
 
   fWinImpl->glWindow = std::unique_ptr<GLFWwindow, WindowImpl::WindowDeleter>(win_ptr);
-  return MethodResult::ok();
+  return pneu::core::MethodResult::ok();
 }
 
 auto
@@ -203,8 +200,8 @@ pneu::graphics::Window::_handleQuitRequested() -> void
 auto
 pneu::graphics::Window::_handleWindowResize(int w, int h) -> void
 {
-  int resize_width = max(w, fWinImpl->min_width);
-  int resize_height = max(h, fWinImpl->min_height);
+  int resize_width  = std::max(w, fWinImpl->min_width);
+  int resize_height = std::max(h, fWinImpl->min_height);
 
   glfwSetWindowSize(fWinImpl->glWindow.get(), resize_width, resize_height);
 }

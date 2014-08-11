@@ -40,9 +40,6 @@
 #include "pneu/core/ResourceLoader.hpp"
 #include "pneu/graphics/Shader.hpp"
 
-using namespace glm;
-using namespace std;
-
 namespace pneu {
 
 namespace graphics {
@@ -74,7 +71,7 @@ struct Mesh::GlMeshImpl {
 
 pneu::graphics::Mesh::Mesh(int num_verts)
   :
-  fGlMeshImpl(make_unique<GlMeshImpl>(num_verts, GL_TRIANGLES))
+  fGlMeshImpl(std::make_unique<GlMeshImpl>(num_verts, GL_TRIANGLES))
 {
 
 }
@@ -82,25 +79,25 @@ pneu::graphics::Mesh::Mesh(int num_verts)
 auto
 pneu::graphics::Mesh::generateTriangle() -> std::shared_ptr<Mesh>
 {
-  auto mesh = make_shared<Mesh>(3);
+  auto mesh = std::make_shared<Mesh>(3);
   mesh->_reserveArrays();
 
   mesh->fGlMeshImpl->fVertices = {
-    vec3(-1.0f, -1.0f, 0.0f),
-    vec3( 1.0f, -1.0f, 0.0f),
-    vec3( 0.0f,  1.0f, 0.0f),
+    glm::vec3(-1.0f, -1.0f, 0.0f),
+    glm::vec3( 1.0f, -1.0f, 0.0f),
+    glm::vec3( 0.0f,  1.0f, 0.0f),
   };
 
   mesh->fGlMeshImpl->fColors = {
-    vec4(1.0f, 0.0f, 0.0f, 1.0f),
-    vec4(0.0f, 1.0f, 0.0f, 1.0f),
-    vec4(0.0f, 0.0f, 1.0f, 1.0f),
+    glm::vec4(1.0f, 0.0f, 0.0f, 1.0f),
+    glm::vec4(0.0f, 1.0f, 0.0f, 1.0f),
+    glm::vec4(0.0f, 0.0f, 1.0f, 1.0f),
   };
 
   mesh->fGlMeshImpl->fTexCoords = {
-    vec2(1.0f, 1.0f),
-    vec2(0.0f, 1.0f),
-    vec2(1.0f, 0.0f),
+    glm::vec2(1.0f, 1.0f),
+    glm::vec2(0.0f, 1.0f),
+    glm::vec2(1.0f, 0.0f),
   };
 
   mesh->_bufferData();
@@ -132,14 +129,14 @@ auto
 pneu::graphics::Mesh::_loadFromFile(const std::string& file_name) -> std::shared_ptr<Mesh>
 {
   // TODO: make asset directories
-  string file_path = file_name + ".mesh";
-  ifstream fs(file_path);
+  std::string file_path = file_name + ".mesh";
+  std::ifstream fs(file_path);
 
   if (!fs) {
     return nullptr;
   }
 
-  auto mesh = make_shared<Mesh>();
+  auto mesh = std::make_shared<Mesh>();
   fs >> mesh->fGlMeshImpl->fNumVertices;
 
   mesh->_reserveArrays();
@@ -189,11 +186,11 @@ auto
 pneu::graphics::Mesh::_generateNormals() -> void
 {
   for (int i = 0; i < fGlMeshImpl->fNumVertices; i+=3) {
-    vec3& a = fGlMeshImpl->fVertices[i];
-    vec3& b = fGlMeshImpl->fVertices[i+1];
-    vec3& c = fGlMeshImpl->fVertices[i+2];
+    glm::vec3& a = fGlMeshImpl->fVertices[i];
+    glm::vec3& b = fGlMeshImpl->fVertices[i+1];
+    glm::vec3& c = fGlMeshImpl->fVertices[i+2];
 
-    vec3 normal = glm::cross(b - a, c - a);
+    glm::vec3 normal = glm::cross(b - a, c - a);
     glm::normalize(normal);
 
     fGlMeshImpl->fNormals[i]   = normal;

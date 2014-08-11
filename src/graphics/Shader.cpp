@@ -36,9 +36,6 @@
 #define GLFW_NO_GLU
 #include <GLFW/glfw3.h>
 
-using namespace std;
-using namespace pneu::core;
-
 pneu::graphics::Shader::Shader()
   :
   fProgramID(0)
@@ -53,10 +50,10 @@ pneu::graphics::Shader::~Shader()
 
 auto
 pneu::graphics::Shader::init(const std::string& vert_file,
-                                  const std::string& frag_file,
-                                  const std::string& geom_file,
-                                  const std::string& tcs_file,
-                                  const std::string& tes_file) -> pneu::core::MethodResult
+                             const std::string& frag_file,
+                             const std::string& geom_file,
+                             const std::string& tcs_file,
+                             const std::string& tes_file) -> pneu::core::MethodResult
 {
   fProgramID = glCreateProgram();
 
@@ -65,12 +62,12 @@ pneu::graphics::Shader::init(const std::string& vert_file,
     std::string file_path; \
     do { \
       auto tup  = _createShader(shader_type, file); \
-      id        = get<0>(tup); \
-      file_path = get<1>(tup); \
+      id        = std::get<0>(tup); \
+      file_path = std::get<1>(tup); \
       \
       if (file != "" && id == 0) { \
-        return MethodResult::error(string("Could not create shader from file: ") \
-                                   .append(file_path)); \
+        return pneu::core::MethodResult::error( \
+          std::string("Could not create shader from file: ").append(file_path)); \
       } \
     } while(0)
 
@@ -104,7 +101,7 @@ pneu::graphics::Shader::init(const std::string& vert_file,
   glDeleteShader(tcs_shader_id);
   glDeleteShader(tes_shader_id);
 
-  return MethodResult::ok();
+  return pneu::core::MethodResult::ok();
 }
 
 auto
@@ -129,10 +126,10 @@ pneu::graphics::Shader::_setDefaultAttributes() -> void
 
 auto
 pneu::graphics::Shader::_createShader(GLenum shader_type,
-                                           const std::string& shader_file) -> std::pair<ShaderId, std::string>
+                                      const std::string& shader_file) -> std::pair<ShaderId, std::string>
 {
   if (shader_file == "") {
-    return make_pair(0, "");
+    return std::make_pair(0, "");
   }
 
   std::string path, suffix;
@@ -158,22 +155,22 @@ pneu::graphics::Shader::_createShader(GLenum shader_type,
       suffix = ".tes_glsl";
       break;
     default:
-      return make_pair(0, "");
+      return std::make_pair(0, "");
   }
 
   ShaderId shader_id = glCreateShader(shader_type);
 
-  return make_pair(shader_id, path + shader_file + suffix);
+  return std::make_pair(shader_id, path + shader_file + suffix);
 }
 
 auto
 pneu::graphics::Shader::_compileShader(ShaderId shader_id,
                                        const std::string& shader_path) -> pneu::core::MethodResult
 {
-  auto source_result = ResourceLoader::loadTextFile(shader_path);
+  auto source_result = pneu::core::ResourceLoader::loadTextFile(shader_path);
 
   if (!source_result.isOk()) {
-    return MethodResult::error(source_result.getError());
+    return pneu::core::MethodResult::error(source_result.getError());
   }
   
   const auto source_str = source_result.get();
@@ -192,12 +189,12 @@ pneu::graphics::Shader::_compileShader(ShaderId shader_id,
     std::vector<char> error_msg_vec(info_log_length);
     glGetShaderInfoLog(shader_id, info_log_length, NULL, error_msg_vec.data());
 
-    return MethodResult::error(string(error_msg_vec.begin(),
-                                    error_msg_vec.end()));
+    return pneu::core::MethodResult::error(std::string(error_msg_vec.begin(),
+                                                       error_msg_vec.end()));
   }
 
   glAttachShader(fProgramID, shader_id);
-  return MethodResult::ok();
+  return pneu::core::MethodResult::ok();
 }
 
 auto
@@ -212,11 +209,11 @@ pneu::graphics::Shader::_linkShaderProgram() -> pneu::core::MethodResult
     int info_log_length;
     glGetProgramiv(fProgramID, GL_INFO_LOG_LENGTH, &info_log_length);
 
-    std::vector<char> error_msg_vec(max(info_log_length, 1));
+    std::vector<char> error_msg_vec(std::max(info_log_length, 1));
     glGetProgramInfoLog(fProgramID, info_log_length, NULL, error_msg_vec.data());
 
-    return MethodResult::error(string(error_msg_vec.begin(),
-                                    error_msg_vec.end()));
+    return pneu::core::MethodResult::error(std::string(error_msg_vec.begin(),
+                                                       error_msg_vec.end()));
   }
-  return MethodResult::ok();
+  return pneu::core:: MethodResult::ok();
 }

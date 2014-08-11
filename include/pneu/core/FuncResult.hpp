@@ -154,7 +154,7 @@ private:
 } // namespace pneu
 
 #define PNEU_TRY_FUNC(var, func) \
-  auto var = func; \
+  pneu::core::FuncResult var = func; \
   do { \
     if (!var_name.isOk()) { \
       return var_name; \

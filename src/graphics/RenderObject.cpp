@@ -29,8 +29,6 @@
 #include "pneu/graphics/Shader.hpp"
 #include "pneu/graphics/Texture.hpp"
 
-using namespace std;
-
 pneu::graphics::RenderObject::RenderObject()
   :
   fCurrentShaderIndex(0),
@@ -70,11 +68,11 @@ pneu::graphics::RenderObject::getCurrentTexture() const -> std::shared_ptr<Textu
 auto
 pneu::graphics::RenderObject::addTexture(const std::string& tex_file) -> void
 {
-  auto tex = make_shared<pneu::graphics::Texture>();
+  auto tex = std::make_shared<pneu::graphics::Texture>();
   auto tex_init_res = tex->init(tex_file);
 
   if (!tex_init_res.isOk()) {
-    cout << tex_init_res.getError() << endl;
+    std::cout << tex_init_res.getError() << std::endl;
     return;
   }
 

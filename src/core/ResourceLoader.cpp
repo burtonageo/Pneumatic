@@ -42,7 +42,7 @@ pneu::core::ResourceLoader::loadTextFile(const std::string& path) -> pneu::core:
     }
     file_stream.close();
   } else {
-    return pneu::core::FuncResult<std::string>::error(string("Could note open file: ") + path);
+    return pneu::core::FuncResult<std::string>::error(std::string("Could note open file: ") + path);
   }
 
   return pneu::core::FuncResult<std::string>::ok(file_contents);

@@ -26,6 +26,16 @@
 
 #include "GlRenderer.hpp"
 
+#include "pneu/core/MethodResult.hpp"
+#include "pneu/core/ResourceLoader.hpp"
+
+#include "pneu/graphics/Camera.hpp"
+#include "pneu/graphics/RenderObject.hpp"
+#include "pneu/graphics/Shader.hpp"
+#include "pneu/graphics/Window.hpp"
+
+#include <algorithm>
+
 #define GLEW_STATIC
 #include <GL/glew.h>
 
@@ -35,14 +45,6 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
-#include "pneu/core/MethodResult.hpp"
-#include "pneu/core/ResourceLoader.hpp"
-
-#include "pneu/graphics/Camera.hpp"
-#include "pneu/graphics/RenderObject.hpp"
-#include "pneu/graphics/Shader.hpp"
-#include "pneu/graphics/Window.hpp"
 
 namespace pneu {
 
@@ -70,9 +72,6 @@ public:
 
 } // namespace pneu
 
-using namespace std;
-using namespace pneu::core;
-
 static auto _updateShaderMatrices(GLuint program,
                                   const glm::mat4& model_matrix,
                                   const glm::mat4& projection_matrix,
@@ -85,7 +84,7 @@ static auto _updateShaderMatrices(GLuint program,
   glUniformMatrix4fv(mvp_uniform, 1, GL_FALSE, &mvp[0][0]);
 }
 
-static auto _initGlew(void) -> pneu::core::MethodResult
+static auto _initGlew() -> pneu::core::MethodResult
 {
    glewExperimental = GL_TRUE;
  
@@ -95,18 +94,18 @@ static auto _initGlew(void) -> pneu::core::MethodResult
      char err_buf[max_buf_len];
      snprintf(err_buf, max_buf_len, "GLEW not initialized: %s", glewGetErrorString(err));
 
-     return MethodResult::error(string(err_buf));
+     return pneu::core::MethodResult::error(std::string(err_buf));
    }
 
    glGetError(); // clear out errors
-   return MethodResult::ok();  
+   return pneu::core::MethodResult::ok();  
 }
 
 bool pneu::graphics::GlRenderer::sGlewInitialized = false;
 
 pneu::graphics::GlRenderer::GlRenderer()
   :
-  fRenImpl(make_unique<pneu::graphics::GlRenderer::GlRendererImpl>(0, 0)) { }
+  fRenImpl(std::make_unique<pneu::graphics::GlRenderer::GlRendererImpl>(0, 0)) { }
 
 pneu::graphics::GlRenderer::~GlRenderer() = default;
 
@@ -137,7 +136,7 @@ pneu::graphics::GlRenderer::init(GLFWwindow* win_ptr) -> pneu::core::MethodResul
   fRenImpl->camera.setPosition(glm::vec3(4.0f, 0.0f, 4.0f));
   fRenImpl->camera._setTargetPosition(glm::vec3(0.0f));
 
-  return MethodResult::ok();
+  return pneu::core::MethodResult::ok();
 }
 
 auto
@@ -167,15 +166,15 @@ pneu::graphics::GlRenderer::updateScene(double ms) -> void
                                        cam._getDirection(),
                                        glm::vec3(0.0f, 1.0f, 0.0f));
 
-  for_each(fRenImpl->objects.begin(),
-           fRenImpl->objects.end(),
-           [&](shared_ptr<pneu::graphics::RenderObject> r) {
-             r->update(ms);
-             _updateShaderMatrices(r->getCurrentShader()->getShaderProgram(),
-                                   r->getModelMatrix(),
-                                   projection_matrix,
-                                   view_matrix);
-           });
+  std::for_each(fRenImpl->objects.begin(),
+                fRenImpl->objects.end(),
+                [&](std::shared_ptr<pneu::graphics::RenderObject> r) {
+                  r->update(ms);
+                  _updateShaderMatrices(r->getCurrentShader()->getShaderProgram(),
+                                        r->getModelMatrix(),
+                                        projection_matrix,
+                                        view_matrix);
+                });
 }
 
 auto
@@ -185,11 +184,11 @@ pneu::graphics::GlRenderer::renderScene() -> void
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(bg_color.r, bg_color.g, bg_color.b, bg_color.a);
-  for_each(fRenImpl->objects.begin(),
-           fRenImpl->objects.end(),
-           [&](shared_ptr<pneu::graphics::RenderObject> r) {
-             r->draw();
-           });
+  std::for_each(fRenImpl->objects.begin(),
+                fRenImpl->objects.end(),
+                [&](std::shared_ptr<pneu::graphics::RenderObject> r) {
+                  r->draw();
+                });
 }
 
 auto

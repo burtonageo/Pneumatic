@@ -30,23 +30,20 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
-using namespace pneu::core;
-
 auto
 pneu::core::ResourceLoader::loadTextFile(const std::string& path) -> pneu::core::FuncResult<std::string>
 {
-  string file_contents;
-  ifstream file_stream(path, ios::in);
+  std::string file_contents;
+  std::ifstream file_stream(path, std::ios::in);
   if (file_stream.is_open()) {
-    string line = "";
+    std::string line = "";
     while (getline(file_stream, line)) {
         file_contents += "\n" + line;
     }
     file_stream.close();
   } else {
-    return FuncResult<std::string>::error(string("Could note open file: ") + path);
+    return pneu::core::FuncResult<std::string>::error(string("Could note open file: ") + path);
   }
 
-  return FuncResult<std::string>::ok(file_contents);
+  return pneu::core::FuncResult<std::string>::ok(file_contents);
 }

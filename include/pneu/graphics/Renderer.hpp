@@ -44,11 +44,6 @@ public:
 
   virtual auto addRenderObject(std::weak_ptr<RenderObject>) -> void = 0;
   virtual auto setBackgroundColor(const glm::vec3& color)   -> void = 0;
-
-  virtual auto updateScene(double delta_time)               -> void = 0;
-  virtual auto renderScene()                                -> void = 0;
-  virtual auto viewportDidResize(int width, int height)     -> void = 0;
-  virtual auto quitWasRequested()                           -> bool = 0;
 };
 
 inline Renderer::~Renderer() = default;

@@ -134,8 +134,8 @@ pneu::graphics::Shader::initWithCode(const std::string& vert_source,
   TRY_CREATE_SHADER(vert_source, vert_shader_id, GL_VERTEX_SHADER);
   TRY_CREATE_SHADER(frag_source, frag_shader_id, GL_FRAGMENT_SHADER);
   TRY_CREATE_SHADER(geom_source, geom_shader_id, GL_GEOMETRY_SHADER);
-  TRY_CREATE_SHADER(tes_source,  tes_shader_id,  GL_VERTEX_SHADER);
-  TRY_CREATE_SHADER(tcs_source,  tcs_shader_id,  GL_VERTEX_SHADER);
+  TRY_CREATE_SHADER(tes_source,  tes_shader_id,  GL_TESS_CONTROL_SHADER);
+  TRY_CREATE_SHADER(tcs_source,  tcs_shader_id,  GL_TESS_EVALUATION_SHADER);
 
   PNEU_TRY_METHOD(_compileShader(vert_shader_id, vert_source));
   PNEU_TRY_METHOD(_compileShader(frag_shader_id, frag_source));
@@ -174,19 +174,6 @@ pneu::graphics::Shader::_setDefaultAttributes() -> void
   glBindAttribLocation(fProgramID, k_color_buffer,   "color");
   glBindAttribLocation(fProgramID, k_texture_buffer, "texCoord");
   glBindAttribLocation(fProgramID, k_normals_buffer, "normal");
-}
-
-auto
-pneu::graphics::Shader::_createShader(GLenum shader_type,
-                                      const std::string& shader_file) -> std::pair<ShaderId, std::string>
-{
-  std::string path = "", suffix = _getShaderFileSuffix(shader_type).getOrElse("");
-  if (suffix == "" || shader_file == "") {
-    return std::make_pair(0, "");
-  }
-
-  ShaderId shader_id = glCreateShader(shader_type);
-  return std::make_pair(shader_id, path + shader_file + suffix);
 }
 
 auto

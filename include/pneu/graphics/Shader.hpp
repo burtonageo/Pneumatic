@@ -74,7 +74,6 @@ public:
 private:
   auto _setDefaultAttributes()                              -> void;
 
-  auto _createShader(GLenum, const std::string&)            -> std::pair<ShaderId, std::string>;
   auto _compileShader(GLuint, const std::string& file_path) -> pneu::core::MethodResult;
   auto _linkShaderProgram()                                 -> pneu::core::MethodResult;
 

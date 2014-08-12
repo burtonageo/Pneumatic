@@ -56,11 +56,17 @@ public:
   Shader();
   ~Shader();
 
-  auto init(const std::string& vert_file,
-            const std::string& frag_file,
-            const std::string& geom_file = "",
-            const std::string& tcs_file  = "",
-            const std::string& tes_file  = "")              -> pneu::core::MethodResult;
+  auto loadFromFile(const std::string& vert_file,
+                    const std::string& frag_file,
+                    const std::string& geom_file = "",
+                    const std::string& tcs_file  = "",
+                    const std::string& tes_file  = "")      -> pneu::core::MethodResult;
+
+  auto initWithCode(const std::string& vert_source,
+                    const std::string& frag_source,
+                    const std::string& geom_source = "",
+                    const std::string& tcs_source  = "",
+                    const std::string& tes_source  = "")    -> pneu::core::MethodResult;
 
   auto getShaderProgram() const                             -> ShaderId;
   auto update(double ms)                                    -> void;

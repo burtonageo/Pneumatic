@@ -27,6 +27,7 @@
 #include "pneu/graphics/Shader.hpp"
 
 #include "pneu/core/ResourceLoader.hpp"
+#include "pneu/core/FuncResult.hpp"
 
 #include <iostream>
 #include <string>
@@ -35,6 +36,25 @@
 #define GLFW_INCLUDE_GL3
 #define GLFW_NO_GLU
 #include <GLFW/glfw3.h>
+
+static inline auto
+_getShaderFileSuffix(GLenum shader_type) -> pneu::core::FuncResult<std::string>
+{
+  switch (shader_type) {
+    case GL_VERTEX_SHADER:
+      return pneu::core::FuncResult<std::string>::ok(".vert_glsl");;
+    case GL_FRAGMENT_SHADER:
+      return pneu::core::FuncResult<std::string>::ok(".frag_glsl");
+    case GL_GEOMETRY_SHADER:
+      return pneu::core::FuncResult<std::string>::ok(".geom_glsl");
+    case GL_TESS_CONTROL_SHADER:
+      return pneu::core::FuncResult<std::string>::ok(".tcs_glsl");
+    case GL_TESS_EVALUATION_SHADER:
+      return pneu::core::FuncResult<std::string>::ok(".tes_glsl");
+    default:
+      return pneu::core::FuncResult<std::string>::error("Invalid shader type");
+  }
+}
 
 pneu::graphics::Shader::Shader()
   :
@@ -49,50 +69,82 @@ pneu::graphics::Shader::~Shader()
 }
 
 auto
-pneu::graphics::Shader::init(const std::string& vert_file,
-                             const std::string& frag_file,
-                             const std::string& geom_file,
-                             const std::string& tcs_file,
-                             const std::string& tes_file) -> pneu::core::MethodResult
+pneu::graphics::Shader::loadFromFile(const std::string& vert_file,
+                                     const std::string& frag_file,
+                                     const std::string& geom_file,
+                                     const std::string& tcs_file,
+                                     const std::string& tes_file) -> pneu::core::MethodResult
+{
+  #define CREATE_PATH(file_path, file, shader_type) \
+    std::string file_path; \
+    do { \
+      auto suffix = _getShaderFileSuffix(shader_type); \
+      if (!suffix.isOk()) { \
+        return pneu::core::MethodResult::error(suffix.getError()); \
+      } \
+      file_path = file + suffix.get(); \
+    } while(0)
+
+  CREATE_PATH(vert_path, vert_file, GL_VERTEX_SHADER);
+  CREATE_PATH(frag_path, frag_file, GL_FRAGMENT_SHADER);
+  CREATE_PATH(geom_path, geom_file, GL_GEOMETRY_SHADER);
+  CREATE_PATH(tcs_path,  tcs_file,  GL_TESS_CONTROL_SHADER);
+  CREATE_PATH(tes_path,  tes_file,  GL_TESS_EVALUATION_SHADER);
+
+  #define LOAD_SHADER_FILE(var_name, shader_path) \
+    std::string var_name; \
+    do { \
+      auto source_result = pneu::core::ResourceLoader::loadTextFile(shader_path); \
+      if (source_result.isOk()) { \
+        var_name = source_result.get(); \
+      } else { \
+        return pneu::core::MethodResult::error(source_result.getError()); \
+      } \
+    } while(0)
+
+  LOAD_SHADER_FILE(vert_source, vert_path);
+  LOAD_SHADER_FILE(frag_source, frag_path);
+  LOAD_SHADER_FILE(geom_source, geom_path);
+  LOAD_SHADER_FILE(tcs_source,  tcs_path);
+  LOAD_SHADER_FILE(tes_source,  tes_path);
+
+  return initWithCode(vert_source, frag_source, geom_source, tcs_source, tes_source);
+}
+
+auto
+pneu::graphics::Shader::initWithCode(const std::string& vert_source,
+                                     const std::string& frag_source,
+                                     const std::string& geom_source,
+                                     const std::string& tcs_source,
+                                     const std::string& tes_source) -> pneu::core::MethodResult
 {
   fProgramID = glCreateProgram();
 
-  #define CREATE(file, file_path, id, shader_type) \
-    ShaderId id; \
-    std::string file_path; \
+  #define TRY_CREATE_SHADER(shader_source, shader_id, shader_type) \
+    ShaderId shader_id = 0; \
     do { \
-      auto tup  = _createShader(shader_type, file); \
-      id        = std::get<0>(tup); \
-      file_path = std::get<1>(tup); \
-      \
-      if (file != "" && id == 0) { \
-        return pneu::core::MethodResult::error( \
-          std::string("Could not create shader from file: ").append(file_path)); \
+      if (shader_source != "") { \
+        shader_id = glCreateShader(shader_type); \
+        if (shader_id == 0) { \
+          return pneu::core::MethodResult::error("Cannot create shader of type"); \
+        } \
       } \
     } while(0)
 
-  CREATE(vert_file, vert_path, vert_shader_id, GL_VERTEX_SHADER);
-  CREATE(frag_file, frag_path, frag_shader_id, GL_FRAGMENT_SHADER);
-  CREATE(geom_file, geom_path, geom_shader_id, GL_GEOMETRY_SHADER);
-  CREATE(tcs_file,  tcs_path,  tcs_shader_id,  GL_TESS_CONTROL_SHADER);
-  CREATE(tes_file,  tes_path,  tes_shader_id,  GL_TESS_EVALUATION_SHADER);
+  TRY_CREATE_SHADER(vert_source, vert_shader_id, GL_VERTEX_SHADER);
+  TRY_CREATE_SHADER(frag_source, frag_shader_id, GL_FRAGMENT_SHADER);
+  TRY_CREATE_SHADER(geom_source, geom_shader_id, GL_GEOMETRY_SHADER);
+  TRY_CREATE_SHADER(tes_source,  tes_shader_id,  GL_VERTEX_SHADER);
+  TRY_CREATE_SHADER(tcs_source,  tcs_shader_id,  GL_VERTEX_SHADER);
 
-  #define TRY_COMPILE(file, func) \
-    do { \
-      if (file != "") { \
-        PNEU_TRY_METHOD(func); \
-      } \
-    } while(0)
-
-  PNEU_TRY_METHOD(_compileShader(vert_shader_id, vert_path));
-  PNEU_TRY_METHOD(_compileShader(frag_shader_id, frag_path));
-  
-  TRY_COMPILE(geom_file, _compileShader(geom_shader_id, geom_path));
-  TRY_COMPILE(tcs_file,  _compileShader(tcs_shader_id,  tcs_path));
-  TRY_COMPILE(tes_file,  _compileShader(tes_shader_id,  tes_path));
+  PNEU_TRY_METHOD(_compileShader(vert_shader_id, vert_source));
+  PNEU_TRY_METHOD(_compileShader(frag_shader_id, frag_source));
+  PNEU_TRY_METHOD(_compileShader(geom_shader_id, geom_source));
+  PNEU_TRY_METHOD(_compileShader(tes_shader_id,  tcs_source));
+  PNEU_TRY_METHOD(_compileShader(tcs_shader_id,  tes_source));
 
   PNEU_TRY_METHOD(_linkShaderProgram());
-
+  
   _setDefaultAttributes();
 
   glDeleteShader(vert_shader_id);
@@ -128,53 +180,20 @@ auto
 pneu::graphics::Shader::_createShader(GLenum shader_type,
                                       const std::string& shader_file) -> std::pair<ShaderId, std::string>
 {
-  if (shader_file == "") {
+  std::string path = "", suffix = _getShaderFileSuffix(shader_type).getOrElse("");
+  if (suffix == "" || shader_file == "") {
     return std::make_pair(0, "");
   }
 
-  std::string path, suffix;
-  switch (shader_type) {
-    case GL_VERTEX_SHADER:
-      //path = Config::getVertexDir();
-      suffix = ".vert_glsl";
-      break;
-    case GL_FRAGMENT_SHADER:
-      //path = Config::getFragmentDir();
-      suffix = ".frag_glsl";
-      break;
-    case GL_GEOMETRY_SHADER:
-      //path = Config::getGeometryDir();
-      suffix = ".geom_glsl";
-      break;
-    case GL_TESS_CONTROL_SHADER:
-      //path = Config::getTessCtrlDir();
-      suffix = ".tcs_glsl";
-      break;
-    case GL_TESS_EVALUATION_SHADER:
-      //path = Config::getTessEvalDir();
-      suffix = ".tes_glsl";
-      break;
-    default:
-      return std::make_pair(0, "");
-  }
-
   ShaderId shader_id = glCreateShader(shader_type);
-
   return std::make_pair(shader_id, path + shader_file + suffix);
 }
 
 auto
 pneu::graphics::Shader::_compileShader(ShaderId shader_id,
-                                       const std::string& shader_path) -> pneu::core::MethodResult
+                                       const std::string& shader_src) -> pneu::core::MethodResult
 {
-  auto source_result = pneu::core::ResourceLoader::loadTextFile(shader_path);
-
-  if (!source_result.isOk()) {
-    return pneu::core::MethodResult::error(source_result.getError());
-  }
-  
-  const auto source_str = source_result.get();
-  const auto* k_source_ptr = source_str.c_str();
+  const auto* k_source_ptr = shader_src.c_str();
 
   glShaderSource(shader_id, 1, &k_source_ptr , NULL);
   glCompileShader(shader_id);

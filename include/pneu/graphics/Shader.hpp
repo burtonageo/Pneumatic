@@ -69,7 +69,6 @@ public:
                     const std::string& tes_source  = "")    -> pneu::core::MethodResult;
 
   auto getShaderProgram() const                             -> ShaderId;
-  auto update(double ms)                                    -> void;
 
 private:
   auto _setDefaultAttributes()                              -> void;
@@ -86,7 +85,7 @@ public:
   ShaderUpdateMixin(std::shared_ptr<pneu::graphics::Shader> shader)
     :
     fShader(shader) { }
-  virtual ~ShaderUpdateMixin()     = default;
+  virtual ~ShaderUpdateMixin() = default;
 
   virtual auto update(double delta_time) -> void = 0;
   std::shared_ptr<pneu::graphics::Shader> fShader;

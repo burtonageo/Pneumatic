@@ -70,13 +70,16 @@ public:
 
   auto getShaderProgram() const                             -> ShaderId;
 
+  auto bind()                                               -> void;
+  auto unbind()                                             -> void;
+
 private:
   auto _setDefaultAttributes()                              -> void;
 
   auto _compileShader(GLuint, const std::string& file_path) -> pneu::core::MethodResult;
   auto _linkShaderProgram()                                 -> pneu::core::MethodResult;
 
-  ShaderId fProgramID;
+  ShaderId fProgramId;
 };
 
 // Used to update shaders

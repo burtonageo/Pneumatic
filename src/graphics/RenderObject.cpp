@@ -111,7 +111,7 @@ pneu::graphics::RenderObject::bindCurrentShader() -> void
 {
   auto k_curr_shader = getCurrentShader();
   if (k_curr_shader != nullptr) {
-    glUseProgram(k_curr_shader->getShaderProgram());
+    k_curr_shader->bind();
   }
 }
 
@@ -129,7 +129,9 @@ pneu::graphics::RenderObject::bindCurrentTexture() -> void
 auto
 pneu::graphics::RenderObject::unBindCurrentShader() -> void
 {
-  glUseProgram(0);
+  if (getCurrentShader() != nullptr) {
+    getCurrentShader()->unbind();
+  }
 }
 
 auto

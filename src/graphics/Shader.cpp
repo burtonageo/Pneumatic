@@ -2,24 +2,24 @@
  * This file is part of the pneu game engine
  *
  * Copyright (c) 2014 George Burton
- * 
+ *
  * THIS SOFTWARE IS PROVIDED 'AS-IS', WITHOUT ANY EXPRESS OR IMPLIED
  * WARRANTY. IN NO EVENT WILL THE AUTHORS BE HELD LIABLE FOR ANY DAMAGES
  * ARISING FROM THE USE OF THIS SOFTWARE.
- * 
- * Permission is granted to anyone to use this software for any purpose,  
- * including commercial applications, and to alter it and redistribute it  
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
  * freely, subject to the following restrictions:
- * 
- *    1. The origin of this software must not be misrepresented; you must not  
- *       claim that you wrote the original software. If you use this software  
- *       in a product, an acknowledgment in the product documentation would be  
+ *
+ *    1. The origin of this software must not be misrepresented; you must not
+ *       claim that you wrote the original software. If you use this software
+ *       in a product, an acknowledgment in the product documentation would be
  *       appreciated but is not required.
- * 
- *    2. Altered source versions must be plainly marked as such, and must not be  
+ *
+ *    2. Altered source versions must be plainly marked as such, and must not be
  *       misrepresented as being the original software.
- * 
- *    3. This notice may not be removed or altered from any source  
+ *
+ *    3. This notice may not be removed or altered from any source
  *       distribution.
  *
  **/
@@ -58,14 +58,14 @@ _getShaderFileSuffix(GLenum shader_type) -> pneu::core::FuncResult<std::string>
 
 pneu::graphics::Shader::Shader()
   :
-  fProgramID(0)
+  fProgramId(0)
 {
 
 }
 
 pneu::graphics::Shader::~Shader()
 {
-  glDeleteProgram(fProgramID);
+  glDeleteProgram(fProgramId);
 }
 
 auto
@@ -118,7 +118,7 @@ pneu::graphics::Shader::initWithCode(const std::string& vert_source,
                                      const std::string& tcs_source,
                                      const std::string& tes_source) -> pneu::core::MethodResult
 {
-  fProgramID = glCreateProgram();
+  fProgramId = glCreateProgram();
 
   #define TRY_CREATE_SHADER(shader_source, shader_id, shader_type) \
     ShaderId shader_id = 0; \
@@ -144,7 +144,7 @@ pneu::graphics::Shader::initWithCode(const std::string& vert_source,
   PNEU_TRY_METHOD(_compileShader(tcs_shader_id,  tes_source));
 
   PNEU_TRY_METHOD(_linkShaderProgram());
-  
+
   _setDefaultAttributes();
 
   glDeleteShader(vert_shader_id);
@@ -159,7 +159,19 @@ pneu::graphics::Shader::initWithCode(const std::string& vert_source,
 auto
 pneu::graphics::Shader::getShaderProgram() const -> ShaderId
 {
-  return fProgramID;
+  return fProgramId;
+}
+
+auto
+pneu::graphics::Shader::bind() -> void
+{
+  glUseProgram(fProgramId);
+}
+
+auto
+pneu::graphics::Shader::unbind() -> void
+{
+  glUseProgram(0);
 }
 
 auto
@@ -170,10 +182,10 @@ pneu::graphics::Shader::_setDefaultAttributes() -> void
   const ShaderId k_texture_buffer = 2;
   const ShaderId k_normals_buffer = 3;
 
-  glBindAttribLocation(fProgramID, k_vertex_buffer,  "position");
-  glBindAttribLocation(fProgramID, k_color_buffer,   "color");
-  glBindAttribLocation(fProgramID, k_texture_buffer, "texCoord");
-  glBindAttribLocation(fProgramID, k_normals_buffer, "normal");
+  glBindAttribLocation(fProgramId, k_vertex_buffer,  "position");
+  glBindAttribLocation(fProgramId, k_color_buffer,   "color");
+  glBindAttribLocation(fProgramId, k_texture_buffer, "texCoord");
+  glBindAttribLocation(fProgramId, k_normals_buffer, "normal");
 }
 
 auto
@@ -203,24 +215,24 @@ pneu::graphics::Shader::_compileShader(ShaderId shader_id,
                                                        error_msg_vec.end()));
   }
 
-  glAttachShader(fProgramID, shader_id);
+  glAttachShader(fProgramId, shader_id);
   return pneu::core::MethodResult::ok();
 }
 
 auto
 pneu::graphics::Shader::_linkShaderProgram() -> pneu::core::MethodResult
 {
-  glLinkProgram(fProgramID);
+  glLinkProgram(fProgramId);
 
   GLint result;
-  glGetProgramiv(fProgramID, GL_LINK_STATUS, &result);
+  glGetProgramiv(fProgramId, GL_LINK_STATUS, &result);
 
   if (result == GL_FALSE) {
     int info_log_length;
-    glGetProgramiv(fProgramID, GL_INFO_LOG_LENGTH, &info_log_length);
+    glGetProgramiv(fProgramId, GL_INFO_LOG_LENGTH, &info_log_length);
 
     std::vector<char> error_msg_vec(std::max(info_log_length, 1));
-    glGetProgramInfoLog(fProgramID, info_log_length, NULL, error_msg_vec.data());
+    glGetProgramInfoLog(fProgramId, info_log_length, NULL, error_msg_vec.data());
 
     return pneu::core::MethodResult::error(std::string(error_msg_vec.begin(),
                                                        error_msg_vec.end()));

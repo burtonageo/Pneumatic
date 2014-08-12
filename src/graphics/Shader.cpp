@@ -180,6 +180,10 @@ auto
 pneu::graphics::Shader::_compileShader(ShaderId shader_id,
                                        const std::string& shader_src) -> pneu::core::MethodResult
 {
+  if (shader_src == "") {
+    return pneu::core::MethodResult::ok();
+  }
+
   const auto* k_source_ptr = shader_src.c_str();
 
   glShaderSource(shader_id, 1, &k_source_ptr , NULL);

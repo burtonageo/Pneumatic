@@ -17,4 +17,3 @@ before_script:
   - cmake ..
 
 script: make
- git commit -m "Back to cmake v. 2.8"

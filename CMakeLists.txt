@@ -1,10 +1,28 @@
-#
-# CSC3223 Graphics for Games
-# Coursework 2
-# Name: George Burton
-# Student Number: 110204567
-# File: CMakeLists.txt
-#
+/**
+ * This file is part of the pneumatic game engine
+ *
+ * Copyright (c) 2014 George Burton
+ * 
+ * THIS SOFTWARE IS PROVIDED 'AS-IS', WITHOUT ANY EXPRESS OR IMPLIED
+ * WARRANTY. IN NO EVENT WILL THE AUTHORS BE HELD LIABLE FOR ANY DAMAGES
+ * ARISING FROM THE USE OF THIS SOFTWARE.
+ * 
+ * Permission is granted to anyone to use this software for any purpose,  
+ * including commercial applications, and to alter it and redistribute it  
+ * freely, subject to the following restrictions:
+ * 
+ *    1. The origin of this software must not be misrepresented; you must not  
+ *       claim that you wrote the original software. If you use this software  
+ *       in a product, an acknowledgment in the product documentation would be  
+ *       appreciated but is not required.
+ * 
+ *    2. Altered source versions must be plainly marked as such, and must not be  
+ *       misrepresented as being the original software.
+ * 
+ *    3. This notice may not be removed or altered from any source  
+ *       distribution.
+ *
+ **/
 
 cmake_minimum_required (VERSION 2.8)
 
@@ -63,8 +81,8 @@ set(GLFW_INCLUDE_DIRS "${GLFW_DIR}/include")
 ## disable GLFW tests, examples and docs
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_DOCS "Build the GLFW documentation" OFF CACHE BOOL "" FORCE)
-set(GLFW_INSTALL "Generate installation target" OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_DOCS "" OFF CACHE BOOL "" FORCE)
+set(GLFW_INSTALL "" OFF CACHE BOOL "" FORCE)
 
 add_subdirectory(${GLFW_DIR})
 link_directories(${GLFW_DIR})
@@ -73,6 +91,8 @@ include_directories(${GLFW_INCLUDE_DIRS})
 # GLM
 #=====
 set (GLM_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/thirdparty/glm")
+add_subdirectory(${GLM_INCLUDE_DIRS})
+link_directories(${GLM_INCLUDE_DIRS})
 include_directories(${GLM_INCLUDE_DIRS})
 
 # Project build

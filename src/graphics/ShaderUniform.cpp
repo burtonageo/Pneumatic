@@ -78,4 +78,4 @@ DECLARE_SHADERUNIFORM(glm::uvec4, glUniform4ui(variable_ref, uniform_value.x,
                                                              uniform_value.z,
                                                              uniform_value.w))
 
-DECLARE_SHADERUNIFORM(glm::mat4,    glUniformMatrix4fv(variable_ref, 1, GL_FALSE, &uniform_value[0][0]))
+DECLARE_SHADERUNIFORM(glm::mat4,  glUniformMatrix4fv(variable_ref, 1, GL_FALSE, &uniform_value[0][0]))

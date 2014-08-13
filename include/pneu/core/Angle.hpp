@@ -26,8 +26,8 @@
 
 #pragma once
 
-#ifndef PNEUMATIC_MATHUTIL_HPP
-#define PNEUMATIC_MATHUTIL_HPP
+#ifndef PNEUMATIC_ANGLE_HPP
+#define PNEUMATIC_ANGLE_HPP
 
 template<typename T>
 struct Radians;
@@ -118,4 +118,4 @@ private:
   T fValue;
 };
 
-#endif // PNEUMATIC_MATHUTIL_HPP
+#endif // PNEUMATIC_ANGLE_HPP

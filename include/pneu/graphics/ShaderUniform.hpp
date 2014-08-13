@@ -29,6 +29,7 @@
 #ifndef PNEUMATIC_SHADERUNIFORM_HPP
 #define PNEUMATIC_SHADERUNIFORM_HPP
 
+#include <functional>
 #include <memory>
 #include <string>
 
@@ -48,6 +49,13 @@ public:
     fVariableName(variable_name) { }
 
   auto update(const T& uniform_value) -> void;
+
+  template<typename... Args>
+  auto update(std::function<T (const Args&...)> f, const Args&... args) -> void
+  {
+    T value = f(args...);
+    update(value);
+  }
 
 private:
   std::shared_ptr<Shader> fShader;

@@ -34,19 +34,22 @@ project(${PROJECT_NAME})
 # Source files
 #==============
 set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")
+set(GRAPHICS_SRC_DIR "${SRC_DIR}/graphics")
 set(CORE_DIR "${SRC_DIR}/core")
 set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
 
 set(SOURCES
-	"${SRC_DIR}/core/ResourceLoader.cpp"
-	"${SRC_DIR}/graphics/Camera.cpp"
-	"${SRC_DIR}/graphics/GlRenderer.cpp"
-	"${SRC_DIR}/graphics/Window.cpp"
-	"${SRC_DIR}/graphics/Light.cpp"
-	"${SRC_DIR}/graphics/Mesh.cpp"
-	"${SRC_DIR}/graphics/Shader.cpp"
-	"${SRC_DIR}/graphics/Texture.cpp"
-	"${SRC_DIR}/graphics/RenderObject.cpp")
+	"${CORE_DIR}/ResourceLoader.cpp"
+	"${GRAPHICS_SRC_DIR}/Camera.cpp"
+	"${GRAPHICS_SRC_DIR}/GlRenderer.cpp"
+	"${GRAPHICS_SRC_DIR}/Light.cpp"
+	"${GRAPHICS_SRC_DIR}/Mesh.cpp"
+	"${GRAPHICS_SRC_DIR}/Shader.cpp"
+	"${GRAPHICS_SRC_DIR}/ShaderUniform.cpp"
+	"${GRAPHICS_SRC_DIR}/Sprite.cpp"
+	"${GRAPHICS_SRC_DIR}/Texture.cpp"
+	"${GRAPHICS_SRC_DIR}/RenderObject.cpp"
+	"${GRAPHICS_SRC_DIR}/Window.cpp")
 
 include_directories(
 	${SRC_DIR}

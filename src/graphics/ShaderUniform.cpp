@@ -51,7 +51,8 @@ DECLARE_SHADERUNIFORM(float,        glUniform1f(variable_ref, uniform_value))
 DECLARE_SHADERUNIFORM(int,          glUniform1i(variable_ref, uniform_value))
 DECLARE_SHADERUNIFORM(unsigned int, glUniform1i(variable_ref, uniform_value))
 
-DECLARE_SHADERUNIFORM(glm::vec2, glUniform2f(variable_ref, uniform_value.x, uniform_value.y))
+DECLARE_SHADERUNIFORM(glm::vec2, glUniform2f(variable_ref, uniform_value.x,
+                                                           uniform_value.y))
 DECLARE_SHADERUNIFORM(glm::vec3, glUniform3f(variable_ref, uniform_value.x,
                                                            uniform_value.y,
                                                            uniform_value.z))
@@ -60,7 +61,8 @@ DECLARE_SHADERUNIFORM(glm::vec4, glUniform4f(variable_ref, uniform_value.x,
                                                            uniform_value.z,
                                                            uniform_value.w))
 
-DECLARE_SHADERUNIFORM(glm::ivec2, glUniform2i(variable_ref, uniform_value.x, uniform_value.y))
+DECLARE_SHADERUNIFORM(glm::ivec2, glUniform2i(variable_ref, uniform_value.x,
+                                                            uniform_value.y))
 DECLARE_SHADERUNIFORM(glm::ivec3, glUniform3i(variable_ref, uniform_value.x,
                                                             uniform_value.y,
                                                             uniform_value.z))
@@ -69,7 +71,8 @@ DECLARE_SHADERUNIFORM(glm::ivec4, glUniform4i(variable_ref, uniform_value.x,
                                                             uniform_value.z,
                                                             uniform_value.w))
 
-DECLARE_SHADERUNIFORM(glm::uvec2, glUniform2ui(variable_ref, uniform_value.x, uniform_value.y))
+DECLARE_SHADERUNIFORM(glm::uvec2, glUniform2ui(variable_ref, uniform_value.x,
+                                                             uniform_value.y))
 DECLARE_SHADERUNIFORM(glm::uvec3, glUniform3ui(variable_ref, uniform_value.x,
                                                              uniform_value.y,
                                                              uniform_value.z))

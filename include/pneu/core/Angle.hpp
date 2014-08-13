@@ -39,6 +39,15 @@ struct Radians;
 template<typename T>
 struct Degrees;
 
+#if defined PNEU_DEFAULT_ANGLE_RADIANS
+  template<typename T>
+  using Angle = typename pneu::core::Radians<T>;
+#else
+  template<typename T>
+  using Angle = typename pneu::core::Degrees<T>;
+#endif
+
+
 template<typename T>
 struct Radians {
 public:
@@ -56,51 +65,79 @@ public:
     return fValue;
   }
 
-  inline auto operator== (const Radians<T>& other) -> bool
+  operator Degrees<T>() const
+  {
+    return toDegrees();
+  }
+
+  inline auto operator== (const Radians<T>& other) const -> bool
   {
     return fValue == other.fValue;
   }
 
-  inline auto operator> (const Radians<T>& other) -> bool
+  inline auto operator> (const Radians<T>& other) const -> bool
   {
     return fValue > other.fValue;
   }
 
-  inline auto operator< (const Radians<T>& other) -> bool
+  inline auto operator< (const Radians<T>& other) const -> bool
   {
     return fValue < other.fValue;
   }
 
-  inline auto operator>= (const Radians<T>& other) -> bool
+  inline auto operator>= (const Radians<T>& other) const -> bool
   {
     return operator>(this, other) || operator==(this, other);
   }
   
-  inline auto operator<= (const Radians<T>& other) -> bool
+  inline auto operator<= (const Radians<T>& other) const -> bool
   {
     return operator<(this, other) || operator==(this, other);
   }
 
-  inline auto operator+ (const Radians<T>& other) -> Radians<T>
+  inline auto operator+ (const Radians<T>& other) const -> Radians<T>
   {
     return Radians(fValue + other.fValue);
   }
 
-  inline auto operator- (const Radians<T>& other) -> Radians<T>
+  inline auto operator- (const Radians<T>& other) const -> Radians<T>
   {
     return Radians(fValue - other.fValue);
   }
 
-  inline auto operator* (const Radians<T>& other) -> Radians<T>
+  inline auto operator* (const Radians<T>& other) const -> Radians<T>
   {
     return Radians(fValue * other.fValue);
   }
 
-  inline auto operator/ (const Radians<T>& other) -> Radians<T>
+  inline auto operator/ (const Radians<T>& other) const -> Radians<T>
   {
     return Radians(fValue / other.fValue);
   }
 
+  inline auto operator+= (const Radians<T>& other) -> Radians<T>&
+  {
+    fValue += other.fValue;
+    return *this;
+  }
+  
+  inline auto operator-= (const Radians<T>& other) -> Radians<T>&
+  {
+    fValue -= other.fValue;
+    return *this;
+  }
+  
+  inline auto operator*= (const Radians<T>& other) -> Radians<T>&
+  {
+    fValue *= other.fValue;
+    return *this;
+  }
+  
+  inline auto operator/= (const Radians<T>& other) -> Radians<T>&
+  {
+    fValue /= other.fValue;
+    return *this;
+  }
 
 private:
   T fValue;
@@ -123,49 +160,78 @@ public:
     return fValue;
   }
 
-  inline auto operator== (const Radians<T>& other) -> bool
+  operator Radians<T>() const
+  {
+    return toRadians();
+  }
+
+  inline auto operator== (const Radians<T>& other) const -> bool
   {
     return fValue == other.fValue;
   }
   
-  inline auto operator> (const Radians<T>& other) -> bool
+  inline auto operator> (const Radians<T>& other) const -> bool
   {
     return fValue > other.fValue;
   }
   
-  inline auto operator< (const Radians<T>& other) -> bool
+  inline auto operator< (const Radians<T>& other) const -> bool
   {
     return fValue < other.fValue;
   }
   
-  inline auto operator>= (const Radians<T>& other) -> bool
+  inline auto operator>= (const Radians<T>& other) const -> bool
   {
     return operator>(this, other) || operator==(this, other);
   }
   
-  inline auto operator<= (const Radians<T>& other) -> bool
+  inline auto operator<= (const Radians<T>& other) const -> bool
   {
     return operator<(this, other) || operator==(this, other);
   }
 
-  inline auto operator+ (const Degrees<T>& other) -> Degrees<T>
+  inline auto operator+ (const Degrees<T>& other) const -> Degrees<T>
   {
     return Degrees(fValue + other.fValue);
   }
 
-  inline auto operator- (const Degrees<T>& other) -> Degrees<T>
+  inline auto operator- (const Degrees<T>& other) const -> Degrees<T>
   {
     return Degrees(fValue - other.fValue);
   }
 
-  inline auto operator* (const Degrees<T>& other) -> Degrees<T>
+  inline auto operator* (const Degrees<T>& other) const -> Degrees<T>
   {
     return Degrees(fValue * other.fValue);
   }
 
-  inline auto operator/ (const Degrees<T>& other) -> Degrees<T>
+  inline auto operator/ (const Degrees<T>& other) const -> Degrees<T>
   {
     return Degrees(fValue / other.fValue);
+  }
+
+  inline auto operator+= (const Degrees<T>& other) -> Degrees<T>&
+  {
+    fValue += other.fValue;
+    return *this;
+  }
+  
+  inline auto operator-= (const Degrees<T>& other) -> Degrees<T>&
+  {
+    fValue -= other.fValue;
+    return *this;
+  }
+  
+  inline auto operator*= (const Degrees<T>& other) -> Degrees<T>&
+  {
+    fValue *= other.fValue;
+    return *this;
+  }
+  
+  inline auto operator/= (const Degrees<T>& other) -> Degrees<T>&
+  {
+    fValue /= other.fValue;
+    return *this;
   }
 
 private:

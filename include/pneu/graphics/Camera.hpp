@@ -64,7 +64,10 @@ public:
   auto getPosition() const                                           -> glm::vec2;
   auto setPosition(const glm::vec3& new_pos)                         -> void;
 
-  auto getFieldOfView() const                                        -> float;
+  auto getFieldOfView() const                                        -> pneu::core::Angle<float>;
+  auto getFieldOfViewRadians() const                                 -> pneu::core::Radians<float>;
+  auto getFieldOfViewDegrees() const                                 -> pneu::core::Degrees<float>;
+
   auto setFieldOfView(const pneu::core::Degrees<float>& fov_degrees) -> void;
   auto setFieldOfView(const pneu::core::Radians<float>& fov_radians) -> void;
 

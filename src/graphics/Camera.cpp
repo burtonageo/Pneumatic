@@ -90,9 +90,21 @@ pneu::graphics::Camera::setPosition(const glm::vec3& new_pos) -> void
 }
 
 auto
-pneu::graphics::Camera::getFieldOfView() const -> float
+pneu::graphics::Camera::getFieldOfView() const -> pneu::core::Angle<float>
 {
-  return fFov.value();
+  return static_cast<pneu::core::Angle<float>>(fFov);
+}
+
+auto
+pneu::graphics::Camera::getFieldOfViewRadians() const -> pneu::core::Radians<float>
+{
+  return fFov;
+}
+
+auto
+pneu::graphics::Camera::getFieldOfViewDegrees() const -> pneu::core::Degrees<float>
+{
+  return fFov.toDegrees();
 }
 
 auto

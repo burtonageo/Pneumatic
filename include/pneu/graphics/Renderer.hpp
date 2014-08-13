@@ -24,6 +24,8 @@
  *
  **/
 
+#pragma once
+
 #ifndef PNEUMATIC_RENDERER_HPP
 #define PNEUMATIC_RENDERER_HPP
 

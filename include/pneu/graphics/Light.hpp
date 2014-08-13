@@ -24,6 +24,8 @@
  *
  **/
 
+#pragma once
+
 #ifndef PNEUMATIC_LIGHT_HPP
 #define PNEUMATIC_LIGHT_HPP
 

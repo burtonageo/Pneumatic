@@ -39,18 +39,16 @@ namespace pneu {
 
 namespace graphics {
 
-class Shape final : public pneu::graphics::RenderObject {
+class Shape : public pneu::graphics::RenderObject {
 public:
-  static auto generateRect(const glm::vec2& position     = glm::vec2(0.0f, 0.0f),
-                           const glm::vec2& scale        = glm::vec2(1.0f, 1.0f)  -> Shape;
-  static auto generateTri(const glm::vec2& position      = glm::vec2(0.0f, 0.0f),
-                          const glm::vec2& scale         = glm::vec2(1.0f, 1.0f)  -> Shape;
-  static auto generateEllipse(const glm::vec2& position  = glm::vec2(0.0f, 0.0f),
-                              const glm::vec2& scale     = glm::vec2(1.0f, 1.0f)  -> Shape;
-
-private:
-
+  Shape() : pneu::graphics::RenderObject();
+  virtual ~Shape() = 0;
+  
+  virtual auto update(double delta_time)         -> void = 0;
+  virtual auto draw()                            -> void = 0;
 }
+
+inline Shape::~Shape() = default;
 
 } // namespace graphics
 

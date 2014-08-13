@@ -42,7 +42,7 @@ _getShaderFileSuffix(GLenum shader_type) -> pneu::core::FuncResult<std::string>
 {
   switch (shader_type) {
     case GL_VERTEX_SHADER:
-      return pneu::core::FuncResult<std::string>::ok(".vert_glsl");;
+      return pneu::core::FuncResult<std::string>::ok(".vert_glsl");
     case GL_FRAGMENT_SHADER:
       return pneu::core::FuncResult<std::string>::ok(".frag_glsl");
     case GL_GEOMETRY_SHADER:
@@ -58,6 +58,7 @@ _getShaderFileSuffix(GLenum shader_type) -> pneu::core::FuncResult<std::string>
 
 pneu::graphics::Shader::Shader()
   :
+  fBound(false),
   fProgramId(0)
 {
 
@@ -66,6 +67,7 @@ pneu::graphics::Shader::Shader()
 pneu::graphics::Shader::~Shader()
 {
   glDeleteProgram(fProgramId);
+  fProgramId = 0;
 }
 
 auto
@@ -94,11 +96,13 @@ pneu::graphics::Shader::loadFromFile(const std::string& vert_file,
   #define LOAD_SHADER_FILE(var_name, shader_path) \
     std::string var_name; \
     do { \
-      auto source_result = pneu::core::ResourceLoader::loadTextFile(shader_path); \
-      if (source_result.isOk()) { \
-        var_name = source_result.get(); \
-      } else { \
-        return pneu::core::MethodResult::error(source_result.getError()); \
+      if (shader_path != "") { \
+        auto source_result = pneu::core::ResourceLoader::loadTextFile(shader_path); \
+        if (source_result.isOk()) { \
+          var_name = source_result.get(); \
+        } else { \
+          return pneu::core::MethodResult::error(source_result.getError()); \
+        } \
       } \
     } while(0)
 
@@ -137,11 +141,18 @@ pneu::graphics::Shader::initWithCode(const std::string& vert_source,
   TRY_CREATE_SHADER(tes_source,  tes_shader_id,  GL_TESS_CONTROL_SHADER);
   TRY_CREATE_SHADER(tcs_source,  tcs_shader_id,  GL_TESS_EVALUATION_SHADER);
 
+  #define TRY_COMPILE_SHADER(shader_id, shader_source) \
+    do { \
+      if (shader_source != "") { \
+        PNEU_TRY_METHOD(_compileShader(shader_id, shader_source)); \
+      } \
+    } while(0)
+
   PNEU_TRY_METHOD(_compileShader(vert_shader_id, vert_source));
   PNEU_TRY_METHOD(_compileShader(frag_shader_id, frag_source));
-  PNEU_TRY_METHOD(_compileShader(geom_shader_id, geom_source));
-  PNEU_TRY_METHOD(_compileShader(tes_shader_id,  tcs_source));
-  PNEU_TRY_METHOD(_compileShader(tcs_shader_id,  tes_source));
+  TRY_COMPILE_SHADER(geom_shader_id, geom_source);
+  TRY_COMPILE_SHADER(tes_shader_id,  tcs_source);
+  TRY_COMPILE_SHADER(tcs_shader_id,  tes_source);
 
   PNEU_TRY_METHOD(_linkShaderProgram());
 
@@ -165,13 +176,19 @@ pneu::graphics::Shader::getShaderProgram() const -> ShaderId
 auto
 pneu::graphics::Shader::bind() -> void
 {
-  glUseProgram(fProgramId);
+  if (!fBound && fProgramId != 0) {
+    glUseProgram(fProgramId);
+    fBound = true;
+  }
 }
 
 auto
 pneu::graphics::Shader::unbind() -> void
 {
-  glUseProgram(0);
+  if (fBound) {
+    glUseProgram(0);
+    fBound = false;
+  }
 }
 
 auto
@@ -192,10 +209,6 @@ auto
 pneu::graphics::Shader::_compileShader(ShaderId shader_id,
                                        const std::string& shader_src) -> pneu::core::MethodResult
 {
-  if (shader_src == "") {
-    return pneu::core::MethodResult::ok();
-  }
-
   const auto* k_source_ptr = shader_src.c_str();
 
   glShaderSource(shader_id, 1, &k_source_ptr , NULL);

@@ -1,5 +1,5 @@
 /**
- * This file is part of the pneu game engine
+ * This file is part of the pneumatic game engine
  *
  * Copyright (c) 2014 George Burton
  * 

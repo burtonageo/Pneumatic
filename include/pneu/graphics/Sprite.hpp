@@ -31,7 +31,7 @@
 
 #include "pneu/graphics/RenderObject.hpp"
 
-#include "pneu/core/MethResult.hpp"
+#include "pneu/core/MethodResult.hpp"
 
 namespace pneu {
 
@@ -39,9 +39,9 @@ namespace graphics {
 
 class Sprite : public pneu::graphics::RenderObject {
 public:
-	Sprite();
+	Sprite() = default;
 
-	auto load(const std::string& file_name) -> MethResult;
+	auto load(const std::string& file_name) -> pneu::core::MethodResult;
 };
 
 } // namespace graphics

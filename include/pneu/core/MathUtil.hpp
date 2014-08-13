@@ -1,5 +1,5 @@
 /**
- * This file is part of the pneu game engine
+ * This file is part of the pneumatic game engine
  *
  * Copyright (c) 2014 George Burton
  * 
@@ -24,6 +24,8 @@
  *
  **/
 
+#pragma once
+
 #ifndef PNEUMATIC_MATHUTIL_HPP
 #define PNEUMATIC_MATHUTIL_HPP
 
@@ -32,15 +34,21 @@ namespace pneu {
 namespace core {
 
 template<typename T>
-inline auto degreesToRadians(T deg) -> T
+static const T pi = static_cast<T>(3.14159);
+
+template<typename T>
+static const T e = static_cast<T>(2.71828);
+
+template<typename T>
+auto degreesToRadians(const T& value) -> T
 {
-  return deg * static_cast<T>(0.017);
+  return value * static_cast<T>(0.017);
 }
 
 template<typename T>
-inline auto radiansToDegrees(T rad) -> T
+auto radiansToDegrees(const T& value) -> T
 {
-  return rad * static_cast<T>(57.269);
+  return value * static_cast<T>(57.629);
 }
 
 } // namespace core

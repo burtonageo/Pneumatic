@@ -42,8 +42,15 @@ namespace graphics {
 class GlRenderer;
 class Camera final {
 public:
-  Camera(const pneu::core::Angle<float>& fov   = static_cast<pneu::core::Angle<float>>(
-                                                   pneu::core::Degrees<float>(45.0f)),
+  Camera(const pneu::core::Degrees<float>& fov = pneu::core::Degrees<float>(45.0f),
+         float zoom                            = 1.0f,
+         float near_clip                       = 0.1f,
+         float far_clip                        = 100.0f,
+         const glm::uvec2& cam_size            = glm::uvec2(800, 600),
+         const glm::vec3& cam_position         = glm::vec3(1.0f),
+         const glm::vec3& targ_position        = glm::vec3(0.0f));
+
+  Camera(const pneu::core::Radians<float>& fov,
          float zoom                            = 1.0f,
          float near_clip                       = 0.1f,
          float far_clip                        = 100.0f,

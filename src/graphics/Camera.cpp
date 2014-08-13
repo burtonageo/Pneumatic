@@ -27,7 +27,7 @@
 #include "pneu/graphics/Camera.hpp"
 
 
-pneu::graphics::Camera::Camera(const pneu::core::Angle<float>& fov,
+pneu::graphics::Camera::Camera(const pneu::core::Degrees<float>& fov,
                                float zoom,
                                float near_clip,
                                float far_clip,
@@ -35,7 +35,7 @@ pneu::graphics::Camera::Camera(const pneu::core::Angle<float>& fov,
                                const glm::vec3& cam_position,
                                const glm::vec3& targ_position)
   :
-  fFov(static_cast<pneu::core::Radians<float>>(fov)),
+  fFov(fov.toRadians()),
   fZoom(zoom),
   fNearClip(near_clip),
   fFarClip(far_clip),
@@ -44,6 +44,25 @@ pneu::graphics::Camera::Camera(const pneu::core::Angle<float>& fov,
   fCameraTarget(targ_position)
 {
   
+}
+
+pneu::graphics::Camera::Camera(const pneu::core::Radians<float>& fov,
+                               float zoom,
+                               float near_clip,
+                               float far_clip,
+                               const glm::uvec2& cam_size,
+                               const glm::vec3& cam_position,
+                               const glm::vec3& targ_position)
+  :
+  fFov(fov),
+  fZoom(zoom),
+  fNearClip(near_clip),
+  fFarClip(far_clip),
+  fCameraSize(cam_size),
+  fCameraPosition(cam_position),
+  fCameraTarget(targ_position)
+{
+
 }
 
 auto

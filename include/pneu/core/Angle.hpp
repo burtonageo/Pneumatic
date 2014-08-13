@@ -51,7 +51,7 @@ public:
   {
     return fValue;
   }
-/*
+
   auto operator+ (const Radians<T>& other) -> Radians<T>
   {
     return Radians(value + other.value);
@@ -71,7 +71,7 @@ public:
   {
     return Radians(value / other.value);
   }
-*/
+
 
 private:
   T fValue;
@@ -93,7 +93,7 @@ public:
   {
     return fValue;
   }
-/*
+
   auto operator+ (const Degrees<T>& other) -> Degrees<T>
   {
     return Degrees(value + other.value);
@@ -113,7 +113,7 @@ public:
   {
     return Degrees(value / other.value);
   }
-*/
+
 private:
   T fValue;
 };

@@ -47,7 +47,6 @@
     update_function; \
   }
 
-//DECLARE_SIMPLE_SHADERUNIFORM(bool,  glUniform1b)
 DECLARE_SHADERUNIFORM(float,        glUniform1f(variable_ref, uniform_value))
 DECLARE_SHADERUNIFORM(int,          glUniform1i(variable_ref, uniform_value))
 DECLARE_SHADERUNIFORM(unsigned int, glUniform1i(variable_ref, uniform_value))

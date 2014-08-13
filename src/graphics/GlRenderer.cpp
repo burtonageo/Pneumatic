@@ -26,6 +26,7 @@
 
 #include "GlRenderer.hpp"
 
+#include "pneu/core/Angle.hpp"
 #include "pneu/core/MethodResult.hpp"
 #include "pneu/core/ResourceLoader.hpp"
 
@@ -157,7 +158,7 @@ auto
 pneu::graphics::GlRenderer::updateScene(double ms) -> void
 {
   const auto& cam = fRenImpl->camera;
-  const auto projection_matrix = glm::perspective(cam.getFieldOfView(),
+  const auto projection_matrix = glm::perspective(cam.getFieldOfViewRadians().value(),
                                                   cam.getAspectRatio(),
                                                   cam.getNearClip(),
                                                   cam.getFarClip());

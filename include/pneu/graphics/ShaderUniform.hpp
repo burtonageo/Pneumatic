@@ -57,6 +57,13 @@ public:
     update(value);
   }
 
+  template<typename... Args>
+  auto update(std::function<T (Args&&...)> f, Args&&... args) -> void
+  {
+    T value = f(args...);
+    update(value);
+  }
+
 private:
   std::shared_ptr<Shader> fShader;
   std::string fVariableName;

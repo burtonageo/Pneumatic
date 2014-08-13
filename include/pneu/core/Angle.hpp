@@ -56,22 +56,22 @@ public:
     return fValue;
   }
 
-  auto operator+ (const Radians<T>& other) -> Radians<T>
+  inline auto operator+ (const Radians<T>& other) -> Radians<T>
   {
     return Radians(fValue + other.fValue);
   }
 
-  auto operator- (const Radians<T>& other) -> Radians<T>
+  inline auto operator- (const Radians<T>& other) -> Radians<T>
   {
     return Radians(fValue - other.fValue);
   }
 
-  auto operator* (const Radians<T>& other) -> Radians<T>
+  inline auto operator* (const Radians<T>& other) -> Radians<T>
   {
     return Radians(fValue * other.fValue);
   }
 
-  auto operator/ (const Radians<T>& other) -> Radians<T>
+  inline auto operator/ (const Radians<T>& other) -> Radians<T>
   {
     return Radians(fValue / other.fValue);
   }
@@ -98,22 +98,22 @@ public:
     return fValue;
   }
 
-  auto operator+ (const Degrees<T>& other) -> Degrees<T>
+  inline auto operator+ (const Degrees<T>& other) -> Degrees<T>
   {
     return Degrees(fValue + other.fValue);
   }
 
-  auto operator- (const Degrees<T>& other) -> Degrees<T>
+  inline auto operator- (const Degrees<T>& other) -> Degrees<T>
   {
     return Degrees(fValue - other.fValue);
   }
 
-  auto operator* (const Degrees<T>& other) -> Degrees<T>
+  inline auto operator* (const Degrees<T>& other) -> Degrees<T>
   {
     return Degrees(fValue * other.fValue);
   }
 
-  auto operator/ (const Degrees<T>& other) -> Degrees<T>
+  inline auto operator/ (const Degrees<T>& other) -> Degrees<T>
   {
     return Degrees(fValue / other.fValue);
   }

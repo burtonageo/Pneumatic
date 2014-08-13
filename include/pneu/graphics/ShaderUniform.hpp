@@ -48,7 +48,7 @@ public:
     fShader(shader),
     fVariableName(variable_name) { }
 
-  auto update(const T& uniform_value) -> void;
+  auto update(const T& uniform_value)                                   -> void;
 
   template<typename... Args>
   auto update(std::function<T (const Args&...)> f, const Args&... args) -> void

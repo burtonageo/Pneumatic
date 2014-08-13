@@ -29,6 +29,10 @@
 #ifndef PNEUMATIC_ANGLE_HPP
 #define PNEUMATIC_ANGLE_HPP
 
+namespace pneu {
+
+namespace core {
+
 template<typename T>
 struct Radians;
 
@@ -42,34 +46,34 @@ public:
     :
     fValue(val) { }
 
-  inline auto toDegrees() -> Degrees<T>
+  inline auto toDegrees() const -> Degrees<T>
   {
     return Degrees<T>(fValue * static_cast<T>(57.629));
   }
 
-  inline auto value() -> T
+  inline auto value() const -> T
   {
     return fValue;
   }
 
   auto operator+ (const Radians<T>& other) -> Radians<T>
   {
-    return Radians(value + other.value);
+    return Radians(fValue + other.fValue);
   }
 
   auto operator- (const Radians<T>& other) -> Radians<T>
   {
-    return Radians(value - other.value);
+    return Radians(fValue - other.fValue);
   }
 
   auto operator* (const Radians<T>& other) -> Radians<T>
   {
-    return Radians(value * other.value);
+    return Radians(fValue * other.fValue);
   }
 
   auto operator/ (const Radians<T>& other) -> Radians<T>
   {
-    return Radians(value / other.value);
+    return Radians(fValue / other.fValue);
   }
 
 
@@ -84,38 +88,42 @@ public:
       :
       fValue(val) { }
 
-  inline auto toRadians() -> Radians<T>
+  inline auto toRadians() const -> Radians<T>
   {
     return Radians<T>(fValue * static_cast<T>(0.017));
   }
 
-  inline auto value() -> T
+  inline auto value() const -> T
   {
     return fValue;
   }
 
   auto operator+ (const Degrees<T>& other) -> Degrees<T>
   {
-    return Degrees(value + other.value);
+    return Degrees(fValue + other.fValue);
   }
 
   auto operator- (const Degrees<T>& other) -> Degrees<T>
   {
-    return Degrees(value - other.value);
+    return Degrees(fValue - other.fValue);
   }
 
   auto operator* (const Degrees<T>& other) -> Degrees<T>
   {
-    return Degrees(value * other.value);
+    return Degrees(fValue * other.fValue);
   }
 
   auto operator/ (const Degrees<T>& other) -> Degrees<T>
   {
-    return Degrees(value / other.value);
+    return Degrees(fValue / other.fValue);
   }
 
 private:
   T fValue;
 };
+
+} // namespace core
+
+} // namespace pneu
 
 #endif // PNEUMATIC_ANGLE_HPP

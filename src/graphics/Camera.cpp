@@ -26,18 +26,39 @@
 
 #include "pneu/graphics/Camera.hpp"
 
-pneu::graphics::Camera::Camera(float fov,
-                                    float zoom,
-                                    float near_clip,
-                                    float far_clip,
-                                    const glm::vec3& cam_position,
-                                    const glm::vec3& targ_position)
+
+pneu::graphics::Camera::Camera(const pneu::core::Degrees<float>& fov,
+                               float zoom,
+                               float near_clip,
+                               float far_clip,
+                               const glm::uvec2& cam_size,
+                               const glm::vec3& cam_position,
+                               const glm::vec3& targ_position)
+  :
+  fFov(fov.toRadians()),
+  fZoom(zoom),
+  fNearClip(near_clip),
+  fFarClip(far_clip),
+  fCameraSize(cam_size),
+  fCameraPosition(cam_position),
+  fCameraTarget(targ_position)
+{
+  
+}
+
+pneu::graphics::Camera::Camera(const pneu::core::Radians<float>& fov,
+                               float zoom,
+                               float near_clip,
+                               float far_clip,
+                               const glm::uvec2& cam_size,
+                               const glm::vec3& cam_position,
+                               const glm::vec3& targ_position)
   :
   fFov(fov),
   fZoom(zoom),
   fNearClip(near_clip),
   fFarClip(far_clip),
-  fCameraSize(glm::uvec2(0, 0)),
+  fCameraSize(cam_size),
   fCameraPosition(cam_position),
   fCameraTarget(targ_position)
 {
@@ -71,19 +92,19 @@ pneu::graphics::Camera::setPosition(const glm::vec3& new_pos) -> void
 auto
 pneu::graphics::Camera::getFieldOfView() const -> float
 {
-  return fFov;
+  return fFov.value();
 }
 
 auto
-pneu::graphics::Camera::setFieldOfViewDegrees(float fov_degrees) -> void
+pneu::graphics::Camera::setFieldOfView(const pneu::core::Degrees<float>& fov_degrees) -> void
 {
-  fFov = pneu::core::degreesToRadians(fov_degrees);
+  fFov = fov_degrees.toRadians();
 }
 
 auto
-pneu::graphics::Camera::setFieldOfViewRadians(float fov_radians) -> void
+pneu::graphics::Camera::setFieldOfView(const pneu::core::Radians<float>& fov_degrees) -> void
 {
-  fFov = fov_radians;
+  fFov = fov_degrees;
 }
 
 auto
@@ -153,7 +174,7 @@ pneu::graphics::Camera::getAspectRatio() const -> float
 auto
 pneu::graphics::Camera::getZoomedFieldOfView() const -> float
 {
-  return fFov * fZoom;
+  return fFov.value() * fZoom;
 }
 
 auto

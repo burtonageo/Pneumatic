@@ -32,6 +32,7 @@
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 
+#include "pneu/core/Angle.hpp"
 #include "pneu/core/MathUtil.hpp"
 
 namespace pneu {
@@ -41,50 +42,60 @@ namespace graphics {
 class GlRenderer;
 class Camera final {
 public:
-  Camera(float fov                      = pneu::core::degreesToRadians(45.0f),
-         float zoom                     = 1.0f,
-         float near_clip                = 0.1f,
-         float far_clip                 = 100.0f,
-         const glm::vec3& cam_position  = glm::vec3(1.0f),
-         const glm::vec3& targ_position = glm::vec3(0.0f));
+  Camera(const pneu::core::Degrees<float>& fov = pneu::core::Degrees<float>(45.0f),
+         float zoom                            = 1.0f,
+         float near_clip                       = 0.1f,
+         float far_clip                        = 100.0f,
+         const glm::uvec2& cam_size            = glm::uvec2(800, 600),
+         const glm::vec3& cam_position         = glm::vec3(1.0f),
+         const glm::vec3& targ_position        = glm::vec3(0.0f));
 
-  auto getWidth() const                              -> int;
-  auto getHeight() const                             -> int;
+  Camera(const pneu::core::Radians<float>& fov,
+         float zoom                            = 1.0f,
+         float near_clip                       = 0.1f,
+         float far_clip                        = 100.0f,
+         const glm::uvec2& cam_size            = glm::uvec2(800, 600),
+         const glm::vec3& cam_position         = glm::vec3(1.0f),
+         const glm::vec3& targ_position        = glm::vec3(0.0f));
 
-  auto getPosition() const                           -> glm::vec2;
-  auto setPosition(const glm::vec3& new_pos)         -> void;
+  auto getWidth() const                                              -> int;
+  auto getHeight() const                                             -> int;
 
-  auto getFieldOfView() const                        -> float;
-  auto setFieldOfViewDegrees(float fov_degrees)      -> void;
-  auto setFieldOfViewRadians(float fov_radians)      -> void;
+  auto getPosition() const                                           -> glm::vec2;
+  auto setPosition(const glm::vec3& new_pos)                         -> void;
 
-  auto getZoom() const                               -> float;
-  auto setZoom(float zoom)                           -> void;
-  auto zoomInBy(float zoom)                          -> void;
-  auto zoomOutBy(float zoom)                         -> void;
+  auto getFieldOfView() const                                        -> float;
+  auto setFieldOfView(const pneu::core::Degrees<float>& fov_degrees) -> void;
+  auto setFieldOfView(const pneu::core::Radians<float>& fov_radians) -> void;
 
-  auto getNearClip() const                           -> float;
-  auto setNearClip(float near_clip)                  -> void;
+  auto getZoom() const                                               -> float;
+  auto setZoom(float zoom)                                           -> void;
+  auto zoomInBy(float zoom)                                          -> void;
+  auto zoomOutBy(float zoom)                                         -> void;
 
-  auto getFarClip() const                            -> float;
-  auto setFarClip(float far_clip)                    -> void;
+  auto getNearClip() const                                           -> float;
+  auto setNearClip(float near_clip)                                  -> void;
 
-  auto getRenderSize() const                         -> glm::uvec2;
-  auto getAspectRatio() const                        -> float;
-  auto getZoomedFieldOfView() const                  -> float;
+  auto getFarClip() const                                            -> float;
+  auto setFarClip(float far_clip)                                    -> void;
 
-  auto pan(const glm::vec2& direction)               -> void;
+  auto getRenderSize() const                                         -> glm::uvec2;
+  auto getAspectRatio() const                                        -> float;
+  auto getZoomedFieldOfView() const                                  -> float;
+
+  auto pan(const glm::vec2& direction)                               -> void;
 
 private:
-  auto _getPosition3d() const                        -> glm::vec3;
-  auto _getDirection() const                         -> glm::vec3;
+  auto _getPosition3d() const                                        -> glm::vec3;
+  auto _getDirection() const                                         -> glm::vec3;
 
-  auto _getTargetPosition() const                    -> glm::vec3;
-  auto _setTargetPosition(const glm::vec3& new_targ) -> void;
+  auto _getTargetPosition() const                                    -> glm::vec3;
+  auto _setTargetPosition(const glm::vec3& new_targ)                 -> void;
 
   friend class pneu::graphics::GlRenderer;
 
-  float fFov, fZoom, fNearClip, fFarClip;
+  pneu::core::Radians<float> fFov;
+  float fZoom, fNearClip, fFarClip;
   glm::uvec2 fCameraSize;
   glm::vec3 fCameraPosition, fCameraTarget;
 };

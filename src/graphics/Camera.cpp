@@ -174,7 +174,6 @@ pneu::graphics::Camera::_getDirection() const -> glm::vec3
   return fCameraTarget - fCameraPosition;
 }
 
-
 auto
 pneu::graphics::Camera::_getTargetPosition() const -> glm::vec3
 {

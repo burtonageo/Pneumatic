@@ -31,6 +31,7 @@
 #include "pneu/core/ResourceLoader.hpp"
 
 #include "pneu/graphics/Camera.hpp"
+#include "pneu/graphics/Color.hpp"
 #include "pneu/graphics/RenderObject.hpp"
 #include "pneu/graphics/Shader.hpp"
 #include "pneu/graphics/Window.hpp"
@@ -149,9 +150,9 @@ pneu::graphics::GlRenderer::addRenderObject(std::weak_ptr<RenderObject> object) 
 }
 
 auto
-pneu::graphics::GlRenderer::setBackgroundColor(const glm::vec3& color) -> void
+pneu::graphics::GlRenderer::setBackgroundColor(const Color3& color) -> void
 {
-  fRenImpl->backgroundColor = glm::vec4(color.r, color.g, color.b, 1.0f);
+  fRenImpl->backgroundColor = color.toColor4(1.0f).toVector();
 }
 
 auto

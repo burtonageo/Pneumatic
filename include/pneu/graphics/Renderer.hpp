@@ -39,13 +39,17 @@ namespace pneu {
 
 namespace graphics {
 
+template<typename T>
+class Color3t;
+using Color3 = typename pneu::graphics::Color3t<float>;
+
 class RenderObject;
 class Renderer {
 public:
   virtual ~Renderer() = 0;  
 
-  virtual auto addRenderObject(std::weak_ptr<RenderObject>) -> void = 0;
-  virtual auto setBackgroundColor(const glm::vec3& color)   -> void = 0;
+  virtual auto addRenderObject(std::weak_ptr<pneu::graphics::RenderObject>) -> void = 0;
+  virtual auto setBackgroundColor(const pneu::graphics::Color3& color)      -> void = 0;
 };
 
 inline Renderer::~Renderer() = default;

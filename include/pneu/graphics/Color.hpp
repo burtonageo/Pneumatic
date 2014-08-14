@@ -32,8 +32,15 @@
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 
+namespace pneu {
+
+namespace graphics {
+
 template<typename T>
 class Color4t;
+
+template<typename T>
+class Color3t;
 
 template<typename T>
 class Color3t {
@@ -44,15 +51,16 @@ public:
     g(g),
     b(b) { }
 
-  auto toVector() -> glm::tvec3
+  template<glm::precision P = glm::highp>
+  auto toVector() const -> glm::detail::tvec3<T, P>
   {
-    return glm::tvec3<T>(r, g, b);
+    return glm::detail::tvec3<T, P>(r, g, b);
   }
 
-  auto toColor4(T alpha = static_cast<T>(1.0)) const -> Color4t;
+  auto toColor4(T alpha = static_cast<T>(1.0)) const -> Color4t<T>;
 
   T r, g, b;
-}
+};
 
 template<typename T>
 class Color4t {
@@ -64,33 +72,38 @@ public:
     b(b),
     a(a) { }
 
-  auto toVector() const -> glm::tvec4<T>
+  template<glm::precision P = glm::highp>
+  auto toVector() const -> glm::detail::tvec4<T, P>
   {
-    return glm::tvec4<T>(r, g, b, a);
+    return glm::detail::tvec4<T, P>(r, g, b, a);
   }
 
-  auto toColor3() const -> Color3t;
+  auto toColor3() const -> Color3t<T>;
 
   T r, g, b, a;
 };
 
 template<typename T>
 auto
-pneu::graphics::Color3::toColor4(T alpha) const -> Color4t
+Color3t<T>::toColor4(T alpha) const -> Color4t<T>
 {
-  return Color4t<T>(fColVec.r, fColVec.g, fColVec.b, alpha);
+  return Color4t<T>(r, g, b, alpha);
 }
 
 template<typename T>
 auto
-pneu::graphics::Color4::toColor3() const -> Color3t
+Color4t<T>::toColor3() const -> Color3t<T>
 {
-  return Color4t<T>(fColVec.r, fColVec.g, fColVec.b);
+  return Color4t<T>(r, g, b);
 }
 
-typedef Color3  Color3t<float>;
-typedef Color3d Color3t<double>;
-typedef Color4  Color4t<float>;
-typedef Color4d Color4t<double>;
+using Color3  = typename pneu::graphics::Color3t<float>;
+using Color3d = typename pneu::graphics::Color3t<double>;
+using Color4  = typename pneu::graphics::Color4t<float>;
+using Color4d = typename pneu::graphics::Color4t<double>;
+
+} // namespace graphics
+
+} // namespace pneu
 
 #endif // PNEUMATIC_COLOR_HPP

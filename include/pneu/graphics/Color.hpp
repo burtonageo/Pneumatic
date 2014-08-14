@@ -40,7 +40,7 @@ template<typename T>
 class Color;
 
 template<typename T>
-class Color {
+class Color final {
 public:
   Color(T r, T g, T b, T a = static_cast<T>(1))
     :

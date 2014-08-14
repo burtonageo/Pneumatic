@@ -42,7 +42,7 @@ class Color;
 template<typename T>
 class Color {
 public:
-  Color(T r, T g, T b, T a)
+  Color(T r, T g, T b, T a = static_cast<T>(1))
     :
     r(r),
     g(g),

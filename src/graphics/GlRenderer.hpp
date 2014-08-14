@@ -70,7 +70,7 @@ public:
   auto init(GLFWwindow*)                                                    -> pneu::core::MethodResult;
 
   virtual auto addRenderObject(std::weak_ptr<pneu::graphics::RenderObject>) -> void;
-  virtual auto setBackgroundColor(const pneu::graphics::Color3& color)      -> void;
+  virtual auto setBackgroundColor(const pneu::graphics::Colorf& color)      -> void;
 
   virtual auto updateScene(double delta_time)                               -> void;
   virtual auto renderScene()                                                -> void;

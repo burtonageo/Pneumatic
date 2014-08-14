@@ -37,107 +37,56 @@ namespace pneu {
 namespace graphics {
 
 template<typename T>
-class Color4t;
+class Color;
 
 template<typename T>
-class Color3t;
-
-template<typename T>
-class Color3t {
+class Color {
 public:
-  Color3t(T r, T g, T b)
-    :
-    r(r),
-    g(g),
-    b(b) { }
-
-  static inline constexpr auto red() -> Color3t
-  {
-    return Color4t<T>(static_cast<T>(1),
-                      static_cast<T>(0),
-                      static_cast<T>(0));
-  }
-  
-  static inline constexpr auto green() -> Color3t
-  {
-    return Color4t<T>(static_cast<T>(0),
-                      static_cast<T>(1),
-                      static_cast<T>(0));
-  }
-  
-  static inline constexpr auto blue() -> Color3t
-  {
-    return Color4t<T>(static_cast<T>(0),
-                      static_cast<T>(0),
-                      static_cast<T>(1));
-  }
-
-  template<glm::precision P = glm::highp>
-  inline auto toVector() const -> glm::detail::tvec3<T, P>
-  {
-    return glm::detail::tvec3<T, P>(r, g, b);
-  }
-
-  inline auto toColor4(T alpha = static_cast<T>(1.0)) const -> Color4t<T>
-  {
-    return Color4t<T>(r, g, b, alpha);
-  }
-
-  T r, g, b;
-};
-
-template<typename T>
-class Color4t {
-public:
-  Color4t(T r, T g, T b, T a)
+  Color(T r, T g, T b, T a)
     :
     r(r),
     g(g),
     b(b),
     a(a) { }
 
-  static inline constexpr auto red() -> Color4t
+  static inline constexpr auto red() -> Color
   {
-    return Color4t<T>(static_cast<T>(1),
-                      static_cast<T>(0),
-                      static_cast<T>(0),
-                      static_cast<T>(1));
+    return Color<T>(static_cast<T>(1),
+                    static_cast<T>(0),
+                    static_cast<T>(0));
   }
 
-  static inline constexpr auto green() -> Color4t
+  static inline constexpr auto green() -> Color
   {
-    return Color4t<T>(static_cast<T>(0),
-                      static_cast<T>(1),
-                      static_cast<T>(0),
-                      static_cast<T>(1));
+    return Color<T>(static_cast<T>(0),
+                    static_cast<T>(1),
+                    static_cast<T>(0));
   }
 
-  static inline constexpr auto blue() -> Color4t
+  static inline constexpr auto blue() -> Color
   {
-    return Color4t<T>(static_cast<T>(0),
-                      static_cast<T>(0),
-                      static_cast<T>(1),
-                      static_cast<T>(1));
+    return Color<T>(static_cast<T>(0),
+                    static_cast<T>(0),
+                    static_cast<T>(1));
   }
 
   template<glm::precision P = glm::highp>
-  inline auto toVector() const -> glm::detail::tvec4<T, P>
+  inline auto toVector4() const -> glm::detail::tvec4<T, P>
   {
     return glm::detail::tvec4<T, P>(r, g, b, a);
   }
 
-  inline auto toColor3() const -> Color3t<T>
+  template<glm::precision P = glm::highp>
+  inline auto toVector3() const -> glm::detail::tvec4<T, P>
   {
-    return Color4t<T>(r, g, b);
+    return glm::detail::tvec4<T, P>(r, g, b, a);
   }
 
   T r, g, b, a;
 };
 
-using Color3  = typename pneu::graphics::Color3t<float>;
-using Color3d = typename pneu::graphics::Color3t<double>;
-using Color4  = typename pneu::graphics::Color4t<float>;
-using Color4d = typename pneu::graphics::Color4t<double>;
+using Colorf = typename pneu::graphics::Color<float>;
+using Colord = typename pneu::graphics::Color<double>;
 
 } // namespace graphics
 

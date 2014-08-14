@@ -57,7 +57,10 @@ public:
     return glm::detail::tvec3<T, P>(r, g, b);
   }
 
-  auto toColor4(T alpha = static_cast<T>(1.0)) const -> Color4t<T>;
+  inline auto toColor4(T alpha = static_cast<T>(1.0)) const -> Color4t<T>
+  {
+    return Color4t<T>(r, g, b, alpha);
+  }
 
   T r, g, b;
 };
@@ -78,24 +81,13 @@ public:
     return glm::detail::tvec4<T, P>(r, g, b, a);
   }
 
-  auto toColor3() const -> Color3t<T>;
+  inline auto toColor3() const -> Color3t<T>
+  {
+    return Color4t<T>(r, g, b);
+  }
 
   T r, g, b, a;
 };
-
-template<typename T>
-auto
-Color3t<T>::toColor4(T alpha) const -> Color4t<T>
-{
-  return Color4t<T>(r, g, b, alpha);
-}
-
-template<typename T>
-auto
-Color4t<T>::toColor3() const -> Color3t<T>
-{
-  return Color4t<T>(r, g, b);
-}
 
 using Color3  = typename pneu::graphics::Color3t<float>;
 using Color3d = typename pneu::graphics::Color3t<double>;

@@ -52,7 +52,7 @@ public:
     b(b) { }
 
   template<glm::precision P = glm::highp>
-  auto toVector() const -> glm::detail::tvec3<T, P>
+  inline auto toVector() const -> glm::detail::tvec3<T, P>
   {
     return glm::detail::tvec3<T, P>(r, g, b);
   }
@@ -73,7 +73,7 @@ public:
     a(a) { }
 
   template<glm::precision P = glm::highp>
-  auto toVector() const -> glm::detail::tvec4<T, P>
+  inline auto toVector() const -> glm::detail::tvec4<T, P>
   {
     return glm::detail::tvec4<T, P>(r, g, b, a);
   }

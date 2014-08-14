@@ -30,6 +30,7 @@ Creating a window
 #include <string>
 #include <iostream>
 
+#include "pneu/graphics/Color.hpp"
 #include "pneu/graphics/Window.hpp"
 #include "pneu/graphics/Renderer.hpp"
 #include "pneu/core/MethodResult.hpp"
@@ -49,7 +50,7 @@ int main(int argc, const char** argv) {
                         });
 
   // set window background to a nice shade of blue
-  window.getRenderer().setBackgroundColor(glm::vec3(0.2f, 0.3f, 0.7f));
+  window.getRenderer().setBackgroundColor(pneu::graphics::Color3(0.2f, 0.3f, 0.7f));
 
   // main event loop
   while (window.isRunning()) {

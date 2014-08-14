@@ -65,7 +65,7 @@ public:
     return fValue;
   }
 
-  operator Degrees<T>() const
+  inline operator Degrees<T>() const
   {
     return toDegrees();
   }
@@ -160,7 +160,7 @@ public:
     return fValue;
   }
 
-  operator Radians<T>() const
+  inline operator Radians<T>() const
   {
     return toRadians();
   }

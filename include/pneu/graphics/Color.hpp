@@ -40,32 +40,18 @@ class Color3t {
 public:
   Color3t(T r, T g, T b)
     :
-    fColVec(r, g, b) { }
+    r(r),
+    g(g),
+    b(b) { }
 
   auto toVector() -> glm::tvec3
   {
-    return fColVec;
+    return glm::tvec3<T>(r, g, b);
   }
 
   auto toColor4(T alpha = static_cast<T>(1.0)) const -> Color4t;
 
-  inline auto r() -> T
-  {
-    return fColVec.r;
-  }
-
-  inline auto g() -> T
-  {
-    return fColVec.g;
-  }
-
-  inline auto b() -> T
-  {
-    return fColVec.b;
-  }
-
-private:
-  glm::tvec3<T> fColVec;
+  T r, g, b;
 }
 
 template<typename T>
@@ -73,39 +59,20 @@ class Color4t {
 public:
   Color4t(T r, T g, T b, T a)
     :
-    fColVec(r, g, b, a) { }
+    r(r),
+    g(g),
+    b(b),
+    a(a) { }
 
-  auto toVector() const -> glm::tvec4
+  auto toVector() const -> glm::tvec4<T>
   {
-    return fColVec;
+    return glm::tvec4<T>(r, g, b, a);
   }
 
   auto toColor3() const -> Color3t;
 
-
-  inline auto r() -> T
-  {
-    return fColVec.r;
-  }
-
-  inline auto g() -> T
-  {
-    return fColVec.g;
-  }
-
-  inline auto b() -> T
-  {
-    return fColVec.b;
-  }
-
-  inline auto a() -> T
-  {
-    return fColVec.a;
-  }
-
-private:
-  glm::vec4<T> fColVec;
-}
+  T r, g, b, a;
+};
 
 template<typename T>
 auto

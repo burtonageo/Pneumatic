@@ -51,6 +51,27 @@ public:
     g(g),
     b(b) { }
 
+  static inline constexpr auto red() -> Color3t
+  {
+    return Color4t<T>(static_cast<T>(1),
+                      static_cast<T>(0),
+                      static_cast<T>(0));
+  }
+  
+  static inline constexpr auto green() -> Color3t
+  {
+    return Color4t<T>(static_cast<T>(0),
+                      static_cast<T>(1),
+                      static_cast<T>(0));
+  }
+  
+  static inline constexpr auto blue() -> Coloret
+  {
+    return Color4t<T>(static_cast<T>(0),
+                      static_cast<T>(0),
+                      static_cast<T>(1));
+  }
+
   template<glm::precision P = glm::highp>
   inline auto toVector() const -> glm::detail::tvec3<T, P>
   {
@@ -74,6 +95,30 @@ public:
     g(g),
     b(b),
     a(a) { }
+
+  static inline constexpr auto red() -> Color4t
+  {
+    return Color4t<T>(static_cast<T>(1),
+                      static_cast<T>(0),
+                      static_cast<T>(0),
+                      static_cast<T>(1));
+  }
+
+  static inline constexpr auto green() -> Color4t
+  {
+    return Color4t<T>(static_cast<T>(0),
+                      static_cast<T>(1),
+                      static_cast<T>(0),
+                      static_cast<T>(1));
+  }
+
+  static inline constexpr auto blue() -> Color4t
+  {
+    return Color4t<T>(static_cast<T>(0),
+                      static_cast<T>(0),
+                      static_cast<T>(1),
+                      static_cast<T>(1));
+  }
 
   template<glm::precision P = glm::highp>
   inline auto toVector() const -> glm::detail::tvec4<T, P>

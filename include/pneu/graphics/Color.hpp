@@ -65,7 +65,7 @@ public:
                       static_cast<T>(0));
   }
   
-  static inline constexpr auto blue() -> Coloret
+  static inline constexpr auto blue() -> Color3t
   {
     return Color4t<T>(static_cast<T>(0),
                       static_cast<T>(0),

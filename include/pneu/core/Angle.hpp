@@ -49,7 +49,7 @@ struct Degrees;
 
 
 template<typename T>
-struct Radians {
+struct Radians final {
 public:
   explicit Radians(const T& val)
     :
@@ -149,7 +149,7 @@ private:
 };
 
 template<typename T>
-struct Degrees {
+struct Degrees final {
 public:
   explicit Degrees(const T& val)
       :

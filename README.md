@@ -51,7 +51,7 @@ int main(int argc, const char** argv) {
 
   // set window background to a nice shade of blue
   window.getRenderer().setBackgroundColor(
-                         pneu::graphics::Color3(0.2f, 0.3f, 0.7f));
+                         pneu::graphics::Color(0.2f, 0.3f, 0.7f));
 
   // main event loop
   while (window.isRunning()) {

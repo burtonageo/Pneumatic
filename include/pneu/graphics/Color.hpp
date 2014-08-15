@@ -36,9 +36,6 @@ namespace pneu {
 
 namespace graphics {
 
-template<typename T>
-class Color;
-
 template<typename T = float>
 class Color final {
 public:

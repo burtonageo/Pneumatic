@@ -150,7 +150,7 @@ pneu::graphics::GlRenderer::addRenderObject(std::weak_ptr<RenderObject> object) 
 }
 
 auto
-pneu::graphics::GlRenderer::setBackgroundColor(const Color<float>& color) -> void
+pneu::graphics::GlRenderer::setBackgroundColor(const Color<>& color) -> void
 {
   fRenImpl->backgroundColor = color.toVector4();
 }

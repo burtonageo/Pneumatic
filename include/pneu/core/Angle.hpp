@@ -40,15 +40,15 @@ template<typename T>
 struct Degrees;
 
 #if defined PNEU_DEFAULT_ANGLE_RADIANS
-  template<typename T>
+  template<typename T = float>
   using Angle = typename pneu::core::Radians<T>;
 #else
-  template<typename T>
+  template<typename T = float>
   using Angle = typename pneu::core::Degrees<T>;
 #endif
 
 
-template<typename T>
+template<typename T = float>
 struct Radians final {
 public:
   explicit Radians(const T& val)
@@ -148,7 +148,7 @@ private:
   T fValue;
 };
 
-template<typename T>
+template<typename T = float>
 struct Degrees final {
 public:
   explicit Degrees(const T& val)

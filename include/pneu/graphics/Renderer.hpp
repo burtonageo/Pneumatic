@@ -43,13 +43,12 @@ template<typename T>
 class Color;
 class RenderObject;
 
-using Colorf = typename pneu::graphics::Color<float>;
 class Renderer {
 public:
   virtual ~Renderer() = 0;  
 
-  virtual auto addRenderObject(std::weak_ptr<pneu::graphics::RenderObject>) -> void = 0;
-  virtual auto setBackgroundColor(const pneu::graphics::Colorf& color)      -> void = 0;
+  virtual auto addRenderObject(std::weak_ptr<pneu::graphics::RenderObject>)  -> void = 0;
+  virtual auto setBackgroundColor(const pneu::graphics::Color<float>& color) -> void = 0;
 };
 
 inline Renderer::~Renderer() = default;

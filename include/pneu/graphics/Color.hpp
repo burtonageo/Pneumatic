@@ -39,7 +39,7 @@ namespace graphics {
 template<typename T>
 class Color;
 
-template<typename T>
+template<typename T = float>
 class Color final {
 public:
   Color(T r, T g, T b, T a = static_cast<T>(1))
@@ -85,7 +85,6 @@ public:
   T r, g, b, a;
 };
 
-using Colorf = typename pneu::graphics::Color<float>;
 using Colord = typename pneu::graphics::Color<double>;
 
 } // namespace graphics

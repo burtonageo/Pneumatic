@@ -35,6 +35,8 @@ project(${PROJECT_NAME})
 #==============
 set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")
 set(GRAPHICS_SRC_DIR "${SRC_DIR}/graphics")
+set(GRAPHICS_SHAPES_SRC_DIR "${GRAPHICS_SRC_DIR}/shapes")
+
 set(CORE_DIR "${SRC_DIR}/core")
 set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
 
@@ -49,7 +51,8 @@ set(SOURCES
 	"${GRAPHICS_SRC_DIR}/Sprite.cpp"
 	"${GRAPHICS_SRC_DIR}/Texture.cpp"
 	"${GRAPHICS_SRC_DIR}/RenderObject.cpp"
-	"${GRAPHICS_SRC_DIR}/Window.cpp")
+	"${GRAPHICS_SRC_DIR}/Window.cpp"
+	"${GRAPHICS_SHAPES_SRC_DIR}/Ellipse.cpp")
 
 include_directories(
 	${SRC_DIR}

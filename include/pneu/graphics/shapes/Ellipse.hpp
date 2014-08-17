@@ -29,6 +29,36 @@
 #ifndef PNEUMATIC_ELLIPSE_HPP
 #define PNEUMATIC_ELLIPSE_HPP
 
+#include "pneu/graphics/Shape.hpp"
+#include "pneu/graphics/Color.hpp"
 
+#define GLM_FORCE_RADIANS
+#include <glm/glm.hpp>
+
+namespace pneu {
+
+namespace graphics {
+
+namespace shapes {
+
+class Ellipse : public pneu::graphics::Shape {
+public:
+  Ellipse(const glm::vec2& position,
+          const Color<>&   color,
+          float            radius);
+
+  virtual auto draw()                    -> void;
+  virtual auto update(double delta_time) -> void ;
+
+private:
+  glm::vec3& position;
+  float radius;
+};
+
+} // namespace shapes
+
+} // namespace graphics
+
+} // namespace pneu
 
 #endif // PNEUMATIC_ELLIPSE_HPP

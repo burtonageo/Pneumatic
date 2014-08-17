@@ -1,12 +1,13 @@
 #include "pneu/graphics/shapes/Ellipse.hpp"
 
-pneu::graphics::shapes::Ellipse::Ellipse()//const glm::vec3& position,
-                                         //const Color<>& color,
-                                         //float radius)
+pneu::graphics::shapes::Ellipse::Ellipse(const glm::vec2& position,
+                                         const Color<>& color,
+                                         float radius)
   :
-  Shape()
-  //fPosition(position),
-  //fRadius(radius)
+  Shape(),
+  fPosition(position),
+  fColor(color),
+  fRadius(radius)
 {
   
 }

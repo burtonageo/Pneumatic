@@ -43,16 +43,17 @@ namespace shapes {
 
 class Ellipse : public pneu::graphics::Shape {
 public:
-  Ellipse();//const glm::vec3& position,
-          //const Color<>&   color,
-          //float            radius);
+  Ellipse(const glm::vec2& position,
+          const Color<>&   color,
+          float            radius);
 
   virtual auto draw()                    -> void;
   virtual auto update(double delta_time) -> void;
 
 private:
-  //glm::vec3& fPosition;
-  //float fRadius;
+  glm::vec2 fPosition;
+  Color<> fColor;
+  float fRadius;
 };
 
 } // namespace shapes

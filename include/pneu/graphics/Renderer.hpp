@@ -50,9 +50,11 @@ public:
   virtual auto addRenderObject(std::weak_ptr<pneu::graphics::RenderObject>)  -> void = 0;
   virtual auto setBackgroundColor(const pneu::graphics::Color<float>& color) -> void = 0;
 
-  template<pneu::graphics::RenderObject R, typename... Args>
-  inline auto addRenderObject<R>(Args&&.. args)                              -> void
+  template<typename R, typename... Args>
+  inline auto addRenderObject(Args&&... args)                                -> void
   {
+    static_assert(std::is_base_of<RenderObject, R>::value,
+                  "Template parameter must be a RenderObject subclass");
     addRenderObject(std::make_shared<R>(args...));
   }
 };

@@ -49,6 +49,12 @@ public:
 
   virtual auto addRenderObject(std::weak_ptr<pneu::graphics::RenderObject>)  -> void = 0;
   virtual auto setBackgroundColor(const pneu::graphics::Color<float>& color) -> void = 0;
+
+  template<pneu::graphics::RenderObject R, typename... Args>
+  inline auto addRenderObject<R>(Args&&.. args)                              -> void
+  {
+    addRenderObject(std::make_shared<R>(args...));
+  }
 };
 
 inline Renderer::~Renderer() = default;

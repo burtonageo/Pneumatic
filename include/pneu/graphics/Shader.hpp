@@ -43,7 +43,7 @@
 #define GLFW_NO_GLU
 #include <GLFW/glfw3.h>
 
-#include "pneu/core/MethodResult.hpp"
+#include "pneu/core/FuncResult.hpp"
 
 typedef GLuint ShaderId;
 

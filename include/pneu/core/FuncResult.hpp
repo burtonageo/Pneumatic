@@ -34,6 +34,8 @@
 #include <memory>
 #include <string>
 
+#include "pneu/core/Forward.hpp"
+
 namespace pneu {
 
 namespace core {
@@ -149,6 +151,60 @@ private:
   const std::string fDescription;
 };
 
+template<>
+class FuncResult<void> final {
+public:
+  static inline auto ok()
+    -> FuncResult<void>
+  {
+    return {true, ""};
+  }
+
+  static inline auto error(const std::string& desc)
+    -> FuncResult<void>
+  {
+    return {false, desc};
+  }
+
+  inline auto isOk() const
+    -> bool
+  {
+    return fOk;
+  }
+  
+  inline auto getError() const
+    -> std::string
+  {
+    return fDescription;
+  }
+
+  inline auto ifNotOk(const std::function<void (void)>& f)
+    -> void
+  {
+    if (!fOk) {
+      f();
+    }
+  }
+
+  inline auto throwIfNotOk(const std::exception& e)
+    -> void
+  {
+    if (!fOk) {
+      throw e;
+    }
+  }
+
+private:
+  FuncResult(bool ok,
+             const std::string& description)
+    :
+    fOk(ok),
+    fDescription(description) { }
+
+  bool fOk;
+  std::string fDescription;
+};
+
 } // namespace core
 
 } // namespace pneu
@@ -158,6 +214,33 @@ private:
   do { \
     if (!var_name.isOk()) { \
       return var_name; \
+    } \
+  } while(0)
+
+#define PNEU_EXCEPT_TO_METHODRES(func) \
+  do { \
+    try { \
+      func; \
+    } catch(const std::exception& e) { \
+      return pneu::Graphics::MethodResult::error(e.what()); \
+    } \
+  }
+
+#define PNEU_TRY_METHOD_ASYNC(func) \
+do { \
+  auto future = std::async(std::launch::async, func); \
+  future.wait(); \
+  pneu::core::MethodResult result = future.get(); \
+  if (!result.isOk()) { \
+    return result; \
+  } \
+} while(0)
+
+#define PNEU_TRY_METHOD(func) \
+  do { \
+    pneu::core::MethodResult result = func; \
+    if (!result.isOk()) { \
+      return result; \
     } \
   } while(0)
 

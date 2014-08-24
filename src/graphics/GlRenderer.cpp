@@ -27,7 +27,7 @@
 #include "GlRenderer.hpp"
 
 #include "pneu/core/Angle.hpp"
-#include "pneu/core/MethodResult.hpp"
+//#include "pneu/core/MethodResult.hpp"
 #include "pneu/core/ResourceLoader.hpp"
 
 #include "pneu/graphics/Camera.hpp"

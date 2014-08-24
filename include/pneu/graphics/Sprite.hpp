@@ -31,7 +31,7 @@
 
 #include "pneu/graphics/RenderObject.hpp"
 
-#include "pneu/core/MethodResult.hpp"
+#include "pneu/core/Forward.hpp"
 
 namespace pneu {
 

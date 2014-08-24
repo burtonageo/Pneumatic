@@ -42,7 +42,9 @@ namespace pneu {
 
 namespace core {
 
-class MethodResult;
+template<typename T>
+class FuncResult;
+using MethodResult = FuncResult<void>;
 
 } // namespace core
 

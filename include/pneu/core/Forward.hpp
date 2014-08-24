@@ -26,48 +26,34 @@
 
 #pragma once
 
-#ifndef PNEUMATIC_TEXTURE_HPP
-#define PNEUMATIC_TEXTURE_HPP
-
-#include <memory>
-#include <string>
-#include <utility>
-
-#define GLEW_STATIC
-#include <GL/glew.h>
-
-#define GLFW_INCLUDE_GL3
-#define GLFW_NO_GLU
-#include <GLFW/glfw3.h>
-
-#include "pneu/core/Forward.hpp"
-
-typedef GLuint TextureId;
+#ifndef PNEU_CORE_FORWARD_HPP
+#define PNEU_CORE_FORWARD_HPP
 
 namespace pneu {
 
-namespace graphics {
+namespace core {
 
-class Shader;
+template<typename T = float>
+struct Radians;
 
-class Texture final {
-public:
-  Texture();
-  Texture(const Texture& other) = delete;
-  ~Texture();
+template<typename T = float>
+struct Degrees;
 
-  auto init(const std::string& file)        -> pneu::core::MethodResult;
+#if defined PNEU_DEFAULT_ANGLE_RADIANS
+	template<typename T = float>
+	using Angle = typename pneu::core::Radians<T>;
+#else
+	template<typename T = float>
+	using Angle = typename pneu::core::Degrees<T>;
+#endif
 
-  auto bind(std::shared_ptr<Shader> shader) -> void;
-  auto unbind()                             -> void;
-  inline auto getObject() const             -> TextureId {return fObject;}
+template<typename T>
+class FuncResult;
 
-private:
-  TextureId fObject;
-};
+using MethodResult = FuncResult<void>;
 
-} // namespace graphics
+} // namespace core
 
 } // namespace pneu
 
-#endif // PNEUMATIC_TEXTURE_HPP
+#endif // PNEU_CORE_FORWARD_HPP

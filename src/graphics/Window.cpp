@@ -27,7 +27,7 @@
 #include "pneu/graphics/Window.hpp"
 
 #include "pneu/graphics/RenderObject.hpp"
-#include "pneu/core/MethodResult.hpp"
+#include "pneu/core/FuncResult.hpp"
 
 #define GLEW_STATIC
 #include <GL/glew.h>

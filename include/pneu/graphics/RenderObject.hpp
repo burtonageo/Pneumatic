@@ -29,6 +29,8 @@
 #ifndef PNEUMATIC_RENDEROBJECT_HPP
 #define PNEUMATIC_RENDEROBJECT_HPP
 
+#include "pneu/core/Forward.hpp"
+
 #include <iostream>
 #include <vector>
 
@@ -36,12 +38,6 @@
 #include <glm/glm.hpp>
 
 namespace pneu {
-
-namespace core {
-
-class MethodResult;
-
-} // namespace core
 
 namespace graphics {
 

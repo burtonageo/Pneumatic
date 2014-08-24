@@ -28,6 +28,8 @@
 
 #include "pneu/graphics/Shader.hpp"
 
+#include "pneu/core/FuncResult.hpp"
+
 #include <SOIL.h>
 
 pneu::graphics::Texture::Texture()

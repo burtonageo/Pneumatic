@@ -33,9 +33,19 @@ namespace pneu {
 
 namespace core {
 
+/**
+ * A strongly-typed Radian value
+ *
+ * In Pneumatic, angle measurements are strongly typed to
+ * ensure that developers know which units they are using.
+ */
 template<typename T = float>
 struct Radians;
 
+/**
+ * A strongly-typed Degree value
+ *
+ */
 template<typename T = float>
 struct Degrees;
 
@@ -47,6 +57,10 @@ struct Degrees;
 	using Angle = typename pneu::core::Degrees<T>;
 #endif
 
+/**
+ * A result from an operation which may fail
+ *
+ */
 template<typename T>
 class FuncResult;
 

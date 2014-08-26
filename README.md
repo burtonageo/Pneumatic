@@ -33,11 +33,7 @@ Creating a window
 #include "pneu/graphics/Color.hpp"
 #include "pneu/graphics/Window.hpp"
 #include "pneu/graphics/Renderer.hpp"
-#include "pneu/core/MethodResult.hpp"
-
-#define GLM_FORCE_CXX11
-#define GLM_FORCE_RADIANS
-#include <glm/glm.hpp>
+#include "pneu/core/FuncResult.hpp"
 
 int main(int argc, const char** argv) {
   // declare window

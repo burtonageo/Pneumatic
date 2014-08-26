@@ -27,4 +27,6 @@ build/
 target/
 
 # Third party files
-thirdparty/
+thirdparty/glfw
+thirdparty/SOIL
+thirdparty/glm

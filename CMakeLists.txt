@@ -62,11 +62,9 @@ include_directories(
 # System OpenGL and GLEW
 #========================
 find_package(OpenGL REQUIRED)
-find_package(GLEW REQUIRED)
 
 include_directories(
 	${OPENGL_INCLUDE_DIRS}
-	${GLEW_INCLUDE_DIRS}
 	${GLU_INCLUDE_DIRS})
 
 # SOIL
@@ -101,6 +99,13 @@ add_subdirectory(${GLM_INCLUDE_DIRS})
 link_directories(${GLM_INCLUDE_DIRS})
 include_directories(${GLM_INCLUDE_DIRS})
 
+# GLEW
+#======
+set (GLEW_DIR "${PROJECT_SOURCE_DIR}/thirdparty/glew")
+add_subdirectory (${GLEW_DIR})
+link_directories (${GLEW_DIR})
+include_directories (${GLEW_INCLUDE_DIR})
+
 # Project build
 #===============
 add_library(${PROJECT_NAME} ${SOURCES})
@@ -111,7 +116,6 @@ add_definitions(
 
 target_link_libraries(${PROJECT_NAME}
 	${SOIL_LIBRARIES}
-	${GLFW_LINK}
 	${GLFW_LIBRARIES}
 	${OPENGL_LIBRARIES}
 	${GLEW_LIBRARIES}

@@ -5,7 +5,7 @@ compiler:
 
 before-install:
   - sudo apt-get update -qq
-  - sudo apt-get install glew-dev doxygen x11proto-xf86vidmode-dev
+  - sudo apt-get install doxygen x11proto-xf86vidmode-dev
 
 install:
   - git submodule init

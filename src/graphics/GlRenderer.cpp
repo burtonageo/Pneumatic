@@ -27,7 +27,6 @@
 #include "GlRenderer.hpp"
 
 #include "pneu/core/Angle.hpp"
-//#include "pneu/core/MethodResult.hpp"
 #include "pneu/core/ResourceLoader.hpp"
 
 #include "pneu/graphics/Camera.hpp"
@@ -89,7 +88,7 @@ static auto _updateShaderMatrices(GLuint program,
 static auto _initGlew() -> pneu::core::MethodResult
 {
    glewExperimental = GL_TRUE;
- 
+
    GLenum err = glewInit();
    if (err != GLEW_OK) {
      const size_t max_buf_len = 80;
@@ -100,7 +99,7 @@ static auto _initGlew() -> pneu::core::MethodResult
    }
 
    glGetError(); // clear out errors
-   return pneu::core::MethodResult::ok();  
+   return pneu::core::MethodResult::ok();
 }
 
 bool pneu::graphics::GlRenderer::sGlewInitialized = false;

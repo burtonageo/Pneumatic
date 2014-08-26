@@ -30,6 +30,7 @@
 #define PNEUMATIC_CORE_FUNCRESULT_HPP
 
 #include <cassert>
+#include <exception>
 #include <functional>
 #include <memory>
 #include <string>
@@ -189,21 +190,21 @@ public:
     return fDescription;
   }
 
-  inline auto ifNotOk(const std::function<void (void)>& f) -> void
+  inline auto onError(const std::function<void (void)>& f) -> void
   {
     if (!fOk) {
       f();
     }
   }
 
-  inline auto throwIfNotOk(const std::exception& e) -> void
+  inline auto throwOnError(const std::exception& e) -> void
   {
     if (!fOk) {
       throw e;
     }
   }
 
-  inline auto throwIfNotOk() -> void
+  inline auto throwOnError() -> void
   {
     if (!fOk) {
       throw FuncResultException(fDescription);

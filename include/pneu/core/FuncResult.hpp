@@ -190,10 +190,10 @@ public:
     return fDescription;
   }
 
-  inline auto onError(const std::function<void (void)>& f) -> void
+  inline auto onError(const std::function<void (const std::string&)>& f) -> void
   {
     if (!fOk) {
-      f();
+      f(fDescription);
     }
   }
 

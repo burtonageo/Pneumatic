@@ -26,8 +26,8 @@
 
 #pragma once
 
-#ifndef PNEUMATIC_FUNCRESULT_HPP
-#define PNEUMATIC_FUNCRESULT_HPP
+#ifndef PNEUMATIC_CORE_FUNCRESULT_HPP
+#define PNEUMATIC_CORE_FUNCRESULT_HPP
 
 #include <cassert>
 #include <functional>
@@ -260,4 +260,4 @@ do { \
     } \
   } while(0)
 
-#endif // PNEUMATIC_FUNCRESULT_HPP
+#endif // PNEUMATIC_CORE_FUNCRESULT_HPP

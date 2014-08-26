@@ -26,8 +26,8 @@
 
 #pragma once
 
-#ifndef PNEUMATIC_RESOURCE_LOADER_HPP
-#define PNEUMATIC_RESOURCE_LOADER_HPP
+#ifndef PNEUMATIC_CORE_RESOURCE_LOADER_HPP
+#define PNEUMATIC_CORE_RESOURCE_LOADER_HPP
 
 #include <string>
 
@@ -45,4 +45,4 @@ namespace ResourceLoader {
 
 } // namespace pneu
 
-#endif // PNEUMATIC_RESOURCE_LOADER_HPP
+#endif // PNEUMATIC_CORE_RESOURCE_LOADER_HPP

@@ -26,8 +26,8 @@
 
 #pragma once
 
-#ifndef PNEUMATIC_MATHUTIL_HPP
-#define PNEUMATIC_MATHUTIL_HPP
+#ifndef PNEUMATIC_CORE_MATHUTIL_HPP
+#define PNEUMATIC_CORE_MATHUTIL_HPP
 
 namespace pneu {
 
@@ -55,4 +55,4 @@ auto radiansToDegrees(const T& value) -> T
 
 } // namespace pneu
 
-#endif // PNEUMATIC_MATHUTIL_HPP
+#endif // PNEUMATIC_CORE_MATHUTIL_HPP

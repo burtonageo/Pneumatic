@@ -26,8 +26,8 @@
 
 #pragma once
 
-#ifndef PNEUMATIC_ANGLE_HPP
-#define PNEUMATIC_ANGLE_HPP
+#ifndef PNEUMATIC_CORE_ANGLE_HPP
+#define PNEUMATIC_CORE_ANGLE_HPP
 
 #include "pneu/core/Forward.hpp"
 
@@ -239,4 +239,4 @@ private:
 
 } // namespace pneu
 
-#endif // PNEUMATIC_ANGLE_HPP
+#endif // PNEUMATIC_CORE_ANGLE_HPP

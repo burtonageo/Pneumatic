@@ -117,6 +117,7 @@ add_definitions(
 target_link_libraries(${PROJECT_NAME}
 	${SOIL_LIBRARIES}
 	${GLFW_LIBRARIES}
+	${GLFW_LINK}
 	${OPENGL_LIBRARIES}
 	${GLEW_LIBRARIES}
 	${GLU_LIBRARIES})

@@ -105,6 +105,7 @@ set (GLEW_DIR "${PROJECT_SOURCE_DIR}/thirdparty/glew")
 add_subdirectory (${GLEW_DIR})
 link_directories (${GLEW_DIR})
 include_directories (${GLEW_INCLUDE_DIR})
+message("${GLEW_LIB_DIR}")
 
 # Project build
 #===============
@@ -113,6 +114,8 @@ add_library(${PROJECT_NAME} ${SOURCES})
 add_definitions(
 	-std=c++1y
 	-Wall)
+	
+message("${GLEW_LIBRARIES}")
 
 target_link_libraries(${PROJECT_NAME}
 	${SOIL_LIBRARIES}

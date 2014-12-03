@@ -47,6 +47,11 @@ public:
    * Constructs a colour with a custom value for each component.
    * For floating point types, each component should take the value
    * 0 <= x <= 1.0.
+   *
+   * @param r The red component.
+   * @param g The green component.
+   * @param b The blue component.
+   * @param a The alpha component.
    */
   Color(T r, T g, T b, T a = static_cast<T>(1))
     :
@@ -90,8 +95,9 @@ public:
 
   /**
    * Returns the color as a glm::tvec4<T>, where T is
-   * the templated type for the class instance. The format
-   * of the vector is [R, G, B, A].
+   * the templated type for the class instance.
+   *
+   * @return The color vector. The format is [R, G, B, A].
    */
   template<glm::precision P = glm::highp>
   inline auto toVector4() const -> glm::detail::tvec4<T, P>
@@ -101,8 +107,9 @@ public:
 
   /**
    * Returns the color as a glm::tvec3<T>, where T is
-   * the templated type for the class instance. The format
-   * of the vector is [R, G, B].
+   * the templated type for the class instance.
+   *
+   * @return The color vector. The format is [R, G, B].
    */
   template<glm::precision P = glm::highp>
   inline auto toVector3() const -> glm::detail::tvec3<T, P>

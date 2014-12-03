@@ -49,6 +49,12 @@ struct Radians;
 template<typename T = float>
 struct Degrees;
 
+/**
+ * A default angle value configurable at compile time. By
+ * default, it is set to degrees, but can be overridden by
+ * defining the macro constant PNEU_DEFAULT_ANGLE_RADIANS.
+ *
+ */
 #if defined PNEU_DEFAULT_ANGLE_RADIANS
 	template<typename T = float>
 	using Angle = typename pneu::core::Radians<T>;
@@ -64,6 +70,13 @@ struct Degrees;
 template<typename T>
 class FuncResult;
 
+/**
+ * An alternative name for a void FuncResult to
+ * indicate that this class may be used for methods
+ * and functions which mutate state, but do not return
+ * a value.
+ *
+ */
 using MethodResult = FuncResult<void>;
 
 } // namespace core

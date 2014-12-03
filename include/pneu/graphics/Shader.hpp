@@ -77,7 +77,7 @@ private:
   auto _setDefaultAttributes()                              -> void;
 
   auto _compileShader(ShaderId, const std::string& file_path) -> pneu::core::MethodResult;
-  auto _linkShaderProgram()                                 -> pneu::core::MethodResult;
+  auto _linkShaderProgram()                                   -> pneu::core::MethodResult;
 
   bool fBound;
   ShaderId fProgramId;

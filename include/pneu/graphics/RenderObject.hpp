@@ -46,9 +46,22 @@ class Shader;
 class ShaderUpdateMixin;
 class Texture;
 
+/**
+ * An abstract object which can be drawn in a renderer. Is made
+ * up of a mesh and a collection of shaders and textures.
+ *
+ * @note textures and shaders can be shared among multiple RenderObjects
+ */
 class RenderObject {
 public:
+  /**
+   * constructor
+   */
   RenderObject();
+
+  /**
+   * destructor
+   */
   virtual ~RenderObject();
 
   virtual auto update(double delta_time)         -> void = 0;

@@ -38,7 +38,16 @@ namespace pneu {
 namespace core {
 
 namespace ResourceLoader {
-  auto loadTextFile(const std::string&) -> pneu::core::FuncResult<std::string>;
+  
+/**
+ * Loads a text file from the path and
+ * @param path The path to the text file
+ * @return The result is valid if the text file was opened and parsed properly.
+ *         If there was an error (e.g. file doesn't exist, file is corrupt,
+ *         then the result will be an error.
+ */
+auto loadTextFile(const std::string&) -> pneu::core::FuncResult<std::string>;
+
 }
 
 } // namespace core

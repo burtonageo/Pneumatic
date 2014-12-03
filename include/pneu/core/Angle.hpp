@@ -61,7 +61,7 @@ public:
   {
     return fValue == other.fValue;
   }
-  
+
   inline auto operator!= (const Radians<T>& other) const -> bool
   {
     return !operator==(this, other);
@@ -81,7 +81,7 @@ public:
   {
     return operator>(this, other) || operator==(this, other);
   }
-  
+
   inline auto operator<= (const Radians<T>& other) const -> bool
   {
     return operator<(this, other) || operator==(this, other);
@@ -112,19 +112,19 @@ public:
     fValue += other.fValue;
     return *this;
   }
-  
+
   inline auto operator-= (const Radians<T>& other) -> Radians<T>&
   {
     fValue -= other.fValue;
     return *this;
   }
-  
+
   inline auto operator*= (const Radians<T>& other) -> Radians<T>&
   {
     fValue *= other.fValue;
     return *this;
   }
-  
+
   inline auto operator/= (const Radians<T>& other) -> Radians<T>&
   {
     fValue /= other.fValue;
@@ -171,17 +171,17 @@ public:
   {
     return fValue > other.fValue;
   }
-  
+
   inline auto operator< (const Degrees<T>& other) const -> bool
   {
     return fValue < other.fValue;
   }
-  
+
   inline auto operator>= (const Degrees<T>& other) const -> bool
   {
     return operator>(this, other) || operator==(this, other);
   }
-  
+
   inline auto operator<= (const Degrees<T>& other) const -> bool
   {
     return operator<(this, other) || operator==(this, other);
@@ -212,19 +212,19 @@ public:
     fValue += other.fValue;
     return *this;
   }
-  
+
   inline auto operator-= (const Degrees<T>& other) -> Degrees<T>&
   {
     fValue -= other.fValue;
     return *this;
   }
-  
+
   inline auto operator*= (const Degrees<T>& other) -> Degrees<T>&
   {
     fValue *= other.fValue;
     return *this;
   }
-  
+
   inline auto operator/= (const Degrees<T>& other) -> Degrees<T>&
   {
     fValue /= other.fValue;

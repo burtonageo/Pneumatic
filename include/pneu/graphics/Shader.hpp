@@ -114,7 +114,7 @@ public:
    * Returns a handle to the shader object in gpu memory.
    * @return The numerical id of the shader.
    */
-  auto getShaderProgram() const                             -> ShaderId;
+  auto getShaderProgram() const                             -> ShaderId { return fProgramId; }
 
   /**
    * Binds the shader so that it is in use for the next operation.

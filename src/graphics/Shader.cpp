@@ -168,12 +168,6 @@ pneu::graphics::Shader::initWithCode(const std::string& vert_source,
 }
 
 auto
-pneu::graphics::Shader::getShaderProgram() const -> ShaderId
-{
-  return fProgramId;
-}
-
-auto
 pneu::graphics::Shader::bind() -> void
 {
   if (!fBound && fProgramId != 0) {

@@ -36,9 +36,18 @@ namespace pneu {
 
 namespace graphics {
 
+/**
+ * Represents an RGBA color. The type of each component is
+ * templated.
+ */
 template<typename T = float>
 class Color final {
 public:
+  /**
+   * Constructs a colour with a custom value for each component.
+   * For floating point types, each component should take the value
+   * 0 <= x <= 1.0.
+   */
   Color(T r, T g, T b, T a = static_cast<T>(1))
     :
     r(r),
@@ -46,6 +55,10 @@ public:
     b(b),
     a(a) { }
 
+  /**
+   * Creates the color red (equivelent to
+   * [1, 0, 0, 1]).
+   */
   static inline constexpr auto red() -> Color
   {
     return Color<T>(static_cast<T>(1),
@@ -53,6 +66,10 @@ public:
                     static_cast<T>(0));
   }
 
+  /**
+   * Creates the color green (equivelent to
+   * [0, 1, 0, 1]).
+   */
   static inline constexpr auto green() -> Color
   {
     return Color<T>(static_cast<T>(0),
@@ -60,6 +77,10 @@ public:
                     static_cast<T>(0));
   }
 
+  /**
+   * Creates the color blue (equivelent to
+   * [0, 0, 1, 1]).
+   */
   static inline constexpr auto blue() -> Color
   {
     return Color<T>(static_cast<T>(0),
@@ -67,12 +88,22 @@ public:
                     static_cast<T>(1));
   }
 
+  /**
+   * Returns the color as a glm::tvec4<T>, where T is
+   * the templated type for the class instance. The format
+   * of the vector is [R, G, B, A].
+   */
   template<glm::precision P = glm::highp>
   inline auto toVector4() const -> glm::detail::tvec4<T, P>
   {
     return glm::detail::tvec4<T, P>(r, g, b, a);
   }
 
+  /**
+   * Returns the color as a glm::tvec3<T>, where T is
+   * the templated type for the class instance. The format
+   * of the vector is [R, G, B].
+   */
   template<glm::precision P = glm::highp>
   inline auto toVector3() const -> glm::detail::tvec3<T, P>
   {

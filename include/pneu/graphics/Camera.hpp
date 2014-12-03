@@ -2,24 +2,24 @@
  * This file is part of the pneumatic game engine
  *
  * Copyright (c) 2014 George Burton
- * 
+ *
  * THIS SOFTWARE IS PROVIDED 'AS-IS', WITHOUT ANY EXPRESS OR IMPLIED
  * WARRANTY. IN NO EVENT WILL THE AUTHORS BE HELD LIABLE FOR ANY DAMAGES
  * ARISING FROM THE USE OF THIS SOFTWARE.
- * 
- * Permission is granted to anyone to use this software for any purpose,  
- * including commercial applications, and to alter it and redistribute it  
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
  * freely, subject to the following restrictions:
- * 
- *    1. The origin of this software must not be misrepresented; you must not  
- *       claim that you wrote the original software. If you use this software  
- *       in a product, an acknowledgment in the product documentation would be  
+ *
+ *    1. The origin of this software must not be misrepresented; you must not
+ *       claim that you wrote the original software. If you use this software
+ *       in a product, an acknowledgment in the product documentation would be
  *       appreciated but is not required.
- * 
- *    2. Altered source versions must be plainly marked as such, and must not be  
+ *
+ *    2. Altered source versions must be plainly marked as such, and must not be
  *       misrepresented as being the original software.
- * 
- *    3. This notice may not be removed or altered from any source  
+ *
+ *    3. This notice may not be removed or altered from any source
  *       distribution.
  *
  **/
@@ -40,8 +40,24 @@ namespace pneu {
 namespace graphics {
 
 class GlRenderer;
+
+/**
+ * A camera for navigating a Renderer. This provides a convenient
+ * interface for manipulating the viewpoint of a window.
+ */
 class Camera final {
 public:
+  /**
+   * Default constuctor.
+   *
+   * @param fov Field of view in degrees. Default is 45.
+   * @param zoom Camera zoom. Default is 1.0 (no zoom).
+   * @param near_clip Minimum distance from the camera for objects to be drawn. Default is 0.1.
+   * @param far_clip Maximum distance from the camera for objects to be drawn. Default is 100.0.
+   * @param cam_size Size of the camera frame. Default is (600, 800).
+   * @param cam_position Position of the camera in 3d space. Default is [1.0, 1.0, 1.0].
+   * @param targ_position Point for camera to look at. Default is [0.0, 0.0, 0.0].
+   */
   Camera(const pneu::core::Degrees<float>& fov = pneu::core::Degrees<float>(45.0f),
          float zoom                            = 1.0f,
          float near_clip                       = 0.1f,
@@ -50,6 +66,17 @@ public:
          const glm::vec3& cam_position         = glm::vec3(1.0f),
          const glm::vec3& targ_position        = glm::vec3(0.0f));
 
+  /**
+   * Constructor for defining the fov in radians.
+   *
+   * @param fov Field of view in radians.
+   * @param zoom Camera zoom. Default is 1.0 (no zoom).
+   * @param near_clip Minimum distance from the camera for objects to be drawn. Default is 0.1.
+   * @param far_clip Maximum distance from the camera for objects to be drawn. Default is 100.0.
+   * @param cam_size Size of the camera frame. Default is (600, 800).
+   * @param cam_position Position of the camera in 3d space. Default is [1.0, 1.0, 1.0].
+   * @param targ_position Point for camera to look at. Default is [0.0, 0.0, 0.0].
+   */
   Camera(const pneu::core::Radians<float>& fov,
          float zoom                            = 1.0f,
          float near_clip                       = 0.1f,
@@ -58,17 +85,76 @@ public:
          const glm::vec3& cam_position         = glm::vec3(1.0f),
          const glm::vec3& targ_position        = glm::vec3(0.0f));
 
+  /**
+   * Get the width of the camera view frame.
+   *
+   * @return Width of frame.
+   */
   auto getWidth() const                                              -> int;
+
+  /**
+   * Get the height of the camera view frame.
+   *
+   * @return height of frame.
+   */
   auto getHeight() const                                             -> int;
 
+  /**
+   * Get the position of the camera view frame.
+   *
+   * @return Position of the camera in 3d space.
+   */
   auto getPosition() const                                           -> glm::vec2;
+
+  /**
+   * Set the position of the camera.
+   *
+   * @param new_pos Position to move the camera to.
+   */
   auto setPosition(const glm::vec3& new_pos)                         -> void;
 
+  /**
+   * Get the field of view in the default angle type.
+   *
+   * @return Field of view.
+   * @note Internally the field of view is stored in Radians, so if the
+   *       default angle type is set to degrees, this value must
+   *       be calculated.
+   */
   auto getFieldOfView() const                                        -> pneu::core::Angle<float>;
+
+  /**
+   * Get the field of view in radians.
+   *
+   * @return Field of view.
+   * @note Internally the field of view is stored in Radians, so no conversion
+   *       calculation has to be performed when retrieving this value.
+   */
   auto getFieldOfViewRadians() const                                 -> pneu::core::Radians<float>;
+
+  /**
+   * Get the field of view in degrees.
+   *
+   * @return Field of view.
+   * @note Internally the field of view is stored in Radians, so this
+   *       value must be calculated.
+   */
   auto getFieldOfViewDegrees() const                                 -> pneu::core::Degrees<float>;
 
+  /**
+   * Set the field of view in degrees.
+   *
+   * @param fov_degrees Field of view.
+   * @note Internally the field of view is stored in Radians, so this
+   *       value must be converted before it is set.
+   */
   auto setFieldOfView(const pneu::core::Degrees<float>& fov_degrees) -> void;
+
+  /**
+   * Set the field of view in radians.
+   *
+   * @param fov_radians Field of view.
+   */
   auto setFieldOfView(const pneu::core::Radians<float>& fov_radians) -> void;
 
   auto getZoom() const                                               -> float;

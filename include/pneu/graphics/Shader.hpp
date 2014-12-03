@@ -51,26 +51,79 @@ namespace pneu {
 
 namespace graphics {
 
+/**
+ * A class to encapsulate a graphical shader written in
+ * GLSL for OpenGL. Does not support compute shaders.
+ */
 class Shader final {
 public:
+  /**
+   * Creates an unitialised shader.
+   *
+   * @note Initialise it using either the loadFromFile or the
+   *       initWithCode methods to create a shader on the GPU
+   *       from a source string or file.
+   */
   Shader();
+
+  /**
+   * Destroys the shader, and frees the GPU shader resource.
+   */
   ~Shader();
 
+  /**
+   * Initialises the shader with the contents of the source files.
+   *
+   * @param vert_file The vertex shader file
+   * @param frag_file The fragment shader file
+   * @param geom_file The geometry shader file. This parameter is optional.
+   * @param tcs_file  The tessalation control shader file. This parameter is optional.
+   * @param tes_file  The tesselation evaluation shader file. This parameter is optional.
+   *
+   * @return Whether the shader was successfully initialised from the shader files.
+   *         Fails if any files could not be loaded or the vertex shader or fragment
+   *         shader files are not present, or there was a syntax error in the shaders.
+   */
   auto loadFromFile(const std::string& vert_file,
                     const std::string& frag_file,
                     const std::string& geom_file = "",
                     const std::string& tcs_file  = "",
                     const std::string& tes_file  = "")      -> pneu::core::MethodResult;
 
+  /**
+   * Initialises the shader with inline code from a string variable.
+   *
+   * @param vert_source The vertex shader source.
+   * @param frag_source The fragment shader source.
+   * @param geom_source The geometry shader source. This parameter is optional.
+   * @param tcs_source  The tessalation control shader source. This parameter is optional.
+   * @param tes_source  The tesselation evaluation shader source. This parameter is optional.
+   *
+   * @return Whether the shader was successfully initialised from the shader sources.
+   *         Fails if either vert_source or frag_source are blank, or if there are any
+   *         errors.
+   *
+   */
   auto initWithCode(const std::string& vert_source,
                     const std::string& frag_source,
                     const std::string& geom_source = "",
                     const std::string& tcs_source  = "",
                     const std::string& tes_source  = "")    -> pneu::core::MethodResult;
 
+  /**
+   * Returns a handle to the shader object in gpu memory.
+   * @return The numerical id of the shader.
+   */
   auto getShaderProgram() const                             -> ShaderId;
 
+  /**
+   * Binds the shader so that it is in use for the next operation.
+   */
   auto bind()                                               -> void;
+
+  /**
+   * Unbind the shader.
+   */
   auto unbind()                                             -> void;
 
 private:

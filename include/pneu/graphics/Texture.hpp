@@ -50,17 +50,60 @@ namespace graphics {
 
 class Shader;
 
+/**
+ * Represents a texture resource available on the GPU. Currently
+ * only supports textures from files (no procedural textures).
+ */
 class Texture final {
 public:
+  /**
+   * Constructs an uninitialised texture. To create a GPU texture, call
+   * the init() method.
+   */
   Texture();
+
+  /**
+   * Textures cannot be copied.
+   */
   Texture(const Texture& other) = delete;
+
+  /**
+   * Deletes the texture from the GPU.
+   */
   ~Texture();
 
+  /**
+   * Loads a texture from a file. Valid formats are:
+   *   - BMP
+   *   - PNG
+   *   - JPG
+   *   - TGA
+   *   - DDS
+   *   - PSD
+   *   - HDR
+   *
+   * @param file Path to the texture file.
+   *
+   * @return Whether the load operation was successful.
+   */
   auto init(const std::string& file)        -> pneu::core::MethodResult;
 
+  /**
+   * Binds a texture so that it is in use on the GPU.
+   *
+   * @param shader Shader to bind the texture to.
+   */
   auto bind(std::shared_ptr<Shader> shader) -> void;
+
+  /**
+   * Unbinds a texture.
+   */
   auto unbind()                             -> void;
-  inline auto getObject() const             -> TextureId {return fObject;}
+
+  /**
+   * Returns handle to texture object on the GPU.
+   */
+  auto getObject() const                    -> TextureId {return fObject;}
 
 private:
   TextureId fObject;

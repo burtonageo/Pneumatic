@@ -157,21 +157,91 @@ public:
    */
   auto setFieldOfView(const pneu::core::Radians<float>& fov_radians) -> void;
 
+  /**
+   * Get the zoom of the camera.
+   *
+   * @return Zoom.
+   */
   auto getZoom() const                                               -> float;
+
+  /**
+   * Set the zoom of the camera
+   *
+   * @param Zoom.
+   */
   auto setZoom(float zoom)                                           -> void;
+
+  /**
+   * Zoom the camera in. Is essentially (current_zoom - zoom_parameter).
+   *
+   * @param zoom Amount to zoom in by. If it is negative, the camera will
+   *             zoom out.
+   */
   auto zoomInBy(float zoom)                                          -> void;
+
+  /**
+   * Zoom the camera out. Is essentially (current_zoom + zoom_parameter).
+   *
+   * @param zoom Amount to zoom out by. If it is negative, the camera will
+   *             zoom in.
+   */
   auto zoomOutBy(float zoom)                                         -> void;
 
+  /**
+   * Get the near clip of the camera.
+   *
+   * @return Near clip.
+   */
   auto getNearClip() const                                           -> float;
+
+  /**
+   * Set the near clip of the camera.
+   *
+   * @param near_clip The new near clipping distance.
+   */
   auto setNearClip(float near_clip)                                  -> void;
 
+  /**
+   * Get the far clip of the camera.
+   *
+   * @return Far clip.
+   */
   auto getFarClip() const                                            -> float;
+
+  /**
+   * Set the far clip of the camera
+   *
+   * @param far_clip The new far clipping distance.
+   */
   auto setFarClip(float far_clip)                                    -> void;
 
+  /**
+   * Get the size of the camera viewport as a 2D vector.
+   *
+   * @return The camera viewport size.
+   */
   auto getRenderSize() const                                         -> glm::uvec2;
+
+  /**
+   * Get the aspect ratio of the camera. This is calculated by the camera
+   * width / camera height.
+   *
+   * @return The aspect ratio.
+   */
   auto getAspectRatio() const                                        -> float;
+
+  /**
+   * Get the zoomed field of view. This is calculated by fov * zoom
+   *
+   * @return Zoomed field of view.
+   */
   auto getZoomedFieldOfView() const                                  -> float;
 
+  /**
+   * Pan the camera across the screen.
+   *
+   * @param direction Direction in x and y to pan by.
+   */
   auto pan(const glm::vec2& direction)                               -> void;
 
 private:

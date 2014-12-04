@@ -33,15 +33,23 @@
 #include <utility>
 #include <vector>
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation"
+
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
+#pragma clang diagnostic ignored "-Wundefined-reinterpret-cast"
+#pragma clang diagnostic ignored "-Wundef"
+#pragma clang diagnostic ignored "-Wshadow"
+#pragma clang diagnostic ignored "-Wold-style-cast"
+#pragma clang diagnostic ignored "-Wdeprecated"
+#pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 
-#define GLEW_STATIC
-#include <GL/glew.h>
-
-#define GLFW_INCLUDE_GL3
-#define GLFW_NO_GLU
-#include <GLFW/glfw3.h>
+#pragma clang diagnostic pop
 
 #include "pneu/core/FuncResult.hpp"
 
@@ -135,7 +143,7 @@ private:
   bool fBound;
   ShaderId fProgramId;
 };
-
+/*
 // Used to update shaders
 class ShaderUpdateMixin {
 public:
@@ -147,7 +155,7 @@ public:
   virtual auto update(double delta_time) -> void = 0;
   std::shared_ptr<pneu::graphics::Shader> fShader;
 };
-
+*/
 } // namespace graphics
 
 } // namespace pneu

@@ -33,9 +33,6 @@
 #include <string>
 #include <vector>
 
-#define GLFW_INCLUDE_GL3
-#define GLFW_NO_GLU
-#include <GLFW/glfw3.h>
 
 static inline auto
 _getShaderFileSuffix(GLenum shader_type) -> pneu::core::FuncResult<std::string>
@@ -215,7 +212,7 @@ pneu::graphics::Shader::_compileShader(ShaderId shader_id,
     int info_log_length;
     glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &info_log_length);
 
-    std::vector<char> error_msg_vec(info_log_length);
+    std::vector<char> error_msg_vec(static_cast<size_t>(info_log_length));
     glGetShaderInfoLog(shader_id, info_log_length, NULL, error_msg_vec.data());
 
     return pneu::core::MethodResult::error(std::string(error_msg_vec.begin(),
@@ -238,7 +235,8 @@ pneu::graphics::Shader::_linkShaderProgram() -> pneu::core::MethodResult
     int info_log_length;
     glGetProgramiv(fProgramId, GL_INFO_LOG_LENGTH, &info_log_length);
 
-    std::vector<char> error_msg_vec(std::max(info_log_length, 1));
+    const size_t error_vec_len = static_cast<size_t>(std::max(info_log_length, 1));
+    std::vector<char> error_msg_vec(error_vec_len);
     glGetProgramInfoLog(fProgramId, info_log_length, NULL, error_msg_vec.data());
 
     return pneu::core::MethodResult::error(std::string(error_msg_vec.begin(),

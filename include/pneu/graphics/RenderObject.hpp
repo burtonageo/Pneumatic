@@ -35,7 +35,13 @@
 #include <vector>
 
 #pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+#pragma clang diagnostic ignored "-Wdocumentation"
 #pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#pragma clang diagnostic ignored "-Wold-style-cast"
+#pragma clang diagnostic ignored "-Wshadow"
+#pragma clang diagnostic ignored "-Wundef"
+#pragma clang diagnostic ignored "-Wundefined-reinterpret-cast"
 
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>

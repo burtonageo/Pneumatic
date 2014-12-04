@@ -113,6 +113,7 @@ add_definitions(
 	-Wpedantic
 	-Wno-c++98-compat
 	-Wno-c++98-compat-pedantic
+	-Wno-padded
 	-fno-exceptions
 	-fno-rtti)
 

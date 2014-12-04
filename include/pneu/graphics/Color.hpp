@@ -31,6 +31,12 @@
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
+#pragma clang diagnostic ignored "-Wundefined-reinterpret-cast"
+#pragma clang diagnostic ignored "-Wundef"
+#pragma clang diagnostic ignored "-Wshadow"
+#pragma clang diagnostic ignored "-Wold-style-cast"
+#pragma clang diagnostic ignored "-Wdeprecated"
+#pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
@@ -53,17 +59,17 @@ public:
    * For floating point types, each component should take the value
    * 0 <= x <= 1.0.
    *
-   * @param r The red component.
-   * @param g The green component.
-   * @param b The blue component.
-   * @param a The alpha component.
+   * @param _r The red component.
+   * @param _g The green component.
+   * @param _b The blue component.
+   * @param _a The alpha component.
    */
-  Color(T r, T g, T b, T a = static_cast<T>(1))
+  Color(T _r, T _g, T _b, T _a = static_cast<T>(1))
     :
-    r(r),
-    g(g),
-    b(b),
-    a(a) { }
+    r(_r),
+    g(_g),
+    b(_b),
+    a(_a) { }
 
   /**
    * Creates the color red (equivelent to

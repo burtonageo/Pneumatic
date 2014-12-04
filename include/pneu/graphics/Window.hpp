@@ -73,7 +73,7 @@ public:
 
   auto getRenderer() const                                       -> Renderer&;
 
-private:  
+private:
   auto _initGlfw(const std::string&)                             -> pneu::core::MethodResult;
 
   auto _handleKeypress(int, int, int, int)                       -> void;

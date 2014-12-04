@@ -65,7 +65,8 @@ public:
   /**
    * Constructs a RenderObject and adds it to the Renderer
    *
-   * @param Arguments for RenderObject constructor
+   * @tparam R of RenderObject to create. Must be a RenderObject subclass.
+   * @param args Arguments for RenderObject constructor
    */
   template<typename R, typename... Args>
   auto emplaceRenderObject(Args&&... args)                                   -> void

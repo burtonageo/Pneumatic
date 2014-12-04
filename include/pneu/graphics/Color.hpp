@@ -29,8 +29,13 @@
 #ifndef PNEUMATIC_COLOR_HPP
 #define PNEUMATIC_COLOR_HPP
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation"
+
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
+
+#pragma clang diagnostic pop
 
 namespace pneu {
 

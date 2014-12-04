@@ -46,7 +46,7 @@ namespace ResourceLoader {
  *         If there was an error (e.g. file doesn't exist, file is corrupt,
  *         then the result will be an error.
  */
-auto loadTextFile(const std::string&) -> pneu::core::FuncResult<std::string>;
+auto loadTextFile(const std::string& path) -> pneu::core::FuncResult<std::string>;
 
 }
 

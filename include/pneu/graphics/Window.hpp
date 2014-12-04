@@ -32,9 +32,14 @@
 #include <memory>
 #include <string>
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundef"
+
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_CXX11
 #include <glm/fwd.hpp>
+
+#pragma clang diagnostic pop
 
 struct GLFWwindow;
 

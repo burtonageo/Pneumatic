@@ -34,8 +34,13 @@
 #include <iostream>
 #include <vector>
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
+
+#pragma clang diagnostic pop
 
 namespace pneu {
 

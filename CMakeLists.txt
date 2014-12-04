@@ -108,6 +108,11 @@ add_library(${PROJECT_NAME} ${SOURCES})
 add_definitions(
 	-std=c++1y
 	-Wall
+	-Wextra
+	-Weverything
+	-Wpedantic
+	-Wno-c++98-compat
+	-Wno-c++98-compat-pedantic
 	-fno-exceptions
 	-fno-rtti)
 

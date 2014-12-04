@@ -35,6 +35,10 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundef"
+#pragma clang diagnostic ignored "-Wdocumentation"
+
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_CXX11
 #include <glm/fwd.hpp>
@@ -42,6 +46,8 @@
 #define GLFW_INCLUDE_GL3
 #define GLFW_NO_GLU
 #include <GLFW/glfw3.h>
+
+#pragma clang diagnostic pop
 
 #include "pneu/graphics/Renderer.hpp"
 

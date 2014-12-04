@@ -37,15 +37,20 @@
 
 #include <algorithm>
 
-#define GLEW_STATIC
+// #define GLEW_STATIC
 #include <GL/glew.h>
 
-#define GLFW_INCLUDE_GL3
-#define GLFW_NO_GLU
+// #define GLFW_INCLUDE_GL3
+// #define GLFW_NO_GLU
 #include <GLFW/glfw3.h>
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+
+#pragma clang diagnostic pop
 
 namespace pneu {
 
@@ -81,7 +86,7 @@ static auto _updateShaderMatrices(GLuint program,
   glm::mat4 mvp = model_matrix *
                   projection_matrix *
                   view_matrix;
-  GLuint mvp_uniform = glGetUniformLocation(program, "MVP");
+  GLint mvp_uniform = glGetUniformLocation(program, "MVP");
   glUniformMatrix4fv(mvp_uniform, 1, GL_FALSE, &mvp[0][0]);
 }
 

@@ -100,9 +100,9 @@ public:
    * @return The color vector. The format is [R, G, B, A].
    */
   template<glm::precision P = glm::highp>
-  auto toVector4() const -> glm::detail::tvec4<T, P>
+  auto toVector4() const -> glm::tvec4<T, P>
   {
-    return glm::detail::tvec4<T, P>(r, g, b, a);
+    return glm::tvec4<T, P>(r, g, b, a);
   }
 
   /**
@@ -112,9 +112,9 @@ public:
    * @return The color vector. The format is [R, G, B].
    */
   template<glm::precision P = glm::highp>
-  auto toVector3() const -> glm::detail::tvec3<T, P>
+  auto toVector3() const -> glm::tvec3<T, P>
   {
-    return glm::detail::tvec4<T, P>(r, g, b);
+    return glm::tvec4<T, P>(r, g, b);
   }
 
   T r, g, b, a;

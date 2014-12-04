@@ -64,7 +64,7 @@ public:
    * Creates the color red (equivelent to
    * [1, 0, 0, 1]).
    */
-  static inline constexpr auto red() -> Color
+  static constexpr auto red() -> Color
   {
     return Color<T>(static_cast<T>(1),
                     static_cast<T>(0),
@@ -75,7 +75,7 @@ public:
    * Creates the color green (equivelent to
    * [0, 1, 0, 1]).
    */
-  static inline constexpr auto green() -> Color
+  static constexpr auto green() -> Color
   {
     return Color<T>(static_cast<T>(0),
                     static_cast<T>(1),
@@ -86,7 +86,7 @@ public:
    * Creates the color blue (equivelent to
    * [0, 0, 1, 1]).
    */
-  static inline constexpr auto blue() -> Color
+  static constexpr auto blue() -> Color
   {
     return Color<T>(static_cast<T>(0),
                     static_cast<T>(0),
@@ -100,7 +100,7 @@ public:
    * @return The color vector. The format is [R, G, B, A].
    */
   template<glm::precision P = glm::highp>
-  inline auto toVector4() const -> glm::detail::tvec4<T, P>
+  auto toVector4() const -> glm::detail::tvec4<T, P>
   {
     return glm::detail::tvec4<T, P>(r, g, b, a);
   }
@@ -112,7 +112,7 @@ public:
    * @return The color vector. The format is [R, G, B].
    */
   template<glm::precision P = glm::highp>
-  inline auto toVector3() const -> glm::detail::tvec3<T, P>
+  auto toVector3() const -> glm::detail::tvec3<T, P>
   {
     return glm::detail::tvec4<T, P>(r, g, b);
   }

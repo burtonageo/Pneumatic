@@ -41,6 +41,8 @@ namespace pneu {
 
 namespace core {
 
+#ifdef __EXCEPTIONS
+
 class FuncResultException : std::exception {
 public:
   FuncResultException(const char* const desc)
@@ -60,6 +62,8 @@ public:
 private:
   const char* const fDescription;
 };
+
+#endif // __EXCEPTIONS
 
 template<typename T>
 class FuncResult final {
@@ -140,6 +144,7 @@ public:
     return isOk() ? *fContents : f(getError());
   }
 
+#ifdef __EXCEPTIONS
   inline auto getOrThrow(const std::exception& e) -> T
   {
     if (!isOk()) {
@@ -155,6 +160,7 @@ public:
     }
     return *fContents;
   }
+#endif // __EXCEPTIONS
 
 private:
   FuncResult(std::unique_ptr<T> data,
@@ -197,6 +203,7 @@ public:
     }
   }
 
+#ifdef __EXCEPTIONS
   inline auto throwOnError(const std::exception& e) -> void
   {
     if (!fOk) {
@@ -210,6 +217,7 @@ public:
       throw FuncResultException(fDescription);
     }
   }
+#endif // __EXCEPTIONS
 
 private:
   FuncResult(bool ok,

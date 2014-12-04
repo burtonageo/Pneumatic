@@ -107,7 +107,8 @@ add_library(${PROJECT_NAME} ${SOURCES})
 
 add_definitions(
 	-std=c++1y
-	-Wall)
+	-Wall
+	-fno-exceptions)
 
 target_link_libraries(${PROJECT_NAME}
 	${SOIL_LIBRARIES}

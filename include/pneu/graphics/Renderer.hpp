@@ -68,7 +68,7 @@ public:
    * @param Arguments for RenderObject constructor
    */
   template<typename R, typename... Args>
-  inline auto emplaceRenderObject(Args&&... args)                            -> void
+  auto emplaceRenderObject(Args&&... args)                                   -> void
   {
     static_assert(std::is_base_of<RenderObject, R>::value,
                   "Template parameter must be a RenderObject subclass");

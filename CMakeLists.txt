@@ -46,6 +46,7 @@ set(SOURCES
 	"${GRAPHICS_SRC_DIR}/GlRenderer.cpp"
 	"${GRAPHICS_SRC_DIR}/Light.cpp"
 	"${GRAPHICS_SRC_DIR}/Mesh.cpp"
+	"${GRAPHICS_SRC_DIR}/Renderer.cpp"
 	"${GRAPHICS_SRC_DIR}/Shader.cpp"
 	"${GRAPHICS_SRC_DIR}/ShaderUniform.cpp"
 	"${GRAPHICS_SRC_DIR}/Sprite.cpp"

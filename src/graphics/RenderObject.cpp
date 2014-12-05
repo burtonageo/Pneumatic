@@ -40,6 +40,8 @@ pneu::graphics::RenderObject::RenderObject()
 
 }
 
+pneu::graphics::RenderObject::~RenderObject() = default;
+
 auto
 pneu::graphics::RenderObject::changeShaders()  -> void
 {

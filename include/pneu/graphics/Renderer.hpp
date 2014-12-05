@@ -77,8 +77,6 @@ public:
   }
 };
 
-Renderer::~Renderer() = default;
-
 } // namespace graphics
 
 } // namespace pneu

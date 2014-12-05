@@ -106,7 +106,7 @@ private:
   std::vector<std::shared_ptr<ShaderUpdateMixin>> fShaderUpdaters;
 };
 
-RenderObject::~RenderObject() { }
+RenderObject::~RenderObject() = default;
 
 } // namespace graphics
 

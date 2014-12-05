@@ -73,7 +73,7 @@ public:
   GlRenderer(GlRenderer&&)                                                                  = delete;
   auto operator=(const GlRenderer&)                                          -> GlRenderer& = delete;
 
-  virtual ~GlRenderer();
+  ~GlRenderer();
 
   auto init(GLFWwindow*)                                                     -> pneu::core::MethodResult;
 

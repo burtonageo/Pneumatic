@@ -111,7 +111,10 @@ bool pneu::graphics::GlRenderer::sGlewInitialized = false;
 
 pneu::graphics::GlRenderer::GlRenderer()
   :
-  fRenImpl(std::make_unique<pneu::graphics::GlRenderer::GlRendererImpl>(0, 0)) { }
+  fRenImpl(std::make_unique<pneu::graphics::GlRenderer::GlRendererImpl>(0, 0))
+{
+
+}
 
 pneu::graphics::GlRenderer::~GlRenderer() = default;
 

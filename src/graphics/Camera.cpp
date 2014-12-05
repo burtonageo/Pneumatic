@@ -66,13 +66,13 @@ pneu::graphics::Camera::Camera(const pneu::core::Radians<float>& fov,
 }
 
 auto
-pneu::graphics::Camera::getWidth() const -> int
+pneu::graphics::Camera::getWidth() const -> unsigned int
 {
   return fCameraSize.x;
 }
 
 auto
-pneu::graphics::Camera::getHeight() const -> int
+pneu::graphics::Camera::getHeight() const -> unsigned int
 {
   return fCameraSize.y;
 }
@@ -190,7 +190,7 @@ pneu::graphics::Camera::getZoomedFieldOfView() const -> float
 }
 
 auto
-pneu::graphics::Camera::pan(const glm::vec2& direction) -> void
+pneu::graphics::Camera::pan(const glm::vec2& /* direction */) -> void
 {
   // TODO: implement
 }

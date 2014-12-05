@@ -101,14 +101,14 @@ public:
    *
    * @return Width of frame.
    */
-  auto getWidth() const                                              -> int;
+  auto getWidth() const                                              -> unsigned int;
 
   /**
    * Get the height of the camera view frame.
    *
    * @return height of frame.
    */
-  auto getHeight() const                                             -> int;
+  auto getHeight() const                                             -> unsigned int;
 
   /**
    * Get the position of the camera view frame.
@@ -171,14 +171,14 @@ public:
   /**
    * Get the zoom of the camera.
    *
-   * @return Zoom.
+   * @return Current zoom level.
    */
   auto getZoom() const                                               -> float;
 
   /**
    * Set the zoom of the camera
    *
-   * @param Zoom.
+   * @param zoom New zoom amount.
    */
   auto setZoom(float zoom)                                           -> void;
 

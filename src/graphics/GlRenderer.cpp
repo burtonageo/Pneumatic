@@ -210,8 +210,8 @@ pneu::graphics::GlRenderer::viewportDidResize(int width, int height) -> void
 
   fRenImpl->width = width;
   fRenImpl->height = height;
-  fRenImpl->camera.fCameraSize.x += ((width - last_width) / 3);
-  fRenImpl->camera.fCameraSize.y += ((height - last_height) / 3);
+  fRenImpl->camera.fCameraSize.x += (static_cast<unsigned int>(width - last_width) / 3);
+  fRenImpl->camera.fCameraSize.y += (static_cast<unsigned int>(height - last_height) / 3);
 }
 
 auto

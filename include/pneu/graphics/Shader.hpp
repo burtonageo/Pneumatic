@@ -53,7 +53,7 @@
 
 #include "pneu/core/FuncResult.hpp"
 
-typedef GLuint ShaderId;
+using ShaderId = GLuint;
 
 namespace pneu {
 

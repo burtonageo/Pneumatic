@@ -43,7 +43,7 @@
 
 #include "pneu/core/Forward.hpp"
 
-typedef GLuint TextureId;
+using TextureId = GLuint;
 
 namespace pneu {
 

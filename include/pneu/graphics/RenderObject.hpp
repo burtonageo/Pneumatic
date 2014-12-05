@@ -106,6 +106,8 @@ private:
   std::vector<std::shared_ptr<ShaderUpdateMixin>> fShaderUpdaters;
 };
 
+RenderObject::~RenderObject() = default;
+
 } // namespace graphics
 
 } // namespace pneu

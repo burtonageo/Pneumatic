@@ -49,7 +49,7 @@ class RenderObject;
  */
 class Renderer {
 public:
-  virtual ~Renderer() = 0;
+  virtual ~Renderer();
 
   /**
    * Adds a RenderObject for rendering
@@ -77,7 +77,7 @@ public:
   }
 };
 
-inline Renderer::~Renderer() = default;
+Renderer::~Renderer() = default;
 
 } // namespace graphics
 

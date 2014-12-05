@@ -111,9 +111,27 @@ add_definitions(
 	-Wextra
 	-Weverything
 	-Wpedantic
+	-Wcast-align
+	-Wcast-qual
+	-Wctor-dtor-privacy
+	-Wdisabled-optimization
+	-Wformat=2
+	-Widiomatic-parentheses
+	-Winit-self
+	-Wmissing-declarations
+	-Wmissing-include-dirs
+	-Wold-style-cast
+	-Woverloaded-virtual
+	-Wredundant-decls
+	-Wshadow
+	-Wsign-conversion
+	-Wsign-promo
+	-Wswitch-default
+	-Wstrict-overflow=5
 	-Wno-c++98-compat
 	-Wno-c++98-compat-pedantic
 	-Wno-padded
+	-fstack-protector
 	-fno-exceptions
 	-fno-rtti)
 

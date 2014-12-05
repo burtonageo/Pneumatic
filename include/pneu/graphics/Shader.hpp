@@ -96,7 +96,7 @@ public:
                     const std::string& frag_file,
                     const std::string& geom_file = "",
                     const std::string& tcs_file  = "",
-                    const std::string& tes_file  = "")      -> pneu::core::MethodResult;
+                    const std::string& tes_file  = "") -> pneu::core::MethodResult;
 
   /**
    * Initialises the shader with inline code from a string variable.
@@ -116,26 +116,26 @@ public:
                     const std::string& frag_source,
                     const std::string& geom_source = "",
                     const std::string& tcs_source  = "",
-                    const std::string& tes_source  = "")    -> pneu::core::MethodResult;
+                    const std::string& tes_source  = "") -> pneu::core::MethodResult;
 
   /**
    * Returns a handle to the shader object in gpu memory.
    * @return The numerical id of the shader.
    */
-  auto getShaderProgram() const                             -> ShaderId { return fProgramId; }
+  auto getShaderProgram() const -> ShaderId { return fProgramId; }
 
   /**
    * Binds the shader so that it is in use for the next operation.
    */
-  auto bind()                                               -> void;
+  auto bind() -> void;
 
   /**
    * Unbind the shader.
    */
-  auto unbind()                                             -> void;
+  auto unbind() -> void;
 
 private:
-  auto _setDefaultAttributes()                              -> void;
+  auto _setDefaultAttributes()                                 -> void;
 
   auto _compileShader(ShaderId, const std::string& shader_src) -> pneu::core::MethodResult;
   auto _linkShaderProgram()                                    -> pneu::core::MethodResult;

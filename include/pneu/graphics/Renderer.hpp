@@ -54,7 +54,7 @@ public:
   /**
    * Adds a RenderObject for rendering
    */
-  virtual auto addRenderObject(std::weak_ptr<pneu::graphics::RenderObject>)  -> void = 0;
+  virtual auto addRenderObject(std::weak_ptr<pneu::graphics::RenderObject>) -> void = 0;
 
   /**
    * Sets the background color of the renderer
@@ -69,7 +69,7 @@ public:
    * @param args Arguments for RenderObject constructor
    */
   template<typename R, typename... Args>
-  auto emplaceRenderObject(Args&&... args)                                   -> void
+  auto emplaceRenderObject(Args&&... args) -> void
   {
     static_assert(std::is_base_of<RenderObject, R>::value,
                   "Template parameter must be a RenderObject subclass");

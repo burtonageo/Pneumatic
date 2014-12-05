@@ -182,7 +182,10 @@ pneu::graphics::Window::getRenderer() const -> Renderer&
 }
 
 auto
-pneu::graphics::Window::_handleKeypress(int key, int scan_code, int action, int mods)  -> void
+pneu::graphics::Window::_handleKeypress(int /* key */,
+                                        int /* scan_code */,
+                                        int /* action */,
+                                        int /* mods */)  -> void
 {
 
 }
@@ -209,7 +212,7 @@ pneu::graphics::Window::_handleWindowResize(int w, int h) -> void
 }
 
 auto
-pneu::graphics::Window::_handleWindowMove(int new_x_pos, int new_y_pos) -> void
+pneu::graphics::Window::_handleWindowMove(int /* new_x_pos */, int /* new_y_pos */) -> void
 {
 
 }

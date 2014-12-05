@@ -49,7 +49,7 @@ class RenderObject;
  */
 class Renderer {
 public:
-  virtual ~Renderer();
+  virtual ~Renderer() = 0;
 
   /**
    * Adds a RenderObject for rendering

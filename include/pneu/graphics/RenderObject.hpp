@@ -73,7 +73,7 @@ public:
   /**
    * destructor
    */
-  virtual ~RenderObject();
+  virtual ~RenderObject() = 0;
 
   virtual auto update(double delta_time)         -> void = 0;
   virtual auto draw()                            -> void = 0;

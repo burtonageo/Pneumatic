@@ -64,8 +64,11 @@ public:
                                    int min_width = 0,
                                    int min_height = 0);
   Window(const Window&)                                                     = delete;
-  Window(Window&&)                                                          = delete;
   auto operator=(const Window&)                                  -> Window& = delete;
+
+  Window(Window&&);
+  auto operator=(Window&&)                                       -> Window& = default;
+
   ~Window();
 
   auto init()                                                    -> pneu::core::MethodResult;

@@ -94,6 +94,18 @@ pneu::graphics::Window::Window(const std::string& title, int w, int h, int mw, i
 
 }
 
+pneu::graphics::Window::Window(Window&& other)
+  :
+  fWinImpl(nullptr),
+  fWinTitle("")
+{
+  fWinImpl = std::move(other.fWinImpl);
+  fWinTitle = other.fWinTitle;
+
+  other.fWinImpl = nullptr;
+  other.fWinTitle = "";
+}
+
 pneu::graphics::Window::~Window() = default;
 
 auto

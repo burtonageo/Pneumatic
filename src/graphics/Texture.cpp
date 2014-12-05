@@ -81,7 +81,7 @@ pneu::graphics::Texture::bind(std::shared_ptr<Shader> shader) -> void
 {
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, fObject);
-  GLuint sampler = glGetUniformLocation(shader->getShaderProgram(), "texSampler");
+  GLint sampler = glGetUniformLocation(shader->getShaderProgram(), "texSampler");
   glUniform1i(sampler, 0);
 }
 

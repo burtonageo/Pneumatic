@@ -33,12 +33,13 @@
 #include <string>
 #include <utility>
 
-#define GLEW_STATIC
-#include <GL/glew.h>
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation"
 
-#define GLFW_INCLUDE_GL3
-#define GLFW_NO_GLU
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
+#pragma clang diagnostic pop
 
 #include "pneu/core/Forward.hpp"
 

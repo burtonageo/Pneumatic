@@ -29,14 +29,11 @@
 #include "pneu/graphics/RenderObject.hpp"
 #include "pneu/core/FuncResult.hpp"
 
-#define GLEW_STATIC
 #include <GL/glew.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
 
-#define GLFW_INCLUDE_GL3
-#define GLFW_NO_GLU
 #include <GLFW/glfw3.h>
 
 #pragma clang diagnostic pop
@@ -237,8 +234,8 @@ pneu::graphics::Window::_handleFocusGained() -> void
 
 auto
 pneu::graphics::Window::_windowResizeCallback(GLFWwindow* win,
-                                         int w,
-                                         int h) -> void
+                                              int w,
+                                              int h) -> void
 {
   auto* pneu_win = static_cast<pneu::graphics::Window*>(glfwGetWindowUserPointer(win));
   pneu_win->_handleWindowResize(w, h);
@@ -267,10 +264,10 @@ pneu::graphics::Window::_refreshCallback(GLFWwindow* win) -> void
 
 auto
 pneu::graphics::Window::_keypressCallback(GLFWwindow* win,
-                                               int key,
-                                               int scan_code,
-                                               int action,
-                                               int mods) -> void
+                                          int key,
+                                          int scan_code,
+                                          int action,
+                                          int mods) -> void
 {
   auto* pneu_win = static_cast<pneu::graphics::Window*>(glfwGetWindowUserPointer(win));
   pneu_win->_handleKeypress(key, scan_code, action, mods);

@@ -35,97 +35,243 @@ namespace pneu {
 
 namespace core {
 
+/**
+ * A strongly-typed Radian value
+ *
+ * In Pneumatic, angle measurements are strongly typed to
+ * ensure that developers know which units they are using.
+ *
+ * @tparam T Internal numerical representation
+ *
+ * @note The internal angle type used in Pneumatic is radians.
+ *
+ */
 template<typename T>
 struct Radians final {
 public:
+  /**
+   * Constructor
+   *
+   */
   explicit Radians(const T& val)
     :
     fValue(val) { }
 
-  inline auto toDegrees() const -> Degrees<T>
+  /**
+   * Converts this radian value to degrees
+   *
+   * @return Value in degrees. This is calculated
+   *         by (current value * 57.629)
+   *
+   */
+  auto toDegrees() const -> Degrees<T>
   {
     return Degrees<T>(fValue * static_cast<T>(57.629));
   }
 
-  inline auto value() const -> T
+  /**
+   * Unwrap the underlying numerical value
+   *
+   * @return The current value of this radians struct.
+   *
+   */
+  auto value() const -> T
   {
     return fValue;
   }
 
-  inline operator Degrees<T>() const
+  /**
+   * Implicit conversion operator to degrees.
+   *
+   */
+  operator Degrees<T>() const
   {
     return toDegrees();
   }
 
-  inline auto operator== (const Radians<T>& other) const -> bool
+  /**
+   * Equality test between two radians. Returns true if the
+   * two values are equal numerically.
+   *
+   * @param other Rhs of operator.
+   *
+   * @return rhs.value() == lhs.value().
+   *
+   */
+  auto operator== (const Radians<T>& other) const -> bool
   {
     return fValue == other.fValue;
   }
 
-  inline auto operator!= (const Radians<T>& other) const -> bool
+  /**
+   * Inequality test between two radians. Returns inverse of
+   * operator==.
+   *
+   * @param other Rhs of operator.
+   *
+   * @return rhs.value() != lhs.value().
+   *
+   */
+  auto operator!= (const Radians<T>& other) const -> bool
   {
     return !operator==(this, other);
   }
 
-  inline auto operator> (const Radians<T>& other) const -> bool
+  /**
+   * Greater than test between two radians.
+   *
+   * @param other Rhs of operator.
+   *
+   * @return rhs.value() > lhs.value().
+   *
+   */
+  auto operator> (const Radians<T>& other) const -> bool
   {
     return fValue > other.fValue;
   }
 
-  inline auto operator< (const Radians<T>& other) const -> bool
+  /**
+   * Less than test between two radians.
+   *
+   * @param other Rhs of operator.
+   *
+   * @return rhs.value() < lhs.value().
+   *
+   */
+  auto operator< (const Radians<T>& other) const -> bool
   {
     return fValue < other.fValue;
   }
 
-  inline auto operator>= (const Radians<T>& other) const -> bool
+  /**
+   * Greater than or equal test between two radians.
+   *
+   * @param other Rhs of operator.
+   *
+   * @return rhs.value() >= lhs.value()
+   *
+   */
+  auto operator>= (const Radians<T>& other) const -> bool
   {
     return operator>(this, other) || operator==(this, other);
   }
 
-  inline auto operator<= (const Radians<T>& other) const -> bool
+  /**
+   * Less than or equal test between two radians.
+   *
+   * @param other Rhs of operator.
+   *
+   * @return rhs.value() <= lhs.value()
+   *
+   */
+  auto operator<= (const Radians<T>& other) const -> bool
   {
     return operator<(this, other) || operator==(this, other);
   }
 
-  inline auto operator+ (const Radians<T>& other) const -> Radians<T>
+  /**
+   * Plus operator on two radians.
+   *
+   * @param other Rhs of operator.
+   *
+   * @return rhs.value() + lhs.value().
+   *
+   */
+  auto operator+ (const Radians<T>& other) const -> Radians<T>
   {
     return Radians(fValue + other.fValue);
   }
 
-  inline auto operator- (const Radians<T>& other) const -> Radians<T>
+  /**
+   * Minus operator on two radians.
+   *
+   * @param other Rhs of operator.
+   *
+   * @return rhs.value() - lhs.value().
+   *
+   */
+  auto operator- (const Radians<T>& other) const -> Radians<T>
   {
     return Radians(fValue - other.fValue);
   }
 
-  inline auto operator* (const Radians<T>& other) const -> Radians<T>
+  /**
+   * Multiplication operator on two radians.
+   *
+   * @param other Rhs of operator.
+   *
+   * @return rhs.value() * lhs.value().
+   *
+   */
+  auto operator* (const Radians<T>& other) const -> Radians<T>
   {
     return Radians(fValue * other.fValue);
   }
 
-  inline auto operator/ (const Radians<T>& other) const -> Radians<T>
+  /**
+   * Division operator on two radians.
+   *
+   * @param other Rhs of operator.
+   *
+   * @return rhs.value() / lhs.value().
+   *
+   */
+  auto operator/ (const Radians<T>& other) const -> Radians<T>
   {
     return Radians(fValue / other.fValue);
   }
 
-  inline auto operator+= (const Radians<T>& other) -> Radians<T>&
+  /**
+   * Add-assign operator.
+   *
+   * @param other Rhs of operator.
+   *
+   * @return &(rhs.value() += lhs.value()).
+   *
+   */
+  auto operator+= (const Radians<T>& other) -> Radians<T>&
   {
     fValue += other.fValue;
     return *this;
   }
 
-  inline auto operator-= (const Radians<T>& other) -> Radians<T>&
+  /**
+   * Subtract-assign operator.
+   *
+   * @param other Rhs of operator.
+   *
+   * @return &(rhs.value() -= lhs.value()).
+   *
+   */
+  auto operator-= (const Radians<T>& other) -> Radians<T>&
   {
     fValue -= other.fValue;
     return *this;
   }
 
-  inline auto operator*= (const Radians<T>& other) -> Radians<T>&
+  /**
+   * Multiply-assign operator.
+   *
+   * @param other Rhs of operator.
+   *
+   * @return &(rhs.value() *= lhs.value()).
+   *
+   */
+  auto operator*= (const Radians<T>& other) -> Radians<T>&
   {
     fValue *= other.fValue;
     return *this;
   }
 
-  inline auto operator/= (const Radians<T>& other) -> Radians<T>&
+  /**
+   * Divide-assign operator.
+   *
+   * @param other Rhs of operator.
+   *
+   * @return &(rhs.value() /= lhs.value()).
+   *
+   */
+  auto operator/= (const Radians<T>& other) -> Radians<T>&
   {
     fValue /= other.fValue;
     return *this;
@@ -135,6 +281,17 @@ private:
   T fValue;
 };
 
+/**
+ * A strongly-typed Degree value
+ *
+ * In Pneumatic, angle measurements are strongly typed to
+ * ensure that developers know which units they are using.
+ *
+ * @tparam T Internal numerical representation
+ *
+ * @note The internal angle type used in Pneumatic is radians.
+ *
+ */
 template<typename T>
 struct Degrees final {
 public:
@@ -142,90 +299,90 @@ public:
       :
       fValue(val) { }
 
-  inline auto toRadians() const -> Radians<T>
+  auto toRadians() const -> Radians<T>
   {
     return Radians<T>(fValue * static_cast<T>(0.017));
   }
 
-  inline auto value() const -> T
+  auto value() const -> T
   {
     return fValue;
   }
 
-  inline operator Radians<T>() const
+  operator Radians<T>() const
   {
     return toRadians();
   }
 
-  inline auto operator== (const Degrees<T>& other) const -> bool
+  auto operator== (const Degrees<T>& other) const -> bool
   {
     return fValue == other.fValue;
   }
 
-  inline auto operator!= (const Degrees<T>& other) const -> bool
+  auto operator!= (const Degrees<T>& other) const -> bool
   {
     return !operator==(this, other);
   }
 
-  inline auto operator> (const Degrees<T>& other) const -> bool
+  auto operator> (const Degrees<T>& other) const -> bool
   {
     return fValue > other.fValue;
   }
 
-  inline auto operator< (const Degrees<T>& other) const -> bool
+  auto operator< (const Degrees<T>& other) const -> bool
   {
     return fValue < other.fValue;
   }
 
-  inline auto operator>= (const Degrees<T>& other) const -> bool
+  auto operator>= (const Degrees<T>& other) const -> bool
   {
     return operator>(this, other) || operator==(this, other);
   }
 
-  inline auto operator<= (const Degrees<T>& other) const -> bool
+  auto operator<= (const Degrees<T>& other) const -> bool
   {
     return operator<(this, other) || operator==(this, other);
   }
 
-  inline auto operator+ (const Degrees<T>& other) const -> Degrees<T>
+  auto operator+ (const Degrees<T>& other) const -> Degrees<T>
   {
     return Degrees(fValue + other.fValue);
   }
 
-  inline auto operator- (const Degrees<T>& other) const -> Degrees<T>
+  auto operator- (const Degrees<T>& other) const -> Degrees<T>
   {
     return Degrees(fValue - other.fValue);
   }
 
-  inline auto operator* (const Degrees<T>& other) const -> Degrees<T>
+  auto operator* (const Degrees<T>& other) const -> Degrees<T>
   {
     return Degrees(fValue * other.fValue);
   }
 
-  inline auto operator/ (const Degrees<T>& other) const -> Degrees<T>
+  auto operator/ (const Degrees<T>& other) const -> Degrees<T>
   {
     return Degrees(fValue / other.fValue);
   }
 
-  inline auto operator+= (const Degrees<T>& other) -> Degrees<T>&
+  auto operator+= (const Degrees<T>& other) -> Degrees<T>&
   {
     fValue += other.fValue;
     return *this;
   }
 
-  inline auto operator-= (const Degrees<T>& other) -> Degrees<T>&
+  auto operator-= (const Degrees<T>& other) -> Degrees<T>&
   {
     fValue -= other.fValue;
     return *this;
   }
 
-  inline auto operator*= (const Degrees<T>& other) -> Degrees<T>&
+  auto operator*= (const Degrees<T>& other) -> Degrees<T>&
   {
     fValue *= other.fValue;
     return *this;
   }
 
-  inline auto operator/= (const Degrees<T>& other) -> Degrees<T>&
+  auto operator/= (const Degrees<T>& other) -> Degrees<T>&
   {
     fValue /= other.fValue;
     return *this;

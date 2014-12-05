@@ -38,12 +38,24 @@ namespace core {
  *
  * In Pneumatic, angle measurements are strongly typed to
  * ensure that developers know which units they are using.
+ *
+ * @tparam T Internal numerical representation
+ *
+ * @note The internal angle type used in Pneumatic is radians.
+ *
  */
 template<typename T = float>
 struct Radians;
 
 /**
  * A strongly-typed Degree value
+ *
+ * In Pneumatic, angle measurements are strongly typed to
+ * ensure that developers know which units they are using.
+ *
+ * @tparam T Internal numerical representation
+ *
+ * @note The internal angle type used in Pneumatic is radians.
  *
  */
 template<typename T = float>
@@ -56,11 +68,15 @@ struct Degrees;
  *
  */
 #if defined PNEU_DEFAULT_ANGLE_RADIANS
-	template<typename T = float>
-	using Angle = typename pneu::core::Radians<T>;
+
+template<typename T = float>
+using Angle = typename pneu::core::Radians<T>;
+
 #else
-	template<typename T = float>
-	using Angle = typename pneu::core::Degrees<T>;
+
+template<typename T = float>
+using Angle = typename pneu::core::Degrees<T>;
+
 #endif
 
 /**

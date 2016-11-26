@@ -29,7 +29,6 @@
 #include "pneu/core/Angle.hpp"
 #include "pneu/core/ResourceLoader.hpp"
 
-#include "pneu/graphics/Camera.hpp"
 #include "pneu/graphics/Color.hpp"
 #include "pneu/graphics/RenderObject.hpp"
 #include "pneu/graphics/Shader.hpp"
@@ -37,46 +36,12 @@
 
 #include <algorithm>
 
-// #define GLEW_STATIC
-#include <GL/glew.h>
-
-// #define GLFW_INCLUDE_GL3
-// #define GLFW_NO_GLU
-#include <GLFW/glfw3.h>
-
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
 
-#include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 #pragma clang diagnostic pop
-
-namespace pneu {
-
-namespace graphics {
-
-struct GlRenderer::GlRendererImpl final {
-public:
-  GlRendererImpl(int w,
-                 int h)
-    :
-    width(w),
-    height(h),
-    backgroundColor(0.0f),
-    camera(),
-    objects() { }
-
-  int width, height;
-
-  glm::vec4 backgroundColor;
-  pneu::graphics::Camera camera;
-  std::vector<std::shared_ptr<RenderObject>> objects;
-};
-
-} // namespace graphics
-
-} // namespace pneu
 
 static auto _updateShaderMatrices(GLuint program,
                                   const glm::mat4& model_matrix,
@@ -111,7 +76,11 @@ bool pneu::graphics::GlRenderer::sGlewInitialized = false;
 
 pneu::graphics::GlRenderer::GlRenderer()
   :
-  fRenImpl(std::make_unique<pneu::graphics::GlRenderer::GlRendererImpl>(0, 0))
+  width(0),
+  height(0),
+  backgroundColor(),
+  camera(),
+  objects()
 {
 
 }
@@ -138,12 +107,11 @@ pneu::graphics::GlRenderer::init(GLFWwindow* win_ptr) -> pneu::core::MethodResul
   glfwSwapInterval(1);
   glfwSetTime(0.0);
 
-  glfwGetFramebufferSize(win_ptr, &fRenImpl->width, &fRenImpl->height);
-  fRenImpl->camera.fCameraSize = glm::uvec2(fRenImpl->width,
-                                            fRenImpl->height);
+  glfwGetFramebufferSize(win_ptr, &width, &height);
+  camera.fCameraSize = glm::uvec2(width, height);
 
-  fRenImpl->camera.setPosition(glm::vec3(4.0f, 0.0f, 4.0f));
-  fRenImpl->camera._setTargetPosition(glm::vec3(0.0f));
+  camera.setPosition(glm::vec3(4.0f, 0.0f, 4.0f));
+  camera._setTargetPosition(glm::vec3(0.0f));
 
   return pneu::core::MethodResult::ok();
 }
@@ -152,20 +120,20 @@ auto
 pneu::graphics::GlRenderer::addRenderObject(std::weak_ptr<RenderObject> object) -> void
 {
   if (auto owned = object.lock()) {
-    fRenImpl->objects.push_back(owned);
+    objects.push_back(owned);
   }
 }
 
 auto
 pneu::graphics::GlRenderer::setBackgroundColor(const Color<>& color) -> void
 {
-  fRenImpl->backgroundColor = color.toVector4();
+  backgroundColor = color.toVector4();
 }
 
 auto
 pneu::graphics::GlRenderer::updateScene(double ms) -> void
 {
-  const auto& cam = fRenImpl->camera;
+  const auto& cam = camera;
   const auto projection_matrix = glm::perspective(cam.getFieldOfViewRadians().value(),
                                                   cam.getAspectRatio(),
                                                   cam.getNearClip(),
@@ -175,8 +143,8 @@ pneu::graphics::GlRenderer::updateScene(double ms) -> void
                                        cam._getDirection(),
                                        glm::vec3(0.0f, 1.0f, 0.0f));
 
-  std::for_each(fRenImpl->objects.begin(),
-                fRenImpl->objects.end(),
+  std::for_each(objects.begin(),
+                objects.end(),
                 [&](std::shared_ptr<pneu::graphics::RenderObject> r) {
                   r->update(ms);
                   _updateShaderMatrices(r->getCurrentShader()->getShaderProgram(),
@@ -189,12 +157,12 @@ pneu::graphics::GlRenderer::updateScene(double ms) -> void
 auto
 pneu::graphics::GlRenderer::renderScene() -> void
 {
-  const auto bg_color = fRenImpl->backgroundColor;
+  const auto bg_color = backgroundColor;
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(bg_color.r, bg_color.g, bg_color.b, bg_color.a);
-  std::for_each(fRenImpl->objects.begin(),
-                fRenImpl->objects.end(),
+  std::for_each(objects.begin(),
+                objects.end(),
                 [&](std::shared_ptr<pneu::graphics::RenderObject> r) {
                   r->draw();
                 });
@@ -208,13 +176,13 @@ pneu::graphics::GlRenderer::viewportDidResize(int width, int height) -> void
                    static_cast<GLsizei>(height));
   glMatrixMode(GL_MODELVIEW);
 
-  const auto last_width = fRenImpl->width;
-  const auto last_height = fRenImpl->height = height;
+  const auto last_width = width;
+  const auto last_height = height = height;
 
-  fRenImpl->width = width;
-  fRenImpl->height = height;
-  fRenImpl->camera.fCameraSize.x += (static_cast<unsigned int>(width - last_width) / 3);
-  fRenImpl->camera.fCameraSize.y += (static_cast<unsigned int>(height - last_height) / 3);
+  width = width;
+  height = height;
+  camera.fCameraSize.x += (static_cast<unsigned int>(width - last_width) / 3);
+  camera.fCameraSize.y += (static_cast<unsigned int>(height - last_height) / 3);
 }
 
 auto

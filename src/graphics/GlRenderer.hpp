@@ -35,13 +35,15 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 
+#include "pneu/graphics/Camera.hpp"
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundef"
 #pragma clang diagnostic ignored "-Wdocumentation"
 
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_CXX11
-#include <glm/fwd.hpp>
+#include <glm/glm.hpp>
 
 #define GLFW_INCLUDE_GL3
 #define GLFW_NO_GLU
@@ -87,8 +89,11 @@ public:
 
 private:
   static bool sGlewInitialized;
-  struct GlRendererImpl;
-  std::unique_ptr<GlRendererImpl> fRenImpl;
+  int width, height;
+
+  glm::vec4 backgroundColor;
+  pneu::graphics::Camera camera;
+  std::vector<std::shared_ptr<RenderObject>> objects;
 };
 
 } // namespace graphics

@@ -34,14 +34,18 @@
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundef"
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_CXX11
 #include <glm/fwd.hpp>
 
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 #pragma clang diagnostic pop
 
-struct GLFWwindow;
+#include "pneu/graphics/Renderer.hpp"
 
 namespace pneu {
 
@@ -104,8 +108,15 @@ private:
   static auto _quitRequestedCallback(GLFWwindow*)                -> void;
   static auto _windowFocusChangeCallback(GLFWwindow*, int)       -> void;
 
-  struct WindowImpl;
-  std::unique_ptr<WindowImpl> fWinImpl;
+  int width, height;
+  const int min_width, min_height;
+
+  struct WindowDeleter final {
+    void operator()(GLFWwindow* window) { glfwDestroyWindow(window); }
+  };
+
+  std::unique_ptr<GLFWwindow, WindowDeleter> glWindow;
+  std::shared_ptr<Renderer> renderer;
   std::string fWinTitle;
 };
 

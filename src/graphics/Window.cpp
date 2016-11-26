@@ -29,66 +29,18 @@
 #include "pneu/graphics/RenderObject.hpp"
 #include "pneu/core/FuncResult.hpp"
 
-#include <GL/glew.h>
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdocumentation"
-
-#include <GLFW/glfw3.h>
-
-#pragma clang diagnostic pop
-
 #include <future>
 
 #include "GlRenderer.hpp"
 
-namespace pneu {
-
-namespace graphics {
-
-struct Window::WindowImpl final {
-private:
-  struct WindowDeleter final {
-    auto operator()(GLFWwindow* win_ptr)
-    {
-      glfwDestroyWindow(win_ptr);
-    }
-  };
-
-public:
-  WindowImpl(int w, int h, int mw, int mh)
-    :
-    width(w),
-    height(h),
-    min_width(mw),
-    min_height(mh),
-    glWindow(),
-    renderer() { }
-
-    ~WindowImpl() = default;
-
-  auto init(void) -> pneu::core::MethodResult
-  {
-    renderer = std::make_shared<GlRenderer>();
-    return renderer->init(glWindow.get());
-  }
-
-  friend class pneu::graphics::Window;
-
-  int width, height;
-  const int min_width, min_height;
-
-  std::unique_ptr<GLFWwindow, WindowDeleter> glWindow;
-  std::shared_ptr<GlRenderer> renderer;
-};
-
-} // namespace graphics
-
-} // namespace pneu
-
 pneu::graphics::Window::Window(const std::string& title, int w, int h, int mw, int mh)
   :
-  fWinImpl(std::make_unique<pneu::graphics::Window::WindowImpl>(w, h, mw, mh)),
+  width(w),
+  height(h),
+  min_width(mw),
+  min_height(mh),
+  glWindow(nullptr),
+  renderer(nullptr),
   fWinTitle(title)
 {
 
@@ -96,14 +48,14 @@ pneu::graphics::Window::Window(const std::string& title, int w, int h, int mw, i
 
 pneu::graphics::Window::Window(Window&& other)
   :
-  fWinImpl(nullptr),
-  fWinTitle("")
+  width(other.width),
+  height(other.height),
+  min_width(other.min_width),
+  min_height(other.min_height),
+  glWindow(std::move(other.glWindow)),
+  renderer(std::move(other.renderer)),
+  fWinTitle(std::move(other.fWinTitle))
 {
-  fWinImpl = std::move(other.fWinImpl);
-  fWinTitle = other.fWinTitle;
-
-  other.fWinImpl = nullptr;
-  other.fWinTitle = "";
 }
 
 pneu::graphics::Window::~Window() = default;
@@ -112,7 +64,8 @@ auto
 pneu::graphics::Window::init() -> pneu::core::MethodResult
 {
   PNEU_TRY_METHOD(_initGlfw(fWinTitle));
-  PNEU_TRY_METHOD(fWinImpl->init());
+  renderer = std::make_shared<GlRenderer>();
+  PNEU_TRY_METHOD(((GlRenderer*)renderer.get())->init(glWindow.get()));
 
   return pneu::core::MethodResult::ok();
 }
@@ -122,7 +75,7 @@ pneu::graphics::Window::update() -> void
 {
   double delta = glfwGetTime();
 
-  fWinImpl->renderer->updateScene(delta);
+  ((GlRenderer*)renderer.get())->updateScene(delta);
 }
 
 auto
@@ -134,14 +87,14 @@ pneu::graphics::Window::pollEvents() -> void
 auto
 pneu::graphics::Window::renderFrame() -> void
 {
-  fWinImpl->renderer->renderScene();
-  glfwSwapBuffers(fWinImpl->glWindow.get());
+  ((GlRenderer*)renderer.get())->renderScene();
+  glfwSwapBuffers(glWindow.get());
 }
 
 auto
 pneu::graphics::Window::isRunning() -> bool
 {
-  return !glfwWindowShouldClose(fWinImpl->glWindow.get());
+  return !glfwWindowShouldClose(glWindow.get());
 }
 
 auto
@@ -157,8 +110,8 @@ pneu::graphics::Window::_initGlfw(const std::string& title) -> pneu::core::Metho
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  auto* win_ptr = glfwCreateWindow(fWinImpl->width,
-                                   fWinImpl->height,
+  auto* win_ptr = glfwCreateWindow(width,
+                                   height,
                                    title.c_str(),
                                    NULL,
                                    NULL);
@@ -183,14 +136,14 @@ pneu::graphics::Window::_initGlfw(const std::string& title) -> pneu::core::Metho
 
   glfwMakeContextCurrent(win_ptr);
 
-  fWinImpl->glWindow = std::unique_ptr<GLFWwindow, WindowImpl::WindowDeleter>(win_ptr);
+  glWindow = std::unique_ptr<GLFWwindow, WindowDeleter>(win_ptr);
   return pneu::core::MethodResult::ok();
 }
 
 auto
 pneu::graphics::Window::getRenderer() const -> Renderer&
 {
-  return *fWinImpl->renderer;
+  return *renderer;
 }
 
 auto
@@ -205,7 +158,7 @@ pneu::graphics::Window::_handleKeypress(int /* key */,
 auto
 pneu::graphics::Window::_handleRefresh() -> void
 {
-  fWinImpl->renderer->renderScene();
+  ((GlRenderer*)renderer.get())->renderScene();
 }
 
 auto
@@ -217,10 +170,10 @@ pneu::graphics::Window::_handleQuitRequested() -> void
 auto
 pneu::graphics::Window::_handleWindowResize(int w, int h) -> void
 {
-  int resize_width  = std::max(w, fWinImpl->min_width);
-  int resize_height = std::max(h, fWinImpl->min_height);
+  int resize_width  = std::max(w, min_width);
+  int resize_height = std::max(h, min_height);
 
-  glfwSetWindowSize(fWinImpl->glWindow.get(), resize_width, resize_height);
+  glfwSetWindowSize(glWindow.get(), resize_width, resize_height);
 }
 
 auto
@@ -232,7 +185,7 @@ pneu::graphics::Window::_handleWindowMove(int /* new_x_pos */, int /* new_y_pos 
 auto
 pneu::graphics::Window::_handleViewportResize(int w, int h) -> void
 {
-  fWinImpl->renderer->viewportDidResize(w, h);
+  ((GlRenderer*)renderer.get())->viewportDidResize(w, h);
 }
 
 auto

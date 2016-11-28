@@ -63,61 +63,62 @@ class Renderer;
 class RenderObject;
 class Window final {
 public:
-  Window(const std::string& title, int width,
-                                   int height,
-                                   int min_width = 0,
-                                   int min_height = 0);
-  Window(const Window&)                                                     = delete;
-  auto operator=(const Window&)                                  -> Window& = delete;
+    Window(const std::string& title,
+          int width,
+          int height,
+          int min_width = 0,
+          int min_height = 0);
+    Window(const Window&) = delete;
+    auto operator=(const Window&) -> Window& = delete;
 
-  Window(Window&&);
-  auto operator=(Window&&)                                       -> Window& = default;
+    Window(Window&&);
+    auto operator=(Window&&) -> Window& = default;
 
-  ~Window();
+    ~Window();
 
-  auto init()                                                    -> pneu::core::MethodResult;
+    auto init() -> pneu::core::MethodResult;
 
-  auto update()                                                  -> void;
-  auto pollEvents()                                              -> void;
-  auto renderFrame()                                             -> void;
+    auto update() -> void;
+    auto pollEvents() -> void;
+    auto renderFrame() -> void;
 
-  auto isRunning()                                               -> bool;
+    auto isRunning() -> bool;
 
-  auto getRenderer() const                                       -> Renderer&;
+    auto getRenderer() const -> Renderer&;
 
 private:
-  auto _initGlfw(const std::string&)                             -> pneu::core::MethodResult;
+    auto _initGlfw(const std::string&) -> pneu::core::MethodResult;
 
-  auto _handleKeypress(int, int, int, int)                       -> void;
-  auto _handleRefresh()                                          -> void;
-  auto _handleQuitRequested()                                    -> void;
+    auto _handleKeypress(int, int, int, int) -> void;
+    auto _handleRefresh() -> void;
+    auto _handleQuitRequested() -> void;
 
-  auto _handleWindowResize(int, int)                             -> void;
-  auto _handleWindowMove(int, int)                               -> void;
-  auto _handleViewportResize(int, int)                           -> void;
+    auto _handleWindowResize(int, int) -> void;
+    auto _handleWindowMove(int, int) -> void;
+    auto _handleViewportResize(int, int) -> void;
 
-  auto _handleFocusLost()                                        -> void;
-  auto _handleFocusGained()                                      -> void;
+    auto _handleFocusLost() -> void;
+    auto _handleFocusGained() -> void;
 
-  static auto _windowResizeCallback(GLFWwindow*, int, int)       -> void;
-  static auto _viewportResizeCallback(GLFWwindow*, int, int)     -> void;
+    static auto _windowResizeCallback(GLFWwindow*, int, int) -> void;
+    static auto _viewportResizeCallback(GLFWwindow*, int, int) -> void;
 
-  static auto _windowMoveCallback(GLFWwindow*, int, int)         -> void;
-  static auto _refreshCallback(GLFWwindow*)                      -> void;
-  static auto _keypressCallback(GLFWwindow*, int, int, int, int) -> void;
-  static auto _quitRequestedCallback(GLFWwindow*)                -> void;
-  static auto _windowFocusChangeCallback(GLFWwindow*, int)       -> void;
+    static auto _windowMoveCallback(GLFWwindow*, int, int) -> void;
+    static auto _refreshCallback(GLFWwindow*) -> void;
+    static auto _keypressCallback(GLFWwindow*, int, int, int, int) -> void;
+    static auto _quitRequestedCallback(GLFWwindow*) -> void;
+    static auto _windowFocusChangeCallback(GLFWwindow*, int) -> void;
 
-  int width, height;
-  const int min_width, min_height;
+    int width, height;
+    const int min_width, min_height;
 
-  struct WindowDeleter final {
-    void operator()(GLFWwindow* window) { glfwDestroyWindow(window); }
-  };
+    struct WindowDeleter final {
+        void operator()(GLFWwindow* window) { glfwDestroyWindow(window); }
+    };
 
-  std::unique_ptr<GLFWwindow, WindowDeleter> glWindow;
-  std::shared_ptr<Renderer> renderer;
-  std::string fWinTitle;
+    std::unique_ptr<GLFWwindow, WindowDeleter> glWindow;
+    std::shared_ptr<Renderer> renderer;
+    std::string fWinTitle;
 };
 
 } // namespace graphics

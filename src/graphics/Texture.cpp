@@ -32,61 +32,48 @@
 
 #include <SOIL.h>
 
-pneu::graphics::Texture::Texture()
-  :
-  fObject(0)
-{
+pneu::graphics::Texture::Texture(): fObject(0) { }
 
+pneu::graphics::Texture::~Texture() {
+    glDeleteTextures(1, &fObject);
 }
 
-pneu::graphics::Texture::~Texture()
-{
-  glDeleteTextures(1, &fObject);
+auto pneu::graphics::Texture::init(const std::string& file_name) -> pneu::core::MethodResult {
+    const std::string k_file_path = file_name;
+    int width, height, channels;
+
+    unsigned char* tex_data = SOIL_load_image(k_file_path.c_str(), &width, &height, &channels, 0);
+    if (tex_data == NULL) {
+        return pneu::core::MethodResult::error(
+                         std::string("Could not load texture data from file: ")
+                             .append(k_file_path));
+    }
+
+    glGenTextures(1, &fObject);
+    glBindTexture(GL_TEXTURE_2D, fObject);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, channels == 4 ? GL_RGBA8 : GL_RGB8,
+                             width, height, 0, channels == 4 ? GL_RGBA    : GL_RGB,
+                             GL_UNSIGNED_BYTE, tex_data);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+    SOIL_free_image_data(tex_data);
+
+    return pneu::core::MethodResult::ok();
 }
 
-auto
-pneu::graphics::Texture::init(const std::string& file_name) -> pneu::core::MethodResult
-{
-  const std::string k_file_path = file_name;
-  int width, height, channels;
-
-  unsigned char* tex_data = SOIL_load_image(k_file_path.c_str(),
-                                            &width, &height, &channels, 0);
-  if (tex_data == NULL) {
-    return pneu::core::MethodResult::error(
-             std::string("Could not load texture data from file: ")
-               .append(k_file_path));
-  }
-
-  glGenTextures(1, &fObject);
-  glBindTexture(GL_TEXTURE_2D, fObject);
-
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-  glTexImage2D(GL_TEXTURE_2D, 0, channels == 4 ? GL_RGBA8 : GL_RGB8,
-               width, height, 0, channels == 4 ? GL_RGBA  : GL_RGB,
-               GL_UNSIGNED_BYTE, tex_data);
-
-  glBindTexture(GL_TEXTURE_2D, 0);
-  SOIL_free_image_data(tex_data);
-
-  return pneu::core::MethodResult::ok();
+auto pneu::graphics::Texture::bind(std::shared_ptr<Shader> shader) -> void {
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, fObject);
+    GLint sampler = glGetUniformLocation(shader->getShaderProgram(), "texSampler");
+    glUniform1i(sampler, 0);
 }
 
-auto
-pneu::graphics::Texture::bind(std::shared_ptr<Shader> shader) -> void
-{
-  glActiveTexture(GL_TEXTURE0);
-  glBindTexture(GL_TEXTURE_2D, fObject);
-  GLint sampler = glGetUniformLocation(shader->getShaderProgram(), "texSampler");
-  glUniform1i(sampler, 0);
-}
-
-auto
-pneu::graphics::Texture::unbind() -> void
-{
-  glBindTexture(GL_TEXTURE_2D, 0);
+auto pneu::graphics::Texture::unbind() -> void {
+    glBindTexture(GL_TEXTURE_2D, 0);
 }

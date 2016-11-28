@@ -65,45 +65,45 @@ class Texture;
  */
 class RenderObject {
 public:
-  /**
-   * constructor
-   */
-  RenderObject();
+    /**
+     * constructor
+     */
+    RenderObject();
 
-  /**
-   * destructor
-   */
-  virtual ~RenderObject() = 0;
+    /**
+     * destructor
+     */
+    virtual ~RenderObject() = 0;
 
-  virtual auto update(double delta_time)         -> void = 0;
-  virtual auto draw()                            -> void = 0;
+    virtual auto update(double delta_time) -> void = 0;
+    virtual auto draw() -> void = 0;
 
-  auto changeShaders()                           -> void;
-  auto setShaderLight(const Light& light)        -> void;
+    auto changeShaders() -> void;
+    auto setShaderLight(const Light& light) -> void;
 
-  auto getCurrentTexture() const                 -> std::shared_ptr<Texture>;
-  auto addTexture(const std::string& tex_file)   -> pneu::core::MethodResult;
+    auto getCurrentTexture() const -> std::shared_ptr<Texture>;
+    auto addTexture(const std::string& tex_file) -> pneu::core::MethodResult;
 
-  auto getCurrentShader() const                  -> std::shared_ptr<Shader>;
-  auto addShader(std::shared_ptr<Shader> shader) -> pneu::core::MethodResult;
+    auto getCurrentShader() const -> std::shared_ptr<Shader>;
+    auto addShader(std::shared_ptr<Shader> shader) -> pneu::core::MethodResult;
 
-  auto getModelMatrix() const                    -> glm::mat4;
-  auto setModelMatrix(const glm::mat4& matrix)   -> void;
+    auto getModelMatrix() const -> glm::mat4;
+    auto setModelMatrix(const glm::mat4& matrix) -> void;
 
 protected:
-  auto bindCurrentShader()                       -> void;
-  auto bindCurrentTexture()                      -> void;
+    auto bindCurrentShader() -> void;
+    auto bindCurrentTexture() -> void;
 
-  auto unBindCurrentShader()                     -> void;
-  auto unBindCurrentTexture()                    -> void;
+    auto unBindCurrentShader() -> void;
+    auto unBindCurrentTexture() -> void;
 
 private:
-  unsigned int fCurrentShaderIndex;
-  glm::mat4 fModelMatrix;
+    unsigned int fCurrentShaderIndex;
+    glm::mat4 fModelMatrix;
 
-  std::vector<std::shared_ptr<Shader>> fShaders;
-  std::vector<std::shared_ptr<Texture>> fTextures;
-  std::vector<std::shared_ptr<ShaderUpdateMixin>> fShaderUpdaters;
+    std::vector<std::shared_ptr<Shader>> fShaders;
+    std::vector<std::shared_ptr<Texture>> fTextures;
+    std::vector<std::shared_ptr<ShaderUpdateMixin>> fShaderUpdaters;
 };
 
 } // namespace graphics

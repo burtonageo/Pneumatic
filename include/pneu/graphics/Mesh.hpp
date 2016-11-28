@@ -52,33 +52,33 @@ namespace graphics {
 
 class Mesh final {
 public:
-  explicit Mesh(int num_verts = 0);
+    explicit Mesh(int num_verts = 0);
 
-  // Constructor methods
-  static auto generateTriangle()                            -> std::shared_ptr<Mesh>;
-  static auto generateCube()                                -> std::shared_ptr<Mesh>;
-  static auto generateSphere()                              -> std::shared_ptr<Mesh>;
-  static auto generatePlane(float x_scale, float y_scale)   -> std::shared_ptr<Mesh>;
+    // Constructor methods
+    static auto generateTriangle() -> std::shared_ptr<Mesh>;
+    static auto generateCube() -> std::shared_ptr<Mesh>;
+    static auto generateSphere() -> std::shared_ptr<Mesh>;
+    static auto generatePlane(float x_scale, float y_scale) -> std::shared_ptr<Mesh>;
 
-  static auto loadFromObjFile(const std::string& file_name) -> std::shared_ptr<Mesh>;
+    static auto loadFromObjFile(const std::string& file_name) -> std::shared_ptr<Mesh>;
 
-  auto draw()                                               -> void;
+    auto draw() -> void;
 
 private:
-  auto _generateNormals()                                   -> void;
-  auto _bufferData()                                        -> void;
+    auto _generateNormals() -> void;
+    auto _bufferData() -> void;
 
-  auto _reserveArrays()                                     -> void;
+    auto _reserveArrays() -> void;
 
-  auto _bufferVertices()                                    -> void;
-  auto _bufferNormals()                                     -> void;
-  auto _bufferColors()                                      -> void;
-  auto _bufferTexCoords()                                   -> void;
+    auto _bufferVertices() -> void;
+    auto _bufferNormals() -> void;
+    auto _bufferColors() -> void;
+    auto _bufferTexCoords() -> void;
 
-  static auto _loadFromFile(const std::string&)             -> std::shared_ptr<Mesh>;
+    static auto _loadFromFile(const std::string&) -> std::shared_ptr<Mesh>;
 
-  struct GlMeshImpl;
-  std::unique_ptr<GlMeshImpl> fGlMeshImpl;
+    struct GlMeshImpl;
+    std::unique_ptr<GlMeshImpl> fGlMeshImpl;
 };
 
 } // namespace graphics

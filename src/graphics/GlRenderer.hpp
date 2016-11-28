@@ -69,31 +69,31 @@ class RenderObject;
 
 class GlRenderer final : public pneu::graphics::Renderer {
 public:
-  GlRenderer();
+    GlRenderer();
 
-  GlRenderer(const GlRenderer&)                                                             = delete;
-  GlRenderer(GlRenderer&&)                                                                  = delete;
-  auto operator=(const GlRenderer&)                                          -> GlRenderer& = delete;
+    GlRenderer(const GlRenderer&) = delete;
+    GlRenderer(GlRenderer&&) = delete;
+    auto operator=(const GlRenderer&) -> GlRenderer& = delete;
 
-  ~GlRenderer();
+    ~GlRenderer();
 
-  auto init(GLFWwindow*)                                                     -> pneu::core::MethodResult;
+    auto init(GLFWwindow*) -> pneu::core::MethodResult;
 
-  virtual auto addRenderObject(std::weak_ptr<pneu::graphics::RenderObject>)  -> void;
-  virtual auto setBackgroundColor(const pneu::graphics::Color<float>& color) -> void;
+    virtual auto addRenderObject(std::weak_ptr<pneu::graphics::RenderObject>) -> void;
+    virtual auto setBackgroundColor(const pneu::graphics::Color<float>& color) -> void;
 
-  virtual auto updateScene(double delta_time)                                -> void;
-  virtual auto renderScene()                                                 -> void;
-  virtual auto viewportDidResize(int w, int h)                               -> void;
-  virtual auto quitWasRequested()                                            -> bool;
+    virtual auto updateScene(double delta_time) -> void;
+    virtual auto renderScene() -> void;
+    virtual auto viewportDidResize(int w, int h) -> void;
+    virtual auto quitWasRequested() -> bool;
 
 private:
-  static bool sGlewInitialized;
-  int width, height;
+    static bool sGlewInitialized;
+    int width, height;
 
-  glm::vec4 backgroundColor;
-  pneu::graphics::Camera camera;
-  std::vector<std::shared_ptr<RenderObject>> objects;
+    glm::vec4 backgroundColor;
+    pneu::graphics::Camera camera;
+    std::vector<std::shared_ptr<RenderObject>> objects;
 };
 
 } // namespace graphics

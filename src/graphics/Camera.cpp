@@ -33,15 +33,14 @@ pneu::graphics::Camera::Camera(const pneu::core::Degrees<float>& fov,
                                float far_clip,
                                const glm::uvec2& cam_size,
                                const glm::vec3& cam_position,
-                               const glm::vec3& targ_position)
-  :
-  fFov(fov.toRadians()),
-  fZoom(zoom),
-  fNearClip(near_clip),
-  fFarClip(far_clip),
-  fCameraSize(cam_size),
-  fCameraPosition(cam_position),
-  fCameraTarget(targ_position)
+                               const glm::vec3& targ_position):
+    fFov(fov.toRadians()),
+    fZoom(zoom),
+    fNearClip(near_clip),
+    fFarClip(far_clip),
+    fCameraSize(cam_size),
+    fCameraPosition(cam_position),
+    fCameraTarget(targ_position)
 {
   
 }
@@ -52,171 +51,142 @@ pneu::graphics::Camera::Camera(const pneu::core::Radians<float>& fov,
                                float far_clip,
                                const glm::uvec2& cam_size,
                                const glm::vec3& cam_position,
-                               const glm::vec3& targ_position)
-  :
-  fFov(fov),
-  fZoom(zoom),
-  fNearClip(near_clip),
-  fFarClip(far_clip),
-  fCameraSize(cam_size),
-  fCameraPosition(cam_position),
-  fCameraTarget(targ_position)
+                               const glm::vec3& targ_position):
+    fFov(fov),
+    fZoom(zoom),
+    fNearClip(near_clip),
+    fFarClip(far_clip),
+    fCameraSize(cam_size),
+    fCameraPosition(cam_position),
+    fCameraTarget(targ_position)
 {
 
 }
 
-auto
-pneu::graphics::Camera::getWidth() const -> unsigned int
+auto pneu::graphics::Camera::getWidth() const -> unsigned int
 {
-  return fCameraSize.x;
+    return fCameraSize.x;
 }
 
-auto
-pneu::graphics::Camera::getHeight() const -> unsigned int
+auto pneu::graphics::Camera::getHeight() const -> unsigned int
 {
-  return fCameraSize.y;
+    return fCameraSize.y;
 }
 
-auto
-pneu::graphics::Camera::getPosition() const -> glm::vec2
+auto pneu::graphics::Camera::getPosition() const -> glm::vec2
 {
-  return glm::vec2(fCameraPosition.x, fCameraPosition.y);
+    return glm::vec2(fCameraPosition.x, fCameraPosition.y);
 }
 
-auto
-pneu::graphics::Camera::setPosition(const glm::vec3& new_pos) -> void
+auto pneu::graphics::Camera::setPosition(const glm::vec3& new_pos) -> void
 {
-  fCameraPosition = new_pos;
+    fCameraPosition = new_pos;
 }
 
-auto
-pneu::graphics::Camera::getFieldOfView() const -> pneu::core::Angle<float>
+auto pneu::graphics::Camera::getFieldOfView() const -> pneu::core::Angle<float>
 {
-  return static_cast<pneu::core::Angle<float>>(fFov);
+    return static_cast<pneu::core::Angle<float>>(fFov);
 }
 
-auto
-pneu::graphics::Camera::getFieldOfViewRadians() const -> pneu::core::Radians<float>
+auto pneu::graphics::Camera::getFieldOfViewRadians() const -> pneu::core::Radians<float>
 {
-  return fFov;
+    return fFov;
 }
 
-auto
-pneu::graphics::Camera::getFieldOfViewDegrees() const -> pneu::core::Degrees<float>
+auto pneu::graphics::Camera::getFieldOfViewDegrees() const -> pneu::core::Degrees<float>
 {
-  return fFov.toDegrees();
+    return fFov.toDegrees();
 }
 
-auto
-pneu::graphics::Camera::setFieldOfView(const pneu::core::Degrees<float>& fov_degrees) -> void
+auto pneu::graphics::Camera::setFieldOfView(const pneu::core::Degrees<float>& fov_degrees) -> void
 {
-  fFov = fov_degrees.toRadians();
+    fFov = fov_degrees.toRadians();
 }
 
-auto
-pneu::graphics::Camera::setFieldOfView(const pneu::core::Radians<float>& fov_degrees) -> void
+auto pneu::graphics::Camera::setFieldOfView(const pneu::core::Radians<float>& fov_degrees) -> void
 {
-  fFov = fov_degrees;
+    fFov = fov_degrees;
 }
 
-auto
-pneu::graphics::Camera::getZoom() const -> float
+auto pneu::graphics::Camera::getZoom() const -> float
 {
-  return fZoom;
+    return fZoom;
 }
 
-auto
-pneu::graphics::Camera::setZoom(float zoom) -> void
+auto pneu::graphics::Camera::setZoom(float zoom) -> void
 {
-  fZoom = zoom;
+    fZoom = zoom;
 }
 
-auto
-pneu::graphics::Camera::zoomInBy(float zoom) -> void
+auto pneu::graphics::Camera::zoomInBy(float zoom) -> void
 {
-  fZoom -= zoom;
+    fZoom -= zoom;
 }
 
-auto
-pneu::graphics::Camera::zoomOutBy(float zoom) -> void
+auto pneu::graphics::Camera::zoomOutBy(float zoom) -> void
 {
-  fZoom += zoom;
+    fZoom += zoom;
 }
 
-auto
-pneu::graphics::Camera::getNearClip() const -> float
+auto pneu::graphics::Camera::getNearClip() const -> float
 {
-  return fNearClip;
+    return fNearClip;
 }
 
-auto
-pneu::graphics::Camera::setNearClip(float near_clip) -> void
+auto pneu::graphics::Camera::setNearClip(float near_clip) -> void
 {
-  fNearClip = near_clip;
+    fNearClip = near_clip;
 }
 
-auto
-pneu::graphics::Camera::getFarClip() const -> float
+auto pneu::graphics::Camera::getFarClip() const -> float
 {
-  return fFarClip;
+    return fFarClip;
 }
 
-auto
-pneu::graphics::Camera::setFarClip(float far_clip) -> void
+auto pneu::graphics::Camera::setFarClip(float far_clip) -> void
 {
-  fFarClip = far_clip;
+    fFarClip = far_clip;
 }
 
-auto
-pneu::graphics::Camera::getRenderSize(void) const -> glm::uvec2
+auto pneu::graphics::Camera::getRenderSize(void) const -> glm::uvec2
 {
-  return fCameraSize;
+    return fCameraSize;
 }
 
-auto
-pneu::graphics::Camera::getAspectRatio() const -> float
+auto pneu::graphics::Camera::getAspectRatio() const -> float
 {
-  if (fCameraSize.y == 0.0f) {
-    return 0.0f;
-  }
-  return static_cast<float>(fCameraSize.x) /
-         static_cast<float>(fCameraSize.y);
+    if (fCameraSize.y == 0.0f) {
+        return 0.0f;
+    }
+    return static_cast<float>(fCameraSize.x) / static_cast<float>(fCameraSize.y);
 }
 
-auto
-pneu::graphics::Camera::getZoomedFieldOfView() const -> float
+auto pneu::graphics::Camera::getZoomedFieldOfView() const -> float
 {
-  return fFov.value() * fZoom;
+    return fFov.value() * fZoom;
 }
 
-auto
-pneu::graphics::Camera::pan(const glm::vec2& /* direction */) -> void
+auto pneu::graphics::Camera::pan(const glm::vec2& /* direction */) -> void
 {
-  // TODO: implement
+    // TODO: implement
 }
 
-auto
-pneu::graphics::Camera::_getPosition3d() const -> glm::vec3
+auto pneu::graphics::Camera::_getPosition3d() const -> glm::vec3
 {
-  return fCameraPosition;
+    return fCameraPosition;
 }
 
-auto
-pneu::graphics::Camera::_getDirection() const -> glm::vec3
+auto pneu::graphics::Camera::_getDirection() const -> glm::vec3
 {
-  return fCameraTarget - fCameraPosition;
+    return fCameraTarget - fCameraPosition;
 }
 
-auto
-pneu::graphics::Camera::_getTargetPosition() const -> glm::vec3
+auto pneu::graphics::Camera::_getTargetPosition() const -> glm::vec3
 {
-  return fCameraTarget;
+    return fCameraTarget;
 }
 
-auto
-pneu::graphics::Camera::_setTargetPosition(const glm::vec3& new_targ) -> void
+auto pneu::graphics::Camera::_setTargetPosition(const glm::vec3& new_targ) -> void
 {
-  fCameraTarget = new_targ;
+    fCameraTarget = new_targ;
 }
-
-

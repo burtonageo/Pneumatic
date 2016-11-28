@@ -41,11 +41,11 @@ namespace graphics {
 
 class Shape : public pneu::graphics::RenderObject {
 public:
-  Shape() : pneu::graphics::RenderObject() { }
-  virtual ~Shape();
-  
-  virtual auto update(double delta_time)         -> void = 0;
-  virtual auto draw()                            -> void = 0;
+    Shape() : pneu::graphics::RenderObject() { }
+    virtual ~Shape();
+    
+    virtual auto update(double delta_time) -> void = 0;
+    virtual auto draw() -> void = 0;
 };
 
 Shape::~Shape() = default;

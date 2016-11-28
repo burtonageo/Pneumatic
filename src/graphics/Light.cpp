@@ -28,47 +28,40 @@
 
 pneu::graphics::Light::Light(const glm::vec3& position,
                              const glm::vec4& color,
-                             float radius)
-  :
-  fPosition(position),
-  fColor(color),
-  fRadius(radius)
+                             float radius):
+    fPosition(position),
+    fColor(color),
+    fRadius(radius)
 {
 
 }
 
-auto
-pneu::graphics::Light::getPosition() const -> glm::vec3
+auto pneu::graphics::Light::getPosition() const -> glm::vec3
 {
-  return fPosition;
+    return fPosition;
 }
 
-auto
-pneu::graphics::Light::setPosition(const glm::vec3& new_pos) -> void
+auto pneu::graphics::Light::setPosition(const glm::vec3& new_pos) -> void
 {
-  fPosition = new_pos;
+    fPosition = new_pos;
 }
 
-auto
-pneu::graphics::Light::getColor() const -> glm::vec4
+auto pneu::graphics::Light::getColor() const -> glm::vec4
 {
-  return fColor;
+    return fColor;
 }
 
-auto
-pneu::graphics::Light::setColor(const glm::vec4& new_col) -> void
+auto pneu::graphics::Light::setColor(const glm::vec4& new_col) -> void
 {
-  fColor = new_col;
+    fColor = new_col;
 }
 
-auto
-pneu::graphics::Light::getRadius() const -> float
+auto pneu::graphics::Light::getRadius() const -> float
 {
-  return fRadius;
+    return fRadius;
 }
 
-auto
-pneu::graphics::Light::setRadius(float new_radius) -> void
+auto pneu::graphics::Light::setRadius(float new_radius) -> void
 {
-  fRadius = new_radius;
+    fRadius = new_radius;
 }

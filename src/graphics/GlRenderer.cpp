@@ -57,136 +57,125 @@ static auto _updateShaderMatrices(GLuint program,
 
 static auto _initGlew() -> pneu::core::MethodResult
 {
-   glewExperimental = GL_TRUE;
+     glewExperimental = GL_TRUE;
 
-   GLenum err = glewInit();
-   if (err != GLEW_OK) {
-     const size_t max_buf_len = 80;
-     char err_buf[max_buf_len];
-     snprintf(err_buf, max_buf_len, "GLEW not initialized: %s", glewGetErrorString(err));
+     GLenum err = glewInit();
+     if (err != GLEW_OK) {
+         const size_t max_buf_len = 80;
+         char err_buf[max_buf_len];
+         snprintf(err_buf, max_buf_len, "GLEW not initialized: %s", glewGetErrorString(err));
 
-     return pneu::core::MethodResult::error(std::string(err_buf));
-   }
+         return pneu::core::MethodResult::error(std::string(err_buf));
+     }
 
-   glGetError(); // clear out errors
-   return pneu::core::MethodResult::ok();
+     glGetError(); // clear out errors
+     return pneu::core::MethodResult::ok();
 }
 
 bool pneu::graphics::GlRenderer::sGlewInitialized = false;
 
-pneu::graphics::GlRenderer::GlRenderer()
-  :
-  width(0),
-  height(0),
-  backgroundColor(),
-  camera(),
-  objects()
+pneu::graphics::GlRenderer::GlRenderer():
+    width(0),
+    height(0),
+    backgroundColor(),
+    camera(),
+    objects()
 {
 
 }
 
 pneu::graphics::GlRenderer::~GlRenderer() = default;
 
-auto
-pneu::graphics::GlRenderer::init(GLFWwindow* win_ptr) -> pneu::core::MethodResult
+auto pneu::graphics::GlRenderer::init(GLFWwindow* win_ptr) -> pneu::core::MethodResult
 {
-  glfwMakeContextCurrent(win_ptr);
+    glfwMakeContextCurrent(win_ptr);
 
-  if (!sGlewInitialized) {
-    PNEU_TRY_METHOD(_initGlew());
-    sGlewInitialized = true;
-  }
+    if (!sGlewInitialized) {
+        PNEU_TRY_METHOD(_initGlew());
+        sGlewInitialized = true;
+    }
 
-  glEnable(GL_MULTISAMPLE);
-  glEnable(GL_CULL_FACE);
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  glEnable(GL_DEPTH_TEST);
-  glDepthFunc(GL_LESS);
+    glEnable(GL_MULTISAMPLE);
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
 
-  glfwSwapInterval(1);
-  glfwSetTime(0.0);
+    glfwSwapInterval(1);
+    glfwSetTime(0.0);
 
-  glfwGetFramebufferSize(win_ptr, &width, &height);
-  camera.fCameraSize = glm::uvec2(width, height);
+    glfwGetFramebufferSize(win_ptr, &width, &height);
+    camera.fCameraSize = glm::uvec2(width, height);
 
-  camera.setPosition(glm::vec3(4.0f, 0.0f, 4.0f));
-  camera._setTargetPosition(glm::vec3(0.0f));
+    camera.setPosition(glm::vec3(4.0f, 0.0f, 4.0f));
+    camera._setTargetPosition(glm::vec3(0.0f));
 
-  return pneu::core::MethodResult::ok();
+    return pneu::core::MethodResult::ok();
 }
 
-auto
-pneu::graphics::GlRenderer::addRenderObject(std::weak_ptr<RenderObject> object) -> void
+auto pneu::graphics::GlRenderer::addRenderObject(std::weak_ptr<RenderObject> object) -> void
 {
-  if (auto owned = object.lock()) {
-    objects.push_back(owned);
-  }
+    if (auto owned = object.lock()) {
+        objects.push_back(owned);
+    }
 }
 
-auto
-pneu::graphics::GlRenderer::setBackgroundColor(const Color<>& color) -> void
+auto pneu::graphics::GlRenderer::setBackgroundColor(const Color<>& color) -> void
 {
-  backgroundColor = color.toVector4();
+    backgroundColor = color.toVector4();
 }
 
-auto
-pneu::graphics::GlRenderer::updateScene(double ms) -> void
+auto pneu::graphics::GlRenderer::updateScene(double ms) -> void
 {
-  const auto& cam = camera;
-  const auto projection_matrix = glm::perspective(cam.getFieldOfViewRadians().value(),
-                                                  cam.getAspectRatio(),
-                                                  cam.getNearClip(),
-                                                  cam.getFarClip());
+    const auto& cam = camera;
+    const auto projection_matrix = glm::perspective(cam.getFieldOfViewRadians().value(),
+                                                    cam.getAspectRatio(),
+                                                    cam.getNearClip(),
+                                                    cam.getFarClip());
 
-  const auto view_matrix = glm::lookAt(cam._getPosition3d(),
-                                       cam._getDirection(),
-                                       glm::vec3(0.0f, 1.0f, 0.0f));
+    const auto view_matrix = glm::lookAt(cam._getPosition3d(),
+                                         cam._getDirection(),
+                                         glm::vec3(0.0f, 1.0f, 0.0f));
 
-  std::for_each(objects.begin(),
-                objects.end(),
-                [&](std::shared_ptr<pneu::graphics::RenderObject> r) {
-                  r->update(ms);
-                  _updateShaderMatrices(r->getCurrentShader()->getShaderProgram(),
-                                        r->getModelMatrix(),
-                                        projection_matrix,
-                                        view_matrix);
-                });
+    std::for_each(objects.begin(),
+                  objects.end(),
+                  [&](std::shared_ptr<pneu::graphics::RenderObject> r) {
+                      r->update(ms);
+                      _updateShaderMatrices(r->getCurrentShader()->getShaderProgram(),
+                                            r->getModelMatrix(),
+                                            projection_matrix,
+                                            view_matrix);
+                  });
 }
 
-auto
-pneu::graphics::GlRenderer::renderScene() -> void
+auto pneu::graphics::GlRenderer::renderScene() -> void
 {
-  const auto bg_color = backgroundColor;
+    const auto& bg_color = backgroundColor;
 
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glClearColor(bg_color.r, bg_color.g, bg_color.b, bg_color.a);
-  std::for_each(objects.begin(),
-                objects.end(),
-                [&](std::shared_ptr<pneu::graphics::RenderObject> r) {
-                  r->draw();
-                });
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearColor(bg_color.r, bg_color.g, bg_color.b, bg_color.a);
+    std::for_each(objects.begin(),
+                  objects.end(),
+                  [&](std::shared_ptr<pneu::graphics::RenderObject> r) { r->draw(); });
 }
 
-auto
-pneu::graphics::GlRenderer::viewportDidResize(int width, int height) -> void
+auto pneu::graphics::GlRenderer::viewportDidResize(int width, int height) -> void
 {
-  glMatrixMode(GL_PROJECTION);
-  glViewport(0, 0, static_cast<GLsizei>(width),
-                   static_cast<GLsizei>(height));
-  glMatrixMode(GL_MODELVIEW);
+    glMatrixMode(GL_PROJECTION);
+    glViewport(0, 0, static_cast<GLsizei>(width), static_cast<GLsizei>(height));
+    glMatrixMode(GL_MODELVIEW);
 
-  const auto last_width = width;
-  const auto last_height = height = height;
+    const auto last_width = width;
+    const auto last_height = height = height;
 
-  width = width;
-  height = height;
-  camera.fCameraSize.x += (static_cast<unsigned int>(width - last_width) / 3);
-  camera.fCameraSize.y += (static_cast<unsigned int>(height - last_height) / 3);
+    width = width;
+    height = height;
+    camera.fCameraSize.x += (static_cast<unsigned int>(width - last_width) / 3);
+    camera.fCameraSize.y += (static_cast<unsigned int>(height - last_height) / 3);
 }
 
-auto
-pneu::graphics::GlRenderer::quitWasRequested() -> bool
+auto pneu::graphics::GlRenderer::quitWasRequested() -> bool
 {
-  return false;
+    return false;
 }

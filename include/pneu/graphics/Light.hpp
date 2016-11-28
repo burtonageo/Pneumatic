@@ -49,23 +49,23 @@ namespace graphics {
 
 struct Light final {
 public:
-  Light(const glm::vec3& position,
-        const glm::vec4& color,
-        float radius);
+    Light(const glm::vec3& position,
+                const glm::vec4& color,
+                float radius);
 
-  auto getPosition() const                   -> glm::vec3;
-  auto setPosition(const glm::vec3& new_pos) -> void;
+    auto getPosition() const -> glm::vec3;
+    auto setPosition(const glm::vec3& new_pos) -> void;
 
-  auto getColor() const                      -> glm::vec4;
-  auto setColor(const glm::vec4& new_col)    -> void;
+    auto getColor() const -> glm::vec4;
+    auto setColor(const glm::vec4& new_col)        -> void;
 
-  auto getRadius() const                     -> float;
-  auto setRadius(float new_radius)           -> void;
+    auto getRadius() const -> float;
+    auto setRadius(float new_radius) -> void;
 
 private:
-  glm::vec3 fPosition;
-  glm::vec4 fColor;
-  float fRadius;
+    glm::vec3 fPosition;
+    glm::vec4 fColor;
+    float fRadius;
 };
 
 } // namespace graphics

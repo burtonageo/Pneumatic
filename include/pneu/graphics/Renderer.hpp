@@ -49,32 +49,32 @@ class RenderObject;
  */
 class Renderer {
 public:
-  virtual ~Renderer() = 0;
+    virtual ~Renderer() = default;
 
-  /**
-   * Adds a RenderObject for rendering
-   */
-  virtual auto addRenderObject(std::weak_ptr<pneu::graphics::RenderObject>) -> void = 0;
+    /**
+     * Adds a RenderObject for rendering
+     */
+    virtual auto addRenderObject(std::weak_ptr<pneu::graphics::RenderObject>) -> void = 0;
 
-  /**
-   * Sets the background color of the renderer
-   * @param color Color of the renderer
-   */
-  virtual auto setBackgroundColor(const pneu::graphics::Color<float>& color) -> void = 0;
+    /**
+     * Sets the background color of the renderer
+     * @param color Color of the renderer
+     */
+    virtual auto setBackgroundColor(const pneu::graphics::Color<float>& color) -> void = 0;
 
-  /**
-   * Constructs a RenderObject and adds it to the Renderer
-   *
-   * @tparam R of RenderObject to create. Must be a RenderObject subclass.
-   * @param args Arguments for RenderObject constructor
-   */
-  template<typename R, typename... Args>
-  auto emplaceRenderObject(Args&&... args) -> void
-  {
-    static_assert(std::is_base_of<RenderObject, R>::value,
-                  "Template parameter must be a RenderObject subclass");
-    addRenderObject(std::make_shared<R>(args...));
-  }
+    /**
+     * Constructs a RenderObject and adds it to the Renderer
+     *
+     * @tparam R of RenderObject to create. Must be a RenderObject subclass.
+     * @param args Arguments for RenderObject constructor
+     */
+    template<typename R, typename... Args>
+    auto emplaceRenderObject(Args&&... args) -> void
+    {
+        static_assert(std::is_base_of<RenderObject, R>::value,
+                      "Template parameter must be a RenderObject subclass");
+        addRenderObject(std::make_shared<R>(args...));
+    }
 };
 
 } // namespace graphics

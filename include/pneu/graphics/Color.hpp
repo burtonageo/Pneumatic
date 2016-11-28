@@ -64,8 +64,7 @@ public:
      * @param _b The blue component.
      * @param _a The alpha component.
      */
-    Color(T _r, T _g, T _b, T _a = static_cast<T>(1))
-        :
+    constexpr Color(T _r, T _g, T _b, T _a = static_cast<T>(1)) noexcept:
         r(_r),
         g(_g),
         b(_b),
@@ -75,33 +74,33 @@ public:
      * Creates the color red (equivelent to
      * [1, 0, 0, 1]).
      */
-    static constexpr auto red() -> Color
+    static constexpr auto red() noexcept -> Color
     {
         return Color<T>(static_cast<T>(1),
-                                        static_cast<T>(0),
-                                        static_cast<T>(0));
+                        static_cast<T>(0),
+                        static_cast<T>(0));
     }
 
     /**
      * Creates the color green (equivelent to
      * [0, 1, 0, 1]).
      */
-    static constexpr auto green() -> Color
+    static constexpr auto green() noexcept -> Color
     {
         return Color<T>(static_cast<T>(0),
-                                        static_cast<T>(1),
-                                        static_cast<T>(0));
+                        static_cast<T>(1),
+                        static_cast<T>(0));
     }
 
     /**
      * Creates the color blue (equivelent to
      * [0, 0, 1, 1]).
      */
-    static constexpr auto blue() -> Color
+    static constexpr auto blue() noexcept -> Color
     {
         return Color<T>(static_cast<T>(0),
-                                        static_cast<T>(0),
-                                        static_cast<T>(1));
+                        static_cast<T>(0),
+                        static_cast<T>(1));
     }
 
     /**
@@ -111,7 +110,7 @@ public:
      * @return The color vector. The format is [R, G, B, A].
      */
     template<glm::precision P = glm::highp>
-    auto toVector4() const -> glm::tvec4<T, P>
+    auto toVector4() const noexcept -> glm::tvec4<T, P>
     {
         return glm::tvec4<T, P>(r, g, b, a);
     }
@@ -123,7 +122,7 @@ public:
      * @return The color vector. The format is [R, G, B].
      */
     template<glm::precision P = glm::highp>
-    auto toVector3() const -> glm::tvec3<T, P>
+    auto toVector3() const noexcept -> glm::tvec3<T, P>
     {
         return glm::tvec4<T, P>(r, g, b);
     }

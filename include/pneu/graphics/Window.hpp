@@ -32,18 +32,22 @@
 #include <memory>
 #include <string>
 
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundef"
 #pragma clang diagnostic ignored "-Wdocumentation"
+#endif
 
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_CXX11
 #include <glm/fwd.hpp>
 
-#include <GL/glew.h>
+#include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
 
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
 
 #include "pneu/graphics/Renderer.hpp"
 

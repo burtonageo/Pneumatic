@@ -33,13 +33,17 @@
 #include <string>
 #include <utility>
 
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
+#endif
 
-#include <GL/glew.h>
+#include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
 
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
 
 #include "pneu/core/Forward.hpp"
 

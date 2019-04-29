@@ -30,13 +30,17 @@
 #include <iostream>
 #include <fstream>
 
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
+#endif
 
-#include <GL/glew.h>
+#include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
 
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
 
 #include "pneu/core/ResourceLoader.hpp"
 #include "pneu/graphics/Shader.hpp"
@@ -218,10 +222,10 @@ pneu::graphics::Mesh::_bufferData() -> void
 auto
 pneu::graphics::Mesh::_reserveArrays() -> void
 {
-    fGlMeshImpl->fVertices    = std::vector<glm::vec3>(fGlMeshImpl->fNumVertices, glm::vec3());
-    fGlMeshImpl->fNormals     = std::vector<glm::vec3>(fGlMeshImpl->fNumVertices, glm::vec3());
-    fGlMeshImpl->fColors        = std::vector<glm::vec4>(fGlMeshImpl->fNumVertices, glm::vec4());
-    fGlMeshImpl->fTexCoords = std::vector<glm::vec2>(fGlMeshImpl->fNumVertices, glm::vec2());
+    fGlMeshImpl->fVertices.reserve(fGlMeshImpl->fNumVertices);
+    fGlMeshImpl->fNormals.reserve(fGlMeshImpl->fNumVertices);
+    fGlMeshImpl->fColors.reserve(fGlMeshImpl->fNumVertices);
+    fGlMeshImpl->fTexCoords.reserve(fGlMeshImpl->fNumVertices);
 }
 
 #define MESH_BUFFER_DATA_METH_DECL(meth_name, member_arr, idx, vec_tp, vec_num_elems) \
@@ -237,9 +241,7 @@ pneu::graphics::Mesh::_reserveArrays() -> void
         glGenBuffers(1, &vbo); \
         glBindBuffer(GL_ARRAY_BUFFER, vbo); \
         \
-        glBufferData(GL_ARRAY_BUFFER, \
-                                 fGlMeshImpl->fNumVertices * sizeof(vec_tp), \
-                                 fGlMeshImpl->member_arr.data(),    GL_STATIC_DRAW); \
+        glBufferData(GL_ARRAY_BUFFER, fGlMeshImpl->fNumVertices * sizeof(vec_tp), fGlMeshImpl->member_arr.data(), GL_STATIC_DRAW); \
         glVertexAttribPointer(idx, vec_num_elems, GL_FLOAT, GL_FALSE, 0, 0); \
         glEnableVertexAttribArray(idx); \
     }

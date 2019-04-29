@@ -32,6 +32,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 
 static inline auto _getShaderFileSuffix(GLenum shader_type) -> pneu::core::FuncResult<std::string> {

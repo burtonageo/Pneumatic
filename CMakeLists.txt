@@ -24,51 +24,30 @@
  #
  #
 
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.14)
 
 set(PROJECT_NAME pneumatic)
 set(CMAKE_MAJOR_VERSION 0)
 set(CMAKE_MINOR_VERSION 1)
+set (CMAKE_CXX_STANDARD 17)
 project(${PROJECT_NAME})
-
-# Source files
-#==============
-set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")
-set(GRAPHICS_SRC_DIR "${SRC_DIR}/graphics")
-set(GRAPHICS_SHAPES_SRC_DIR "${GRAPHICS_SRC_DIR}/shapes")
-
-set(CORE_DIR "${SRC_DIR}/core")
-set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
-
-set(SOURCES
-	"${CORE_DIR}/ResourceLoader.cpp"
-	"${GRAPHICS_SRC_DIR}/Camera.cpp"
-	"${GRAPHICS_SRC_DIR}/GlRenderer.cpp"
-	"${GRAPHICS_SRC_DIR}/Light.cpp"
-	"${GRAPHICS_SRC_DIR}/Mesh.cpp"
-	"${GRAPHICS_SRC_DIR}/Renderer.cpp"
-	"${GRAPHICS_SRC_DIR}/Shader.cpp"
-	"${GRAPHICS_SRC_DIR}/ShaderUniform.cpp"
-	"${GRAPHICS_SRC_DIR}/Sprite.cpp"
-	"${GRAPHICS_SRC_DIR}/Texture.cpp"
-	"${GRAPHICS_SRC_DIR}/RenderObject.cpp"
-	"${GRAPHICS_SRC_DIR}/Window.cpp"
-	"${GRAPHICS_SHAPES_SRC_DIR}/Ellipse.cpp")
-
-include_directories(
-	${SRC_DIR}
-	${INCLUDE_DIR}
-	${PROJECT_BINARY_DIR})
 
 # System OpenGL and GLEW
 #========================
 find_package(OpenGL REQUIRED)
-find_package(GLEW REQUIRED)
 
 include_directories(
 	${OPENGL_INCLUDE_DIRS}
-	${GLEW_INCLUDE_DIRS}
 	${GLU_INCLUDE_DIRS})
+
+# Gl3W
+#======
+set(GL3W_DIR "${PROJECT_SOURCE_DIR}/thirdparty/gl3w")
+set(GL3W_INCLUDE_DIRS "${CMAKE_CURRENT_BINARY_DIR}/thirdparty/gl3w/include")
+
+add_subdirectory(${GL3W_DIR})
+link_directories(${GL3W_DIR})
+include_directories(${GL3W_INCLUDE_DIRS})
 
 # SOIL
 #======
@@ -102,39 +81,40 @@ add_subdirectory(${GLM_INCLUDE_DIRS})
 link_directories(${GLM_INCLUDE_DIRS})
 include_directories(${GLM_INCLUDE_DIRS})
 
+# Source files
+#==============
+set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")
+set(GRAPHICS_SRC_DIR "${SRC_DIR}/graphics")
+set(GRAPHICS_SHAPES_SRC_DIR "${GRAPHICS_SRC_DIR}/shapes")
+
+set(CORE_DIR "${SRC_DIR}/core")
+set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
+
+set(SOURCES
+	"${CORE_DIR}/ResourceLoader.cpp"
+	"${GRAPHICS_SRC_DIR}/Camera.cpp"
+	"${GRAPHICS_SRC_DIR}/GlRenderer.cpp"
+	"${GRAPHICS_SRC_DIR}/Light.cpp"
+	"${GRAPHICS_SRC_DIR}/Mesh.cpp"
+	"${GRAPHICS_SRC_DIR}/Renderer.cpp"
+	"${GRAPHICS_SRC_DIR}/Shader.cpp"
+	"${GRAPHICS_SRC_DIR}/ShaderUniform.cpp"
+	"${GRAPHICS_SRC_DIR}/Sprite.cpp"
+	"${GRAPHICS_SRC_DIR}/Texture.cpp"
+	"${GRAPHICS_SRC_DIR}/RenderObject.cpp"
+	"${GRAPHICS_SRC_DIR}/Window.cpp"
+	"${GRAPHICS_SHAPES_SRC_DIR}/Ellipse.cpp"
+	"${SRC_DIR}/main.cpp"
+	"${CMAKE_CURRENT_BINARY_DIR}/thirdparty/gl3w/src/gl3w.c")
+
+include_directories(
+	${SRC_DIR}
+	${INCLUDE_DIR}
+	${PROJECT_BINARY_DIR})
+
 # Project build
 #===============
-add_library(${PROJECT_NAME} ${SOURCES})
-
-add_definitions(
-	-std=c++1y
-	-Wall
-	-Wextra
-	-Weverything
-	-Wpedantic
-	-Wcast-align
-	-Wcast-qual
-	-Wctor-dtor-privacy
-	-Wdisabled-optimization
-	-Wformat=2
-	-Widiomatic-parentheses
-	-Winit-self
-	-Wmissing-declarations
-	-Wmissing-include-dirs
-	-Wold-style-cast
-	-Woverloaded-virtual
-	-Wredundant-decls
-	-Wshadow
-	-Wsign-conversion
-	-Wsign-promo
-	-Wswitch-default
-	-Wstrict-overflow=5
-	-Wno-c++98-compat
-	-Wno-c++98-compat-pedantic
-	-Wno-padded
-	-fstack-protector
-	-fno-exceptions
-	-fno-rtti)
+add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME}
 	${SOIL_LIBRARIES}

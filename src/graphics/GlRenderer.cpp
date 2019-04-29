@@ -36,12 +36,16 @@
 
 #include <algorithm>
 
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
+#endif
 
 #include <glm/gtc/matrix_transform.hpp>
 
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
 
 static auto _updateShaderMatrices(GLuint program,
                                   const glm::mat4& model_matrix,
@@ -57,13 +61,11 @@ static auto _updateShaderMatrices(GLuint program,
 
 static auto _initGlew() -> pneu::core::MethodResult
 {
-     glewExperimental = GL_TRUE;
-
-     GLenum err = glewInit();
-     if (err != GLEW_OK) {
+     GLenum err = gl3wInit();
+     if (err != GL3W_OK) {
          const size_t max_buf_len = 80;
          char err_buf[max_buf_len];
-         snprintf(err_buf, max_buf_len, "GLEW not initialized: %s", glewGetErrorString(err));
+         //snprintf(err_buf, max_buf_len, "GLEW not initialized: %s", gl3wGetErrorString(err));
 
          return pneu::core::MethodResult::error(std::string(err_buf));
      }
@@ -162,9 +164,11 @@ auto pneu::graphics::GlRenderer::renderScene() -> void
 
 auto pneu::graphics::GlRenderer::viewportDidResize(int width, int height) -> void
 {
+    /*
     glMatrixMode(GL_PROJECTION);
     glViewport(0, 0, static_cast<GLsizei>(width), static_cast<GLsizei>(height));
     glMatrixMode(GL_MODELVIEW);
+    */
 
     const auto last_width = width;
     const auto last_height = height = height;

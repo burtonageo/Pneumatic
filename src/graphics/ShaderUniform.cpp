@@ -27,22 +27,28 @@
 #include "pneu/graphics/ShaderUniform.hpp"
 #include "pneu/graphics/Shader.hpp"
 
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
+#endif
 
-#include <GL/glew.h>
+#include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
 
+#if defined(__clang__)
 #pragma clang diagnostic ignored "-Wundefined-reinterpret-cast"
 #pragma clang diagnostic ignored "-Wundef"
 #pragma clang diagnostic ignored "-Wshadow"
 #pragma clang diagnostic ignored "-Wold-style-cast"
 #pragma clang diagnostic ignored "-Wdeprecated"
 #pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#endif
 
 #include <glm/glm.hpp>
 
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
 
 
 #define DECLARE_SHADERUNIFORM(type, update_function) \

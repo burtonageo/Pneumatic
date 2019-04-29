@@ -49,7 +49,7 @@ public:
 
     FuncResultException(const std::string& desc): fDescription(desc.c_str()) { }
 
-    inline virtual auto what() const _NOEXCEPT -> const char*
+    inline virtual auto what() const noexcept -> const char*
     {
         return fDescription;
     }

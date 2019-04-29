@@ -29,6 +29,7 @@
 #ifndef PNEUMATIC_LIGHT_HPP
 #define PNEUMATIC_LIGHT_HPP
 
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
 #pragma clang diagnostic ignored "-Wdocumentation"
@@ -37,11 +38,14 @@
 #pragma clang diagnostic ignored "-Wshadow"
 #pragma clang diagnostic ignored "-Wundef"
 #pragma clang diagnostic ignored "-Wundefined-reinterpret-cast"
+#endif
 
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
 
 namespace pneu {
 

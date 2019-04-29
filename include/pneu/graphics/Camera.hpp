@@ -29,6 +29,7 @@
 #ifndef PNEUMATIC_CAMERA_HPP
 #define PNEUMATIC_CAMERA_HPP
 
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
 #pragma clang diagnostic ignored "-Wundefined-reinterpret-cast"
@@ -37,11 +38,14 @@
 #pragma clang diagnostic ignored "-Wold-style-cast"
 #pragma clang diagnostic ignored "-Wdeprecated"
 #pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#endif
 
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
 
 #include "pneu/core/Angle.hpp"
 #include "pneu/core/MathUtil.hpp"

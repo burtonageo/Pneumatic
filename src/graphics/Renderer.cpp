@@ -25,5 +25,3 @@
  **/
 
 #include "pneu/graphics/Renderer.hpp"
-
-pneu::graphics::Renderer::~Renderer() = default;
